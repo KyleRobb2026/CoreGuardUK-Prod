@@ -1,16 +1,9 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import './globals.css';
-
-const inter = Inter({ subsets: ['latin'] });
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'CoreGuard SMS - Security Management System',
-  description: 'Enterprise security management for regulated private security companies',
-  keywords: 'security management, compliance, SMS, guard management, patrol tracking',
-  authors: [{ name: 'CoreGuard SMS' }],
-  viewport: 'width=device-width, initial-scale=1',
-  themeColor: '#f7b91c',
+  title: 'CoreGuard UK - Security Management System',
+  description: 'Professional security management system for CoreGuard UK',
 };
 
 export default function RootLayout({
@@ -25,8 +18,10 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className={inter.className} style={{ margin: 0, padding: 0 }}>
-        {children}
+      <body style={{ margin: 0, padding: 0 }}>
+        <div id="root">
+          {children}
+        </div>
       </body>
     </html>
   );

@@ -13,7 +13,6 @@
     "next": "^14.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@supabase/supabase-js": "^2.99.3",
     "@fontsource/barlow-condensed": "^5.0.0",
     "@fontsource/inter": "^5.0.0",
     "@fontsource/jetbrains-mono": "^5.0.0",
@@ -24,7 +23,8 @@
     "lucide-react": "^0.344.0",
     "react-router-dom": "^6.22.3",
     "recharts": "^2.12.2",
-    "sonner": "^1.4.41"
+    "sonner": "^1.4.41",
+    "@supabase/supabase-js": "^2.99.3"
   },
   "devDependencies": {
     "@types/node": "^20.11.17",
