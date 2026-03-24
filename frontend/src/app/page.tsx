@@ -4,8 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { AuthProvider, useAuth } from '../contexts/AuthContext';
-import { SupabaseProvider } from '../contexts/SupabaseContext';
+import { SupabaseProvider, useSupabase } from '../contexts/SupabaseContext';
 import AppLayout from '../components/layout/AppLayout';
+import SupabaseConfigWarning from '../components/SupabaseConfigWarning';
 
 // Pages
 import LandingPage from '../react-pages/LandingPage';
@@ -97,28 +98,40 @@ function AppRoutes() {
   );
 }
 
+function SupabaseConfigCheck({ children }: { children: React.ReactNode }) {
+  const { isConfigured } = useSupabase();
+  
+  if (!isConfigured) {
+    return <SupabaseConfigWarning />;
+  }
+  
+  return <>{children}</>;
+}
+
 function AppContent() {
   return (
     <SupabaseProvider>
-      <AuthProvider>
-        <BrowserRouter>
-          <AppRoutes />
-          <Toaster
-            position="top-right"
-            theme="dark"
-            toastOptions={{
-              style: {
-                background: '#333333',
-                border: '1px solid #525252',
-                color: '#E5E5E5',
-                borderRadius: '2px',
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '13px',
-              },
-            }}
-          />
-        </BrowserRouter>
-      </AuthProvider>
+      <SupabaseConfigCheck>
+        <AuthProvider>
+          <BrowserRouter>
+            <AppRoutes />
+            <Toaster
+              position="top-right"
+              theme="dark"
+              toastOptions={{
+                style: {
+                  background: '#333333',
+                  border: '1px solid #525252',
+                  color: '#E5E5E5',
+                  borderRadius: '2px',
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '13px',
+                },
+              }}
+            />
+          </BrowserRouter>
+        </AuthProvider>
+      </SupabaseConfigCheck>
     </SupabaseProvider>
   );
 }

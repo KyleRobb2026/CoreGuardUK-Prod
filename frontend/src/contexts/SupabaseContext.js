@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { supabase } from '../config/supabase'
+import { supabase, isSupabaseConfigured } from '../config/supabase'
 
 const SupabaseContext = createContext()
 
@@ -8,6 +8,12 @@ export function SupabaseProvider({ children }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    // Only proceed if Supabase is configured
+    if (!isSupabaseConfigured || !supabase) {
+      setLoading(false)
+      return
+    }
+
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
@@ -29,7 +35,9 @@ export function SupabaseProvider({ children }) {
     session,
     loading,
     supabase,
+    isConfigured: isSupabaseConfigured,
     signIn: async (email, password) => {
+      if (!supabase) throw new Error('Supabase is not configured')
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -38,6 +46,7 @@ export function SupabaseProvider({ children }) {
       return data
     },
     signUp: async (email, password, options = {}) => {
+      if (!supabase) throw new Error('Supabase is not configured')
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -47,10 +56,12 @@ export function SupabaseProvider({ children }) {
       return data
     },
     signOut: async () => {
+      if (!supabase) throw new Error('Supabase is not configured')
       const { error } = await supabase.auth.signOut()
       if (error) throw error
     },
     resetPassword: async (email) => {
+      if (!supabase) throw new Error('Supabase is not configured')
       const { data, error } = await supabase.auth.resetPasswordForEmail(email)
       if (error) throw error
       return data
