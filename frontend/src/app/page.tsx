@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { AuthProvider, useAuth } from '../contexts/AuthContext';
@@ -92,7 +92,7 @@ function AppRoutes() {
   );
 }
 
-export default function App() {
+function AppContent() {
   return (
     <SupabaseProvider>
       <AuthProvider>
@@ -116,4 +116,42 @@ export default function App() {
       </AuthProvider>
     </SupabaseProvider>
   );
+}
+
+export default function App() {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        background: '#1e1e1e',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#ffffff',
+        fontFamily: 'system-ui, -apple-system, sans-serif'
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{
+            width: '40px',
+            height: '40px',
+            border: '3px solid #f7b91c',
+            borderTop: '3px solid transparent',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite',
+            margin: '0 auto 1rem'
+          }} />
+          <h1 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>CoreGuard UK</h1>
+          <p style={{ color: '#a1a0a0' }}>Loading system...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return <AppContent />;
 }
