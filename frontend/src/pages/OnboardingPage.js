@@ -11,6 +11,10 @@ const STEPS = [
   { id: 3, label: 'Activate', icon: Check },
 ];
 
+// Force dynamic rendering - prevent static generation
+export const dynamic = 'force-dynamic';
+export const revalidate = false;
+
 export default function OnboardingPage() {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);

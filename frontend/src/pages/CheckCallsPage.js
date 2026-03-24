@@ -5,6 +5,10 @@ import { PhoneCall, Plus, Clock, AlertTriangle, CheckCircle, XCircle, Play, Squa
 import { toast } from 'sonner';
 import { format, formatDistanceToNow, parseISO } from 'date-fns';
 
+// Force dynamic rendering - prevent static generation
+export const dynamic = 'force-dynamic';
+export const revalidate = false;
+
 export default function CheckCallsPage() {
   const api = useApi();
   const [checkCalls, setCheckCalls] = useState([]);

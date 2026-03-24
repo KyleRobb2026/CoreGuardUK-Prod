@@ -3,20 +3,33 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   
-  // Disable static generation completely for React Router compatibility
+  // Complete static generation disable for React Router compatibility
   trailingSlash: true,
   images: {
     unoptimized: true
   },
   
-  // Force dynamic rendering - no static generation
+  // Force dynamic rendering - no static generation at all
   output: undefined,
   
-  // Disable static generation for all pages
+  // Disable all static generation features
   generateEtags: false,
-  
-  // Skip static generation for all routes
   skipTrailingSlashRedirect: true,
+  
+  // Disable static optimization completely
+  experimental: {
+    forceSwcTransforms: true,
+  },
+  
+  // Disable static generation for all routes
+  distDir: '.next',
+  
+  // Completely disable static generation
+  staticPageGenerationTimeout: 1,
+  
+  // Force server-side rendering for all pages (no static generation)
+  // This is the key setting to prevent Next.js from trying to statically generate React Router pages
+  poweredByHeader: false,
   
   // Environment variables
   env: {

@@ -3,6 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import SupabaseTest from '../components/SupabaseTest';
 import EnvTest from '../components/EnvTest';
 
+// Force dynamic rendering - prevent static generation
+export const dynamic = 'force-dynamic';
+export const revalidate = false;
+
 export default function LandingPage() {
   const navigate = useNavigate();
   

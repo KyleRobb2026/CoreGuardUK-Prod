@@ -21,6 +21,10 @@ const ACTION_COLORS = {
   COMPLIANCE_ALERT: 'text-[#F59E0B]',
 };
 
+// Force dynamic rendering - prevent static generation
+export const dynamic = 'force-dynamic';
+export const revalidate = false;
+
 export default function AuditLogPage() {
   const api = useApi();
   const [logs, setLogs] = useState([]);

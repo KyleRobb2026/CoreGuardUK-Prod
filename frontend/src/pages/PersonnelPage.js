@@ -8,6 +8,10 @@ import { Users, Plus, Search, Key, Shield, AlertTriangle, ChevronRight, X, Copy 
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 
+// Force dynamic rendering - prevent static generation
+export const dynamic = 'force-dynamic';
+export const revalidate = false;
+
 export default function PersonnelPage() {
   const api = useApi();
   const [personnel, setPersonnel] = useState([]);

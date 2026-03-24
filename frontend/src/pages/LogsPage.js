@@ -11,6 +11,10 @@ const TYPE_ICONS = {
   note: FileText,
 };
 
+// Force dynamic rendering - prevent static generation
+export const dynamic = 'force-dynamic';
+export const revalidate = false;
+
 export default function LogsPage() {
   const api = useApi();
   const [logs, setLogs] = useState([]);

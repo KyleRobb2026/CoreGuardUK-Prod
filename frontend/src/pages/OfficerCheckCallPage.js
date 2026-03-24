@@ -5,6 +5,10 @@ import { PhoneCall, Plus, CheckCircle, XCircle, Square, Play } from 'lucide-reac
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 
+// Force dynamic rendering - prevent static generation
+export const dynamic = 'force-dynamic';
+export const revalidate = false;
+
 export default function OfficerCheckCallPage() {
   const api = useApi();
   const [checkCalls, setCheckCalls] = useState([]);

@@ -4,6 +4,10 @@ import { Card, CardHeader, CardTitle, Button, Input, Select, Modal, Spinner, Bad
 import { Settings, User, Users, Shield, Plus, Trash2, Save } from 'lucide-react';
 import { toast } from 'sonner';
 
+// Force dynamic rendering - prevent static generation
+export const dynamic = 'force-dynamic';
+export const revalidate = false;
+
 export default function SettingsPage() {
   const { user } = useAuth();
   const api = useApi();

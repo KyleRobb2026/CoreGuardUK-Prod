@@ -4,6 +4,10 @@ import { Card, CardHeader, CardTitle, Button, Input, Select, Modal, Spinner, Emp
 import { MapPin, Plus, Search, Building2, Phone, User } from 'lucide-react';
 import { toast } from 'sonner';
 
+// Force dynamic rendering - prevent static generation
+export const dynamic = 'force-dynamic';
+export const revalidate = false;
+
 export default function SitesPage() {
   const api = useApi();
   const [sites, setSites] = useState([]);

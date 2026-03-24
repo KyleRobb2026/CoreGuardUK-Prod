@@ -4,6 +4,10 @@ import { Card, CardHeader, CardTitle, Spinner, EmptyState, StatusBadge, Button }
 import { Calendar, Clock, MapPin } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 
+// Force dynamic rendering - prevent static generation
+export const dynamic = 'force-dynamic';
+export const revalidate = false;
+
 export default function OfficerDashboardPage() {
   const { user } = useAuth();
   const api = useApi();

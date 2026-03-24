@@ -4,6 +4,10 @@ import { Card, CardHeader, CardTitle, Spinner, EmptyState, StatusBadge, Badge } 
 import { Shield, AlertTriangle, FileWarning, PhoneCall, CheckCircle, TrendingDown } from 'lucide-react';
 import { toast } from 'sonner';
 
+// Force dynamic rendering - prevent static generation
+export const dynamic = 'force-dynamic';
+export const revalidate = false;
+
 export default function CompliancePage() {
   const api = useApi();
   const [alerts, setAlerts] = useState([]);

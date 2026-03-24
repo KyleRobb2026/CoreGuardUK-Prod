@@ -5,6 +5,10 @@ import { Calendar, Plus, ChevronLeft, ChevronRight, AlertTriangle } from 'lucide
 import { toast } from 'sonner';
 import { format, startOfWeek, addDays, isSameDay, parseISO, addWeeks, subWeeks } from 'date-fns';
 
+// Force dynamic rendering - prevent static generation
+export const dynamic = 'force-dynamic';
+export const revalidate = false;
+
 export default function RotaPage() {
   const api = useApi();
   const [shifts, setShifts] = useState([]);

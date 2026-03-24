@@ -5,6 +5,10 @@ import { FileText, Plus, Eye, Send, Trash2, Settings } from 'lucide-react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 
+// Force dynamic rendering - prevent static generation
+export const dynamic = 'force-dynamic';
+export const revalidate = false;
+
 export default function FormsPage() {
   const api = useApi();
   const [forms, setForms] = useState([]);

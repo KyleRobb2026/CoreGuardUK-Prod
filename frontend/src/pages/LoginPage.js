@@ -4,6 +4,10 @@ import { useAuth } from '../contexts/AuthContext';
 import { Shield, Eye, EyeOff, Lock, Mail, Hash } from 'lucide-react';
 import { toast } from 'sonner';
 
+// Force dynamic rendering - prevent static generation
+export const dynamic = 'force-dynamic';
+export const revalidate = false;
+
 export default function LoginPage() {
   const [mode, setMode] = useState('admin');
   const [email, setEmail] = useState('');
