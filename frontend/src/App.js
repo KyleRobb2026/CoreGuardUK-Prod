@@ -6,28 +6,30 @@ import { SupabaseProvider } from './contexts/SupabaseContext';
 import AppLayout from './components/layout/AppLayout';
 
 // Pages
-import LandingPage from './pages/LandingPage';
-import LoginPage from './pages/LoginPage';
-import OnboardingPage from './pages/OnboardingPage';
-import DashboardPage from './pages/DashboardPage';
-import PersonnelPage from './pages/PersonnelPage';
-import SitesPage from './pages/SitesPage';
-import RotaPage from './pages/RotaPage';
-import LogsPage from './pages/LogsPage';
-import FormsPage from './pages/FormsPage';
-import CheckCallsPage from './pages/CheckCallsPage';
-import CompliancePage from './pages/CompliancePage';
-import AuditLogPage from './pages/AuditLogPage';
-import SettingsPage from './pages/SettingsPage';
-import OfficerDashboardPage from './pages/OfficerDashboardPage';
-import OfficerCheckCallPage from './pages/OfficerCheckCallPage';
+import LandingPage from './react-pages/LandingPage';
+import LoginPage from './react-pages/LoginPage';
+import OnboardingPage from './react-pages/OnboardingPage';
+import DashboardPage from './react-pages/DashboardPage';
+import PersonnelPage from './react-pages/PersonnelPage';
+import SitesPage from './react-pages/SitesPage';
+import RotaPage from './react-pages/RotaPage';
+import LogsPage from './react-pages/LogsPage';
+import FormsPage from './react-pages/FormsPage';
+import CheckCallsPage from './react-pages/CheckCallsPage';
+import CompliancePage from './react-pages/CompliancePage';
+import AuditLogPage from './react-pages/AuditLogPage';
+import SettingsPage from './react-pages/SettingsPage';
+import OfficerDashboardPage from './react-pages/OfficerDashboardPage';
+import OfficerCheckCallPage from './react-pages/OfficerCheckCallPage';
 
 // Website Pages
-import AboutPage from './pages/AboutPage';
-import ProductsPage from './pages/ProductsPage';
-import PricingPage from './pages/PricingPage';
-import ContactPage from './pages/ContactPage';
-import SecurityPage from './pages/SecurityPage';
+import AboutPage from './react-pages/AboutPage';
+import ProductsPage from './react-pages/ProductsPage';
+import PricingPage from './react-pages/PricingPage';
+import ContactPage from './react-pages/ContactPage';
+import SecurityPage from './react-pages/SecurityPage';
+import PartnersPage from './react-pages/PartnersPage';
+import ResourcesPage from './react-pages/ResourcesPage';
 
 function ProtectedRoute({ children, adminOnly = false }) {
   const { user, loading } = useAuth();
@@ -58,6 +60,8 @@ function AppRoutes() {
       <Route path="/pricing" element={<PricingPage />} />
       <Route path="/security" element={<SecurityPage />} />
       <Route path="/contact" element={<ContactPage />} />
+      <Route path="/partners" element={<PartnersPage />} />
+      <Route path="/resources" element={<ResourcesPage />} />
       
       {/* Authentication Routes */}
       <Route path="/login" element={<LoginPage />} />

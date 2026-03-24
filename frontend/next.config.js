@@ -28,7 +28,6 @@ const nextConfig = {
   staticPageGenerationTimeout: 1,
   
   // Force server-side rendering for all pages (no static generation)
-  // This is the key setting to prevent Next.js from trying to statically generate React Router pages
   poweredByHeader: false,
   
   // Environment variables
