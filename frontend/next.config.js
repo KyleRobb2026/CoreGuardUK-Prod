@@ -3,10 +3,16 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   
-  // Disable static generation to support React Router
+  // Disable static generation completely for React Router compatibility
   trailingSlash: true,
   images: {
     unoptimized: true
+  },
+  
+  // Force dynamic rendering - no static generation
+  output: undefined,
+  experimental: {
+    ssr: true
   },
   
   // Environment variables

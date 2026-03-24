@@ -31,6 +31,10 @@ import PricingPage from '../pages/PricingPage';
 import ContactPage from '../pages/ContactPage';
 import SecurityPage from '../pages/SecurityPage';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 function ProtectedRoute({ children, adminOnly = false }: { children: React.ReactNode; adminOnly?: boolean }) {
   const { user, loading } = useAuth();
   if (loading) return (

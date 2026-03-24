@@ -22,7 +22,8 @@
     "@supabase/supabase-js": "^2.38.4",
     "winston": "^3.11.0",
     "express-rate-limit": "^7.1.5",
-    "compression": "^1.7.4"
+    "compression": "^1.7.4",
+    "resend": "^3.0.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
