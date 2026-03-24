@@ -1,0 +1,76 @@
+@import '@fontsource/nunito/400.css';
+@import '@fontsource/nunito/600.css';
+@import '@fontsource/nunito/700.css';
+@import '@fontsource/nunito/800.css';
+@import '@fontsource/jetbrains-mono/400.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-app: #1e1e1e;
+  --bg-card: #171717;
+  --bg-sidebar-top: #353535;
+  --border: #2e2e2e;
+  --primary: #f7b91c;
+  --text-main: #ffffff;
+  --text-body: #676767;
+  --text-muted: #a1a0a0;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Nunito', system-ui, sans-serif;
+  background-color: #1e1e1e;
+  color: #676767;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: none !important;
+  letter-spacing: normal;
+}
+
+.font-mono, code, pre {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: #171717; }
+::-webkit-scrollbar-thumb { background: #2e2e2e; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #3d3d3d; }
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.animate-fade-in { animation: fadeIn 0.25s ease-out forwards; }
+.animate-slide-in-right { animation: slideInRight 0.3s ease-out forwards; }
+.status-dot-live { animation: pulse-dot 2s ease-in-out infinite; }
+
+/* Sidebar */
+.sidebar-separator-top { border-bottom: 1px solid #2e2e2e; }
+.sidebar-separator-bottom { border-top: 1px solid #2e2e2e; }
+.sidebar-item-selected { color: white !important; border-right: 2px solid white; }
+.sidebar-item { border-right: 2px solid transparent; transition: color 0.15s; }
+.sidebar-item:hover { color: #a1a0a0; }
+
+/* Premium */
+.text-premium-yellow { color: #f7b91c; }
+.bg-icon { background: #2d2d2d; }
