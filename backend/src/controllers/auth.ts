@@ -18,7 +18,7 @@ const generateToken = (payload: any): string => {
   
   return jwt.sign(payload, jwtSecret, {
     expiresIn: process.env.JWT_EXPIRES_IN || '24h',
-  });
+  } as jwt.SignOptions);
 };
 
 // Helper function to hash password

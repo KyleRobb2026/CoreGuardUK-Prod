@@ -58,7 +58,7 @@ router.get('/', catchAsync(async (req: AuthenticatedRequest, res: Response) => {
 // POST /api/personnel
 router.post('/', validateRequest(schemas.createPersonnel), catchAsync(async (req: AuthenticatedRequest, res: Response) => {
   const organisationId = req.user?.organisation_id;
-  const personnelData = { ...req.validatedBody, organisation_id };
+  const personnelData = { ...req.validatedBody, organisation_id: organisationId };
 
   // Hash PIN if provided
   if (personnelData.pin) {

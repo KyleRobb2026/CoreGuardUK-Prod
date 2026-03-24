@@ -55,11 +55,11 @@ router.get('/stats', catchAsync(async (req: AuthenticatedRequest, res: Response)
   ]);
 
   const stats = {
-    personnel: personnelCount.length || 0,
-    sites: sitesCount.length || 0,
-    activeShifts: activeShifts.length || 0,
-    todayCheckCalls: todayCheckCalls.length || 0,
-    pendingIncidents: pendingIncidents.length || 0,
+    personnel: personnelCount.count || 0,
+    sites: sitesCount.count || 0,
+    activeShifts: activeShifts.count || 0,
+    todayCheckCalls: todayCheckCalls.count || 0,
+    pendingIncidents: pendingIncidents.count || 0,
   };
 
   res.json({
@@ -104,7 +104,7 @@ router.get('/recent-activity', catchAsync(async (req: AuthenticatedRequest, res:
   ]);
 
   const activity = [
-    ...recentCheckCalls.map(call => ({
+    ...recentCheckCalls.data.map((call: any) => ({
       id: call.id,
       type: 'check_call',
       title: `Check Call - ${call.site_id?.name || 'Unknown Site'}`,
@@ -112,7 +112,7 @@ router.get('/recent-activity', catchAsync(async (req: AuthenticatedRequest, res:
       status: call.status,
       timestamp: call.actual_time || call.created_at,
     })),
-    ...recentIncidents.map(incident => ({
+    ...recentIncidents.data.map((incident: any) => ({
       id: incident.id,
       type: 'incident',
       title: incident.title,

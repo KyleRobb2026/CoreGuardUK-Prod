@@ -10,6 +10,10 @@ export interface AuthenticatedRequest extends Request {
     actor_type: 'admin' | 'officer';
     organisation_id: string;
   };
+  query: any;
+  params: any;
+  body: any;
+  validatedBody?: any;
 }
 
 export interface JWTPayload {
