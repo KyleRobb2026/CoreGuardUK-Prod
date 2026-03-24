@@ -11,9 +11,12 @@ const nextConfig = {
   
   // Force dynamic rendering - no static generation
   output: undefined,
-  experimental: {
-    ssr: true
-  },
+  
+  // Disable static generation for all pages
+  generateEtags: false,
+  
+  // Skip static generation for all routes
+  skipTrailingSlashRedirect: true,
   
   // Environment variables
   env: {
