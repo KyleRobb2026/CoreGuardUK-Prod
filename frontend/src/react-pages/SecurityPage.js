@@ -27,6 +27,8 @@ export default function SecurityPage() {
               <a href="/pricing" className="text-[#eeba2b] hover:text-white transition-colors">Pricing</a>
               <a href="/security" className="text-white hover:text-[#eeba2b] transition-colors">Security</a>
               <a href="/contact" className="text-[#eeba2b] hover:text-white transition-colors">Contact</a>
+              <a href="https://coreguard-support-production.up.railway.app/status" target="_blank" rel="noreferrer" className="text-[#eeba2b] hover:text-white transition-colors">Status</a>
+              <a href="https://coreguard-support-production.up.railway.app/docs" target="_blank" rel="noreferrer" className="text-[#eeba2b] hover:text-white transition-colors">Documentation</a>
             </nav>
             
             {/* CTA Button */}

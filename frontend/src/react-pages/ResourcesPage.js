@@ -29,6 +29,8 @@ export default function ResourcesPage() {
               <a href="/partners" className="text-[#eeba2b] hover:text-white transition-colors">Partners</a>
               <a href="/resources" className="text-white hover:text-[#eeba2b] transition-colors">Resources</a>
               <a href="/contact" className="text-[#eeba2b] hover:text-white transition-colors">Contact</a>
+              <a href="https://coreguard-support-production.up.railway.app/status" target="_blank" rel="noreferrer" className="text-[#eeba2b] hover:text-white transition-colors">Status</a>
+              <a href="https://coreguard-support-production.up.railway.app/docs" target="_blank" rel="noreferrer" className="text-[#eeba2b] hover:text-white transition-colors">Documentation</a>
             </nav>
             
             {/* CTA Button */}

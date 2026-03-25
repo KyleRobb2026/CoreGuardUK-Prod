@@ -40,6 +40,8 @@ export default function ContactPage() {
     { name: 'About', href: '/about' },
     { name: 'Pricing', href: '/pricing' },
     { name: 'Contact', href: '/contact' },
+    { name: 'Status', href: 'https://coreguard-support-production.up.railway.app/status', external: true },
+    { name: 'Documentation', href: 'https://coreguard-support-production.up.railway.app/docs', external: true },
   ];
 
   const contactInfo = [
