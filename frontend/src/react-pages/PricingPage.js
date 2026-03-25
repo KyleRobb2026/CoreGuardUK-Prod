@@ -1,419 +1,298 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  MenuIcon, XIcon, ChevronDown, ArrowRightIcon,
+  ShieldCheck, Users, MapPin, Phone, FileText,
+  CheckCircle, LinkedinIcon, TwitterIcon, MailIcon,
+  MinusIcon, PlusIcon,
+} from 'lucide-react';
 
-// Force dynamic rendering - prevent static generation
-export const dynamic = 'force-dynamic';
-export const revalidate = false;
+const LOGO_URL = 'https://i.ibb.co/wZ2KpQtK/Core-Guard-SMS-Official-Logo-white-2-1.png';
 
 export default function PricingPage() {
   const navigate = useNavigate();
-  
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(null);
+  const [faqOpen, setFaqOpen] = useState(null);
+
+  const links = [
+    { name: 'Home', href: '/' },
+    {
+      name: 'Products',
+      subLinks: [
+        { name: 'Personnel Management', href: '/products', icon: Users, description: 'Manage your entire workforce' },
+        { name: 'Site Management', href: '/products', icon: MapPin, description: 'Control all your locations' },
+        { name: 'Compliance Engine', href: '/products', icon: ShieldCheck, description: 'Automated SIA enforcement' },
+        { name: 'Check Calls', href: '/products', icon: Phone, description: 'Real-time welfare monitoring' },
+        { name: 'Audit & Reporting', href: '/products', icon: FileText, description: 'Full traceability & logs' },
+      ],
+    },
+    { name: 'About', href: '/about' },
+    { name: 'Pricing', href: '/pricing' },
+    { name: 'Contact', href: '/contact' },
+  ];
+
+  const plans = [
+    {
+      name: 'Starter',
+      price: 'TBC',
+      period: '/month',
+      description: 'For small security teams getting started.',
+      features: ['Up to 10 officers', 'Up to 3 sites', 'Basic scheduling', 'Mobile app access', 'Email support', 'Monthly reports', 'Basic compliance tracking'],
+      cta: 'Join Waitlist',
+      highlight: false,
+    },
+    {
+      name: 'Professional',
+      price: 'TBC',
+      period: '/month',
+      description: 'For growing security companies.',
+      features: ['Up to 50 officers', 'Up to 10 sites', 'Advanced scheduling', 'Priority mobile features', 'Phone & email support', 'Weekly reports & analytics', 'Full compliance engine', 'API access', 'Custom digital forms', 'Lone worker safety'],
+      cta: 'Join Waitlist',
+      highlight: true,
+    },
+    {
+      name: 'Enterprise',
+      price: 'Custom',
+      period: '',
+      description: 'For large-scale national operations.',
+      features: ['Unlimited officers', 'Unlimited sites', 'Enterprise scheduling', 'White-label options', '24/7 dedicated support', 'Real-time analytics', 'Full compliance suite', 'Advanced API & integrations', 'Custom workflow automation', 'Dedicated account manager'],
+      cta: 'Contact Sales',
+      highlight: false,
+    },
+  ];
+
+  const faqs = [
+    { question: 'When will pricing be finalised?', answer: 'We\'re currently in alpha development. Pricing will be announced as we approach beta release. Join our waitlist to be the first to know and receive early-adopter discounts.' },
+    { question: 'Can I change my plan later?', answer: 'Yes. You\'ll be able to upgrade or downgrade your plan at any time. Changes take effect at the next billing cycle.' },
+    { question: 'Is there a long-term contract?', answer: 'We\'ll offer both monthly and annual billing. Annual plans will come with a discount and additional benefits.' },
+    { question: 'What payment methods will you accept?', answer: 'We\'ll accept all major credit/debit cards, direct debit, and bank transfers. Purchase orders available for enterprise customers.' },
+    { question: 'Can I import my existing data?', answer: 'Yes. We\'ll provide data migration support for all plans, with dedicated migration assistance for Professional and Enterprise customers.' },
+    { question: 'Is my data secure?', answer: 'Absolutely. CoreGuard uses enterprise-grade encryption, role-based access controls, and is hosted on secure UK/EU infrastructure. Your data never leaves compliant environments.' },
+  ];
+
   return (
-    <div className="min-h-screen bg-[#262626] text-white">
-      {/* Navigation */}
-      <nav className="fixed w-full bg-[#262626] border-b border-[#632D3F]/30 backdrop-blur-md z-50">
-        <div className="px-12 py-4">
-          <div className="flex justify-between items-center">
-            {/* Logo */}
-            <div className="flex items-center">
-              <img src="https://i.ibb.co/wZ2KpQtK/Core-Guard-SMS-Official-Logo-white-2-1.png" alt="CoreGuard SMS Official Logo" style={{width: 'calc(100% - 100px)', maxWidth: '300px'}} />
-            </div>
-            
-            {/* Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
-              <a href="/" className="text-white hover:text-[#eeba2b] transition-colors">Home</a>
-              <a href="/about" className="text-[#eeba2b] hover:text-white transition-colors">About</a>
-              <a href="/products" className="text-[#eeba2b] hover:text-white transition-colors">Products</a>
-              <a href="/pricing" className="text-white hover:text-[#eeba2b] transition-colors">Pricing</a>
-              <a href="/security" className="text-[#eeba2b] hover:text-white transition-colors">Security</a>
-              <a href="/contact" className="text-[#eeba2b] hover:text-white transition-colors">Contact</a>
-            </nav>
-            
-            {/* CTA Button */}
-            <button 
-              onClick={() => navigate('/login')}
-              className="bg-[#eeba2b] hover:bg-[#d4a526] text-[#262626] px-6 py-2 rounded-lg font-semibold transition-colors"
-            >
-              Access Platform
-            </button>
-          </div>
+    <div className="min-h-screen bg-[#0f0f0f] text-sm antialiased text-gray-300">
+
+      {/* BANNER */}
+      <div className="flex w-full flex-wrap items-center justify-center gap-2 bg-gradient-to-r from-[#f7b91c] to-[#d4a017] py-2 text-center font-medium text-[#1a1a1a]">
+        <p className="text-sm">CoreGuard UK — Professional Security Management Platform</p>
+        <button onClick={() => navigate('/onboarding')} className="ml-2 flex items-center gap-1 rounded-md bg-[#1a1a1a] px-3 py-1 text-[#f7b91c] text-xs font-semibold transition hover:bg-[#262626] active:scale-95">
+          Get Started <ArrowRightIcon className="size-3.5" />
+        </button>
+      </div>
+
+      {/* NAVBAR */}
+      <nav className="sticky top-0 z-50 flex w-full items-center justify-between bg-[#0f0f0f]/80 px-4 py-3.5 backdrop-blur-md border-b border-[#262626] md:px-16 lg:px-24">
+        <a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); }}>
+          <img src={LOGO_URL} alt="CoreGuard UK" className="h-9 w-auto" />
+        </a>
+        <div className="hidden items-center space-x-7 text-gray-400 md:flex">
+          {links.map((link) =>
+            link.subLinks ? (
+              <div key={link.name} className="group relative" onMouseEnter={() => setOpenDropdown(link.name)} onMouseLeave={() => setOpenDropdown(null)}>
+                <div className="flex cursor-pointer items-center gap-1 hover:text-white transition">
+                  {link.name} <ChevronDown className={`mt-px size-4 transition-transform duration-200 ${openDropdown === link.name ? 'rotate-180' : ''}`} />
+                </div>
+                <div className={`absolute top-8 left-0 z-40 w-[28rem] rounded-lg border border-[#333] bg-[#1a1a1a] p-3 shadow-xl transition-all duration-200 ${openDropdown === link.name ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-2 opacity-0'}`}>
+                  <p className="text-gray-500 text-xs px-2 pb-2">Explore our platform</p>
+                  <div className="grid grid-cols-2 gap-1">
+                    {link.subLinks.map((sub) => (
+                      <a href={sub.href} key={sub.name} onClick={(e) => { e.preventDefault(); navigate(sub.href); }} className="group/link flex items-center gap-2.5 rounded-md p-2.5 transition hover:bg-[#262626]">
+                        <div className="flex shrink-0 items-center justify-center rounded-md bg-gradient-to-r from-[#f7b91c] to-[#d4a017] p-2">
+                          <sub.icon className="size-4 text-[#1a1a1a]" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-white text-xs">{sub.name}</p>
+                          <p className="text-gray-500 text-[11px]">{sub.description}</p>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <a key={link.name} href={link.href} onClick={(e) => { e.preventDefault(); navigate(link.href); }} className={`transition hover:text-white ${link.href === '/pricing' ? 'text-white' : ''}`}>{link.name}</a>
+            )
+          )}
         </div>
+        <div className="hidden md:flex items-center gap-3">
+          <button onClick={() => navigate('/login')} className="text-white hover:text-[#f7b91c] transition text-sm">Log In</button>
+          <button onClick={() => navigate('/onboarding')} className="rounded-full bg-gradient-to-r from-[#f7b91c] to-[#d4a017] px-6 py-2 font-medium text-[#1a1a1a] transition hover:opacity-90">Sign Up</button>
+        </div>
+        <button onClick={() => setMobileOpen(true)} className="transition active:scale-90 md:hidden text-white"><MenuIcon className="size-6" /></button>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-24 pb-16 px-12">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-[#eeba2b]/10 border border-[#eeba2b]/30 text-[#eeba2b] text-sm font-semibold mb-8">
-            <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-            </svg>
-            Alpha Phase - Pricing Coming Soon
+      {/* MOBILE MENU */}
+      <div className={`fixed inset-0 z-[60] flex flex-col items-center justify-center gap-6 bg-[#0f0f0f]/95 text-lg font-medium backdrop-blur-2xl transition duration-300 md:hidden ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        {links.map((link) => (
+          <div key={link.name} className="text-center">
+            {link.subLinks ? (
+              <button onClick={() => { navigate('/products'); setMobileOpen(false); }} className="text-gray-300 hover:text-white transition">{link.name}</button>
+            ) : (
+              <a href={link.href} onClick={(e) => { e.preventDefault(); navigate(link.href); setMobileOpen(false); }} className="text-gray-300 hover:text-white transition">{link.name}</a>
+            )}
           </div>
-          <h1 className="text-5xl font-bold text-white mb-6">Pricing Plans</h1>
-          <p className="text-xl text-[#eeba2b] mb-8 max-w-3xl mx-auto">
-            We're currently in alpha development phase. Pricing will be announced as we approach beta release. Join our alpha program to help shape our pricing structure.
+        ))}
+        <button onClick={() => { navigate('/login'); setMobileOpen(false); }} className="text-white hover:text-[#f7b91c]">Log In</button>
+        <button onClick={() => { navigate('/onboarding'); setMobileOpen(false); }} className="rounded-full bg-gradient-to-r from-[#f7b91c] to-[#d4a017] px-8 py-2.5 font-medium text-[#1a1a1a]">Sign Up</button>
+        <button onClick={() => setMobileOpen(false)} className="mt-4 rounded-md bg-gradient-to-r from-[#f7b91c] to-[#d4a017] p-2 text-[#1a1a1a]"><XIcon className="size-5" /></button>
+      </div>
+
+      {/* HERO */}
+      <section className="flex flex-col items-center justify-center px-6 py-28 md:px-16">
+        <div className="flex flex-wrap items-center justify-center rounded-full border border-[#f7b91c]/20 bg-[#f7b91c]/5 p-1.5 px-4 mb-8">
+          <span className="w-2 h-2 rounded-full bg-[#f7b91c] animate-pulse mr-2" />
+          <p className="text-[#f7b91c] text-xs font-medium">Alpha Phase — Pricing Coming Soon</p>
+        </div>
+        <h1 className="text-4xl md:text-5xl lg:text-6xl text-center font-bold max-w-3xl leading-[1.15] tracking-tight">
+          <span className="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">Simple, Transparent </span>
+          <span className="bg-gradient-to-b from-[#f7b91c] to-[#d4a017] bg-clip-text text-transparent">Pricing</span>
+        </h1>
+        <p className="text-gray-400 text-base md:text-lg text-center max-w-xl mt-6 leading-relaxed">
+          We're currently in alpha. Pricing will be finalised as we approach beta. Join our waitlist to shape our plans and get early-adopter rates.
+        </p>
+      </section>
+
+      {/* PLANS */}
+      <section className="px-6 py-28 md:px-16 lg:px-24 bg-[#1a1a1a]/50 border-y border-[#262626]">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
+          {plans.map((plan, i) => (
+            <div key={i} className={`relative bg-[#1a1a1a] rounded-xl p-6 transition duration-300 ${plan.highlight ? 'border-2 border-[#f7b91c] shadow-lg shadow-[#f7b91c]/5' : 'border border-[#262626] hover:border-[#f7b91c]/30'}`}>
+              {plan.highlight && (
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
+                  <span className="bg-gradient-to-r from-[#f7b91c] to-[#d4a017] text-[#1a1a1a] px-4 py-1 rounded-full text-xs font-bold">Recommended</span>
+                </div>
+              )}
+              <h3 className="text-xl font-bold text-white mb-1">{plan.name}</h3>
+              <p className="text-gray-500 text-[13px] mb-5">{plan.description}</p>
+              <div className="flex items-baseline gap-1 mb-6">
+                <span className="text-3xl font-bold text-[#f7b91c]">{plan.price}</span>
+                <span className="text-gray-500 text-sm">{plan.period}</span>
+              </div>
+              <ul className="space-y-2.5 mb-8">
+                {plan.features.map((f, j) => (
+                  <li key={j} className="flex items-center gap-2 text-gray-400 text-[13px]">
+                    <CheckCircle className="size-3.5 text-[#f7b91c] shrink-0" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <button
+                onClick={() => navigate('/contact')}
+                className={`w-full py-3 rounded-full font-semibold transition text-sm ${plan.highlight
+                  ? 'bg-gradient-to-r from-[#f7b91c] to-[#d4a017] text-[#1a1a1a] hover:opacity-90'
+                  : 'border border-[#555] text-white hover:border-[#f7b91c]'
+                }`}
+              >
+                {plan.cta}
+              </button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ALPHA NOTICE */}
+      <section className="px-6 py-28 md:px-16 lg:px-24">
+        <div className="max-w-3xl mx-auto bg-[#1a1a1a] border border-[#262626] rounded-xl p-8 text-center">
+          <h2 className="text-2xl font-bold text-white mb-4">Alpha Development Phase</h2>
+          <p className="text-gray-400 leading-relaxed mb-8">
+            CoreGuard is currently in alpha development. We're building the platform from the ground up with input from early security industry partners. Join our programme to help shape features, pricing, and get exclusive early-adopter benefits.
           </p>
-        </div>
-      </section>
-
-      {/* Pricing Tiers */}
-      <section className="py-16 px-12 bg-[#1e1e1e]">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
-            {/* Starter Plan */}
-            <div className="bg-[#33262B] p-8 rounded-xl border border-[#632D3F]/30 hover:border-[#eeba2b]/50 transition-colors">
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-white mb-2">Starter</h3>
-                <p className="text-[#eeba2b] mb-4">Perfect for small teams</p>
-                <div className="text-4xl font-bold text-[#eeba2b] mb-2">$149</div>
-                <div className="text-[#eeba2b]">/month</div>
-              </div>
-              <ul className="space-y-4 mb-8">
-                {[
-                  "Up to 10 officers",
-                  "Up to 3 sites",
-                  "Basic scheduling",
-                  "Mobile app access",
-                  "Email support",
-                  "Monthly reports",
-                  "Basic compliance tracking",
-                  "1GB storage"
-                ].map((feature, index) => (
-                  <li key={index} className="flex items-center text-[#eeba2b]">
-                    <svg className="w-5 h-5 mr-3 text-[#eeba2b]" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                    </svg>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-              <button 
-                onClick={() => navigate('/contact')}
-                className="w-full bg-[#33262B] text-white py-3 rounded-lg hover:bg-[#634B53] transition-colors"
-              >
-                Get Started
-              </button>
-            </div>
-
-            {/* Professional Plan */}
-            <div className="bg-[#33262B] p-8 rounded-xl border-2 border-[#eeba2b] relative transform scale-105">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <span className="bg-[#eeba2b] text-[#262626] px-4 py-1 rounded-full text-sm font-semibold">Most Popular</span>
-              </div>
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-white mb-2">Professional</h3>
-                <p className="text-[#eeba2b] mb-4">Ideal for growing companies</p>
-                <div className="text-4xl font-bold text-[#eeba2b] mb-2">$499</div>
-                <div className="text-[#eeba2b]">/month</div>
-              </div>
-              <ul className="space-y-4 mb-8">
-                {[
-                  "Up to 50 officers",
-                  "Up to 10 sites",
-                  "Advanced scheduling with AI",
-                  "Priority mobile app features",
-                  "Phone & email support",
-                  "Weekly reports & analytics",
-                  "Advanced compliance tools",
-                  "10GB storage",
-                  "API access",
-                  "Custom forms",
-                  "Lone worker safety features"
-                ].map((feature, index) => (
-                  <li key={index} className="flex items-center text-[#eeba2b]">
-                    <svg className="w-5 h-5 mr-3 text-[#eeba2b]" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                    </svg>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-              <button 
-                onClick={() => navigate('/contact')}
-                className="w-full bg-[#eeba2b] text-[#262626] py-3 rounded-lg hover:bg-[#d4a526] transition-colors font-semibold"
-              >
-                Start Free Trial
-              </button>
-            </div>
-
-            {/* Enterprise Plan */}
-            <div className="bg-[#33262B] p-8 rounded-xl border border-[#632D3F]/30 hover:border-[#eeba2b]/50 transition-colors">
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-white mb-2">Enterprise</h3>
-                <p className="text-[#eeba2b] mb-4">For large organizations</p>
-                <div className="text-4xl font-bold text-[#eeba2b] mb-2">Custom</div>
-                <div className="text-[#eeba2b]">Contact us</div>
-              </div>
-              <ul className="space-y-4 mb-8">
-                {[
-                  "Unlimited officers",
-                  "Unlimited sites",
-                  "Enterprise AI scheduling",
-                  "White-label mobile app",
-                  "24/7 dedicated support",
-                  "Real-time analytics dashboard",
-                  "Full compliance suite",
-                  "Unlimited storage",
-                  "Advanced API & integrations",
-                  "Custom workflow automation",
-                  "Advanced safety features",
-                  "Dedicated account manager",
-                  "On-premise deployment option",
-                  "Custom training & onboarding"
-                ].map((feature, index) => (
-                  <li key={index} className="flex items-center text-[#eeba2b]">
-                    <svg className="w-5 h-5 mr-3 text-[#eeba2b]" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                    </svg>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-              <button 
-                onClick={() => navigate('/contact')}
-                className="w-full bg-[#33262B] text-white py-3 rounded-lg hover:bg-[#634B53] transition-colors"
-              >
-                Contact Sales
-              </button>
-            </div>
-          </div>
-
-          {/* Feature Comparison */}
-          <div className="bg-[#33262B] p-8 rounded-xl border border-[#632D3F]/30">
-            <h3 className="text-2xl font-bold text-white mb-8 text-center">Feature Comparison</h3>
-            <div className="overflow-x-auto">
-              <table className="w-full text-[#eeba2b]">
-                <thead>
-                  <tr className="border-b border-[#632D3F]/30">
-                    <th className="text-left py-3 px-4">Feature</th>
-                    <th className="text-center py-3 px-4">Starter</th>
-                    <th className="text-center py-3 px-4">Professional</th>
-                    <th className="text-center py-3 px-4">Enterprise</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[
-                    { feature: "Maximum Officers", starter: "10", professional: "50", enterprise: "Unlimited" },
-                    { feature: "Maximum Sites", starter: "3", professional: "10", enterprise: "Unlimited" },
-                    { feature: "AI Scheduling", starter: "❌", professional: "✅", enterprise: "✅" },
-                    { feature: "API Access", starter: "❌", professional: "✅", enterprise: "✅" },
-                    { feature: "Custom Forms", starter: "❌", professional: "✅", enterprise: "✅" },
-                    { feature: "Lone Worker Safety", starter: "❌", professional: "✅", enterprise: "✅" },
-                    { feature: "24/7 Support", starter: "❌", professional: "❌", enterprise: "✅" },
-                    { feature: "White-label App", starter: "❌", professional: "❌", enterprise: "✅" },
-                    { feature: "On-premise Deploy", starter: "❌", professional: "❌", enterprise: "✅" }
-                  ].map((row, index) => (
-                    <tr key={index} className="border-b border-[#632D3F]/20">
-                      <td className="py-3 px-4">{row.feature}</td>
-                      <td className="text-center py-3 px-4">{row.starter}</td>
-                      <td className="text-center py-3 px-4">{row.professional}</td>
-                      <td className="text-center py-3 px-4">{row.enterprise}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Alpha Development Notice */}
-      <section className="py-16 px-12 bg-[#1e1e1e]">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="bg-[#33262B] p-8 rounded-xl border border-[#632D3F]/30">
-            <h2 className="text-3xl font-bold text-[#eeba2b] mb-6">Alpha Development Phase</h2>
-            <p className="text-[#eeba2b] mb-6">
-              CoreGuard SMS is currently in alpha development. We're building the platform from the ground up with input from early security industry partners.
-            </p>
-            <div className="grid md:grid-cols-3 gap-6 mb-8">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-[#eeba2b]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-[#eeba2b]" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Early Access</h3>
-                <p className="text-[#eeba2b] text-sm">Join alpha program to shape the platform</p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-[#eeba2b]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-[#eeba2b]" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Partner Input</h3>
-                <p className="text-[#eeba2b] text-sm">Help design features and pricing</p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-[#eeba2b]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-[#eeba2b]" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Future Pricing</h3>
-                <p className="text-[#eeba2b] text-sm">Competitive rates announced later</p>
-              </div>
-            </div>
-            <button 
-              onClick={() => navigate('/contact')}
-              className="inline-flex items-center justify-center px-8 py-4 text-lg text-[#262626] bg-[#eeba2b] rounded-2xl hover:bg-[#d4a526] transition-all transform hover:scale-105 font-semibold shadow-lg"
-            >
-              Join Alpha Program
-              <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Add-ons */}
-      <section className="py-16 px-12">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-white text-center mb-12">Add-on Services</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-3 gap-4 mb-8">
             {[
-              {
-                name: "Advanced Analytics",
-                price: "$99/mo",
-                description: "Deep insights, predictive analytics, and custom reporting dashboards.",
-                features: ["Custom dashboards", "Predictive analytics", "Advanced reporting", "Data export"]
-              },
-              {
-                name: "Training & Onboarding",
-                price: "$1,999/setup",
-                description: "Comprehensive training program for your team with ongoing support.",
-                features: ["On-site training", "Custom documentation", "Video tutorials", "Ongoing support"]
-              },
-              {
-                name: "Integration Services",
-                price: "Custom",
-                description: "Custom integrations with your existing systems and third-party services.",
-                features: ["API development", "System integration", "Data migration", "Custom workflows"]
-              },
-              {
-                name: "Compliance Consulting",
-                price: "$299/mo",
-                description: "Expert guidance on security compliance and regulatory requirements.",
-                features: ["Compliance audits", "Regulatory guidance", "Documentation help", "Certification support"]
-              }
-            ].map((addon, index) => (
-              <div key={index} className="bg-[#33262B] p-6 rounded-xl border border-[#632D3F]/30">
-                <h3 className="text-lg font-bold text-[#eeba2b] mb-2">{addon.name}</h3>
-                <div className="text-2xl font-bold text-white mb-3">{addon.price}</div>
-                <p className="text-[#eeba2b] text-sm mb-4">{addon.description}</p>
-                <ul className="space-y-2 mb-4">
-                  {addon.features.map((feature, i) => (
-                    <li key={i} className="flex items-center text-[#eeba2b] text-xs">
-                      <svg className="w-3 h-3 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                      </svg>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <button 
-                  onClick={() => navigate('/contact')}
-                  className="w-full bg-[#eeba2b] text-[#262626] py-2 rounded hover:bg-[#d4a526] transition-colors text-sm font-semibold"
-                >
-                  Learn More
-                </button>
+              { title: 'Early Access', desc: 'Shape the platform' },
+              { title: 'Partner Input', desc: 'Influence features & pricing' },
+              { title: 'Founder Rates', desc: 'Locked-in discounts' },
+            ].map((item, i) => (
+              <div key={i} className="bg-[#0f0f0f] border border-[#262626] rounded-lg p-4">
+                <div className="w-8 h-8 rounded-full bg-[#f7b91c]/10 flex items-center justify-center mx-auto mb-3">
+                  <span className="text-[#f7b91c] font-bold text-sm">{i + 1}</span>
+                </div>
+                <p className="text-white text-sm font-medium">{item.title}</p>
+                <p className="text-gray-500 text-xs mt-1">{item.desc}</p>
               </div>
             ))}
           </div>
+          <button onClick={() => navigate('/contact')} className="bg-gradient-to-r from-[#f7b91c] to-[#d4a017] hover:opacity-90 text-[#1a1a1a] font-semibold px-8 py-3.5 rounded-full transition">
+            Join Alpha Programme
+          </button>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="py-16 px-12 bg-[#1e1e1e]">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold text-white text-center mb-12">Frequently Asked Questions</h2>
-          <div className="space-y-6">
-            {[
-              {
-                question: "Can I change my plan later?",
-                answer: "Yes! You can upgrade or downgrade your plan at any time. Changes take effect at the next billing cycle."
-              },
-              {
-                question: "Is there a long-term contract?",
-                answer: "We offer both monthly and annual billing. Annual plans come with a 20% discount and additional benefits."
-              },
-              {
-                question: "What payment methods do you accept?",
-                answer: "We accept all major credit cards, bank transfers, and purchase orders for enterprise customers."
-              },
-              {
-                question: "Is my data secure?",
-                answer: "Absolutely. We use industry-standard encryption, are SOC 2 Type II certified, and comply with GDPR and CCPA."
-              },
-              {
-                question: "Can I import my existing data?",
-                answer: "Yes! We provide free data migration services for Professional and Enterprise plans, and offer paid migration for Starter plans."
-              },
-              {
-                question: "What kind of support do you provide?",
-                answer: "Starter plans get email support, Professional plans get phone and email support, and Enterprise plans get 24/7 dedicated support."
-              }
-            ].map((faq, index) => (
-              <div key={index} className="bg-[#33262B] p-6 rounded-xl border border-[#632D3F]/30">
-                <h3 className="text-lg font-bold text-[#eeba2b] mb-3">{faq.question}</h3>
-                <p className="text-[#eeba2b]">{faq.answer}</p>
-              </div>
-            ))}
-          </div>
+      <section className="flex flex-col items-center justify-center px-6 py-28 md:px-16 lg:px-24 bg-[#1a1a1a]/50 border-y border-[#262626]">
+        <div className="flex flex-col items-center justify-center">
+          <h2 className="text-center text-3xl md:text-4xl font-bold tracking-tight text-white">Pricing FAQ</h2>
+          <p className="mt-4 max-w-md text-center text-gray-400 md:max-w-xl leading-relaxed">Common questions about CoreGuard pricing and plans.</p>
+        </div>
+        <div className="mx-auto mt-14 w-full max-w-2xl">
+          {faqs.map((item, index) => (
+            <div key={index} className="flex flex-col border-b border-[#262626]">
+              <h3
+                className="flex cursor-pointer items-start justify-between gap-4 py-5 font-medium text-white hover:text-[#f7b91c] transition text-[15px]"
+                onClick={() => setFaqOpen(faqOpen === index ? null : index)}
+              >
+                {item.question}
+                {faqOpen === index
+                  ? <MinusIcon className="size-5 text-[#f7b91c] shrink-0" />
+                  : <PlusIcon className="size-5 text-gray-500 shrink-0" />
+                }
+              </h3>
+              <p className={`pb-4 text-sm leading-relaxed text-gray-400 ${faqOpen === index ? 'block' : 'hidden'}`}>
+                {item.answer}
+              </p>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-12">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">Ready to Get Started?</h2>
-          <p className="text-xl text-[#eeba2b] mb-8 max-w-2xl mx-auto">
-            Join hundreds of security companies that trust CoreGuard SMS for their operations.
-          </p>
-          <div className="space-x-0 md:space-x-4">
-            <button 
-              onClick={() => navigate('/contact')}
-              className="inline-flex items-center justify-center px-6 py-3 text-lg text-[#262626] bg-[#eeba2b] rounded-2xl hover:bg-[#d4a526] transition-colors"
-            >
-              Start Free Trial
-              <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-            </button>
-            <button 
-              onClick={() => navigate('/contact')}
-              className="inline-flex items-center justify-center px-6 py-3 text-lg bg-[#33262B] text-white rounded-2xl hover:bg-[#634B53] transition-colors"
-            >
-              Talk to Sales
-              <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-              </svg>
-            </button>
-          </div>
+      {/* CTA */}
+      <section className="flex flex-col items-center justify-center px-6 py-28 md:px-16 lg:px-24">
+        <div className="flex flex-col items-center justify-center">
+          <h2 className="text-center text-3xl md:text-4xl font-bold tracking-tight text-white">Ready to Get Started?</h2>
+          <p className="mt-4 max-w-md text-center text-gray-400 md:max-w-xl leading-relaxed">Join our alpha programme and be among the first to use CoreGuard.</p>
+        </div>
+        <div className="flex flex-wrap items-center justify-center gap-4 mt-10">
+          <button onClick={() => navigate('/onboarding')} className="flex items-center gap-2 bg-gradient-to-r from-[#f7b91c] to-[#d4a017] hover:opacity-90 text-[#1a1a1a] font-semibold px-8 py-3.5 rounded-full transition">
+            Get Started Free <ArrowRightIcon className="size-4" />
+          </button>
+          <button onClick={() => navigate('/contact')} className="flex items-center gap-2 border border-[#555] hover:border-[#f7b91c] text-white px-8 py-3.5 rounded-full transition">
+            Talk to Sales
+          </button>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-12 bg-[#170A0F] text-white">
-        <div className="px-12 mx-auto max-w-7xl">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-4 md:mb-0">
-              <img src="https://i.ibb.co/wZ2KpQtK/Core-Guard-SMS-Official-Logo-white-2-1.png" alt="CoreGuard SMS Official Logo" className="mb-3" style={{width: 'calc(100% - 100px)', maxWidth: '300px'}} />
-              <div className="text-[#eeba2b]">Enterprise Security Management Platform</div>
-            </div>
-            <div className="flex gap-8">
-              <a href="/" className="text-[#eeba2b] hover:text-white transition-colors">Home</a>
-              <a href="/about" className="text-[#eeba2b] hover:text-white transition-colors">About</a>
-              <a href="/products" className="text-[#eeba2b] hover:text-white transition-colors">Products</a>
-              <a href="/pricing" className="text-white hover:text-[#eeba2b] transition-colors">Pricing</a>
-              <a href="/security" className="text-[#eeba2b] hover:text-white transition-colors">Security</a>
-              <a href="/contact" className="text-[#eeba2b] hover:text-white transition-colors">Contact</a>
-            </div>
+      {/* FOOTER */}
+      <footer className="px-6 md:px-16 lg:px-24 text-[13px] border-t border-[#262626] bg-[#0a0a0a]">
+        <div className="flex flex-wrap items-start gap-10 py-16 md:gap-16">
+          <div className="max-w-xs">
+            <img src={LOGO_URL} alt="CoreGuard UK" className="h-10 w-auto mb-4" />
+            <p className="text-gray-500 leading-relaxed">Enterprise security management for UK-regulated private security companies.</p>
           </div>
-          <div className="text-center mt-8 text-[#eeba2b]/60">
-            © 2026 CoreGuard SMS. All rights reserved.
+          <div>
+            <p className="font-semibold text-white mb-4">Platform</p>
+            <ul className="space-y-2.5">
+              {[{ t: 'Features', h: '/products' }, { t: 'Pricing', h: '/pricing' }, { t: 'Security', h: '/security' }].map((l) => (
+                <li key={l.t}><a href={l.h} onClick={(e) => { e.preventDefault(); navigate(l.h); }} className="text-gray-500 hover:text-[#f7b91c] transition">{l.t}</a></li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="font-semibold text-white mb-4">Company</p>
+            <ul className="space-y-2.5">
+              {[{ t: 'About Us', h: '/about' }, { t: 'Contact', h: '/contact' }].map((l) => (
+                <li key={l.t}><a href={l.h} onClick={(e) => { e.preventDefault(); navigate(l.h); }} className="text-gray-500 hover:text-[#f7b91c] transition">{l.t}</a></li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div className="flex flex-col md:flex-row py-6 border-t border-[#262626] md:justify-between max-md:items-center gap-3 items-end">
+          <p className="text-gray-600">&copy; 2026 CoreGuard UK Ltd. All rights reserved.</p>
+          <div className="flex items-center gap-4">
+            <a href="https://linkedin.com" target="_blank" rel="noreferrer"><LinkedinIcon className="size-5 text-gray-600 hover:text-[#f7b91c] transition" /></a>
+            <a href="https://twitter.com" target="_blank" rel="noreferrer"><TwitterIcon className="size-5 text-gray-600 hover:text-[#f7b91c] transition" /></a>
+            <a href="mailto:info@coreguarduk.com"><MailIcon className="size-5 text-gray-600 hover:text-[#f7b91c] transition" /></a>
           </div>
         </div>
       </footer>

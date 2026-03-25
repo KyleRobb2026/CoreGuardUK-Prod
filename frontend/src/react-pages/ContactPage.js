@@ -1,391 +1,305 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  MenuIcon, XIcon, ChevronDown, ArrowRightIcon,
+  ShieldCheck, Users, MapPin, Phone, FileText,
+  MailIcon, LinkedinIcon, TwitterIcon, MapPinIcon, Clock,
+} from 'lucide-react';
 
-// Force dynamic rendering - prevent static generation
-export const dynamic = 'force-dynamic';
-export const revalidate = false;
+const LOGO_URL = 'https://i.ibb.co/wZ2KpQtK/Core-Guard-SMS-Official-Logo-white-2-1.png';
 
 export default function ContactPage() {
   const navigate = useNavigate();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(null);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    company: '',
-    phone: '',
-    message: '',
-    interest: 'demo'
+    name: '', email: '', company: '', phone: '', message: '', interest: 'demo',
   });
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission here
     console.log('Form submitted:', formData);
     alert('Thank you for your inquiry! We will contact you within 24 hours.');
-    setFormData({
-      name: '',
-      email: '',
-      company: '',
-      phone: '',
-      message: '',
-      interest: 'demo'
-    });
+    setFormData({ name: '', email: '', company: '', phone: '', message: '', interest: 'demo' });
   };
 
+  const links = [
+    { name: 'Home', href: '/' },
+    {
+      name: 'Products',
+      subLinks: [
+        { name: 'Personnel Management', href: '/products', icon: Users, description: 'Manage your entire workforce' },
+        { name: 'Site Management', href: '/products', icon: MapPin, description: 'Control all your locations' },
+        { name: 'Compliance Engine', href: '/products', icon: ShieldCheck, description: 'Automated SIA enforcement' },
+        { name: 'Check Calls', href: '/products', icon: Phone, description: 'Real-time welfare monitoring' },
+        { name: 'Audit & Reporting', href: '/products', icon: FileText, description: 'Full traceability & logs' },
+      ],
+    },
+    { name: 'About', href: '/about' },
+    { name: 'Pricing', href: '/pricing' },
+    { name: 'Contact', href: '/contact' },
+  ];
+
+  const contactInfo = [
+    { icon: MailIcon, title: 'Email', value: 'info@coreguarduk.com', href: 'mailto:info@coreguarduk.com' },
+    { icon: Phone, title: 'Phone', value: '+44 (0) 800 000 0000', href: 'tel:+448000000000' },
+    { icon: MapPinIcon, title: 'Location', value: 'United Kingdom', href: null },
+    { icon: Clock, title: 'Response Time', value: 'Within 24 hours', href: null },
+  ];
+
   return (
-    <div className="min-h-screen bg-[#262626] text-white">
-      {/* Navigation */}
-      <nav className="fixed w-full bg-[#262626] border-b border-[#632D3F]/30 backdrop-blur-md z-50">
-        <div className="px-12 py-4">
-          <div className="flex justify-between items-center">
-            {/* Logo */}
-            <div className="flex items-center">
-              <img src="https://i.ibb.co/wZ2KpQtK/Core-Guard-SMS-Official-Logo-white-2-1.png" alt="CoreGuard SMS Official Logo" style={{width: 'calc(100% - 100px)', maxWidth: '300px'}} />
-            </div>
-            
-            {/* Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
-              <a href="/" className="text-white hover:text-[#eeba2b] transition-colors">Home</a>
-              <a href="/about" className="text-[#eeba2b] hover:text-white transition-colors">About</a>
-              <a href="/products" className="text-[#eeba2b] hover:text-white transition-colors">Products</a>
-              <a href="/pricing" className="text-[#eeba2b] hover:text-white transition-colors">Pricing</a>
-              <a href="/security" className="text-[#eeba2b] hover:text-white transition-colors">Security</a>
-              <a href="/contact" className="text-white hover:text-[#eeba2b] transition-colors">Contact</a>
-            </nav>
-            
-            {/* CTA Button */}
-            <button 
-              onClick={() => navigate('/login')}
-              className="bg-[#eeba2b] hover:bg-[#d4a526] text-[#262626] px-6 py-2 rounded-lg font-semibold transition-colors"
-            >
-              Access Platform
-            </button>
-          </div>
+    <div className="min-h-screen bg-[#0f0f0f] text-sm antialiased text-gray-300">
+
+      {/* BANNER */}
+      <div className="flex w-full flex-wrap items-center justify-center gap-2 bg-gradient-to-r from-[#f7b91c] to-[#d4a017] py-2 text-center font-medium text-[#1a1a1a]">
+        <p className="text-sm">CoreGuard UK — Professional Security Management Platform</p>
+        <button onClick={() => navigate('/onboarding')} className="ml-2 flex items-center gap-1 rounded-md bg-[#1a1a1a] px-3 py-1 text-[#f7b91c] text-xs font-semibold transition hover:bg-[#262626] active:scale-95">
+          Get Started <ArrowRightIcon className="size-3.5" />
+        </button>
+      </div>
+
+      {/* NAVBAR */}
+      <nav className="sticky top-0 z-50 flex w-full items-center justify-between bg-[#0f0f0f]/80 px-4 py-3.5 backdrop-blur-md border-b border-[#262626] md:px-16 lg:px-24">
+        <a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); }}>
+          <img src={LOGO_URL} alt="CoreGuard UK" className="h-9 w-auto" />
+        </a>
+        <div className="hidden items-center space-x-7 text-gray-400 md:flex">
+          {links.map((link) =>
+            link.subLinks ? (
+              <div key={link.name} className="group relative" onMouseEnter={() => setOpenDropdown(link.name)} onMouseLeave={() => setOpenDropdown(null)}>
+                <div className="flex cursor-pointer items-center gap-1 hover:text-white transition">
+                  {link.name} <ChevronDown className={`mt-px size-4 transition-transform duration-200 ${openDropdown === link.name ? 'rotate-180' : ''}`} />
+                </div>
+                <div className={`absolute top-8 left-0 z-40 w-[28rem] rounded-lg border border-[#333] bg-[#1a1a1a] p-3 shadow-xl transition-all duration-200 ${openDropdown === link.name ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-2 opacity-0'}`}>
+                  <p className="text-gray-500 text-xs px-2 pb-2">Explore our platform</p>
+                  <div className="grid grid-cols-2 gap-1">
+                    {link.subLinks.map((sub) => (
+                      <a href={sub.href} key={sub.name} onClick={(e) => { e.preventDefault(); navigate(sub.href); }} className="group/link flex items-center gap-2.5 rounded-md p-2.5 transition hover:bg-[#262626]">
+                        <div className="flex shrink-0 items-center justify-center rounded-md bg-gradient-to-r from-[#f7b91c] to-[#d4a017] p-2">
+                          <sub.icon className="size-4 text-[#1a1a1a]" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-white text-xs">{sub.name}</p>
+                          <p className="text-gray-500 text-[11px]">{sub.description}</p>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <a key={link.name} href={link.href} onClick={(e) => { e.preventDefault(); navigate(link.href); }} className={`transition hover:text-white ${link.href === '/contact' ? 'text-white' : ''}`}>{link.name}</a>
+            )
+          )}
         </div>
+        <div className="hidden md:flex items-center gap-3">
+          <button onClick={() => navigate('/login')} className="text-white hover:text-[#f7b91c] transition text-sm">Log In</button>
+          <button onClick={() => navigate('/onboarding')} className="rounded-full bg-gradient-to-r from-[#f7b91c] to-[#d4a017] px-6 py-2 font-medium text-[#1a1a1a] transition hover:opacity-90">Sign Up</button>
+        </div>
+        <button onClick={() => setMobileOpen(true)} className="transition active:scale-90 md:hidden text-white"><MenuIcon className="size-6" /></button>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-24 pb-16 px-12">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-[#eeba2b]/10 border border-[#eeba2b]/30 text-[#eeba2b] text-sm font-semibold mb-8">
-            <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-            </svg>
-            Alpha Development - Join Our Program
+      {/* MOBILE MENU */}
+      <div className={`fixed inset-0 z-[60] flex flex-col items-center justify-center gap-6 bg-[#0f0f0f]/95 text-lg font-medium backdrop-blur-2xl transition duration-300 md:hidden ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        {links.map((link) => (
+          <div key={link.name} className="text-center">
+            {link.subLinks ? (
+              <button onClick={() => { navigate('/products'); setMobileOpen(false); }} className="text-gray-300 hover:text-white transition">{link.name}</button>
+            ) : (
+              <a href={link.href} onClick={(e) => { e.preventDefault(); navigate(link.href); setMobileOpen(false); }} className="text-gray-300 hover:text-white transition">{link.name}</a>
+            )}
           </div>
-          <h1 className="text-5xl font-bold text-white mb-6">Get in Touch</h1>
-          <p className="text-xl text-[#eeba2b] mb-8 max-w-3xl mx-auto">
-            Interested in joining our alpha program or have questions about CoreGuard SMS? We'd love to hear from you.
-          </p>
+        ))}
+        <button onClick={() => { navigate('/login'); setMobileOpen(false); }} className="text-white hover:text-[#f7b91c]">Log In</button>
+        <button onClick={() => { navigate('/onboarding'); setMobileOpen(false); }} className="rounded-full bg-gradient-to-r from-[#f7b91c] to-[#d4a017] px-8 py-2.5 font-medium text-[#1a1a1a]">Sign Up</button>
+        <button onClick={() => setMobileOpen(false)} className="mt-4 rounded-md bg-gradient-to-r from-[#f7b91c] to-[#d4a017] p-2 text-[#1a1a1a]"><XIcon className="size-5" /></button>
+      </div>
+
+      {/* HERO */}
+      <section className="flex flex-col items-center justify-center px-6 py-28 md:px-16">
+        <div className="flex flex-wrap items-center justify-center rounded-full border border-[#f7b91c]/20 bg-[#f7b91c]/5 p-1.5 px-4 mb-8">
+          <span className="w-2 h-2 rounded-full bg-[#f7b91c] animate-pulse mr-2" />
+          <p className="text-[#f7b91c] text-xs font-medium">Alpha Programme — Join Now</p>
         </div>
+        <h1 className="text-4xl md:text-5xl lg:text-6xl text-center font-bold max-w-3xl leading-[1.15] tracking-tight">
+          <span className="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">Get in </span>
+          <span className="bg-gradient-to-b from-[#f7b91c] to-[#d4a017] bg-clip-text text-transparent">Touch</span>
+        </h1>
+        <p className="text-gray-400 text-base md:text-lg text-center max-w-xl mt-6 leading-relaxed">
+          Interested in joining our alpha programme or have questions about CoreGuard? We'd love to hear from you.
+        </p>
       </section>
 
-      {/* Contact Form & Info */}
-      <section className="py-16 px-12 bg-[#1e1e1e]">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <div className="bg-[#33262B] p-8 rounded-xl border border-[#632D3F]/30">
-              <h2 className="text-3xl font-bold text-white mb-6">Send us a Message</h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-[#eeba2b] mb-2">Full Name *</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 bg-[#262626] border border-[#632D3F]/50 rounded-lg text-white focus:border-[#eeba2b] focus:outline-none"
-                      placeholder="John Doe"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[#eeba2b] mb-2">Email Address *</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 bg-[#262626] border border-[#632D3F]/50 rounded-lg text-white focus:border-[#eeba2b] focus:outline-none"
-                      placeholder="john@example.com"
-                    />
-                  </div>
-                </div>
-                
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-[#eeba2b] mb-2">Company</label>
-                    <input
-                      type="text"
-                      name="company"
-                      value={formData.company}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 bg-[#262626] border border-[#632D3F]/50 rounded-lg text-white focus:border-[#eeba2b] focus:outline-none"
-                      placeholder="Security Company Inc."
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[#eeba2b] mb-2">Phone Number</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 bg-[#262626] border border-[#632D3F]/50 rounded-lg text-white focus:border-[#eeba2b] focus:outline-none"
-                      placeholder="+1 (555) 123-4567"
-                    />
-                  </div>
-                </div>
+      {/* FORM + INFO */}
+      <section className="px-6 py-28 md:px-16 lg:px-24 bg-[#1a1a1a]/50 border-y border-[#262626]">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-5 gap-8">
 
+          {/* Form — 3 cols */}
+          <div className="md:col-span-3 bg-[#1a1a1a] border border-[#262626] rounded-xl p-6 md:p-8">
+            <h2 className="text-xl font-bold text-white mb-6">Send us a Message</h2>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="grid md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-[#eeba2b] mb-2">I'm interested in...</label>
-                  <select
-                    name="interest"
-                    value={formData.interest}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 bg-[#262626] border border-[#632D3F]/50 rounded-lg text-white focus:border-[#eeba2b] focus:outline-none"
-                  >
-                    <option value="demo">Product Demo</option>
-                    <option value="pricing">Pricing Information</option>
-                    <option value="enterprise">Enterprise Solutions</option>
-                    <option value="support">Technical Support</option>
-                    <option value="partnership">Partnership Opportunities</option>
-                    <option value="other">Other</option>
-                  </select>
+                  <label className="block text-gray-400 text-xs font-medium mb-2">Full Name *</label>
+                  <input type="text" name="name" value={formData.name} onChange={handleChange} required
+                    className="w-full px-4 py-3 bg-[#0f0f0f] border border-[#262626] rounded-lg text-white text-sm focus:border-[#f7b91c] focus:outline-none transition placeholder:text-gray-600"
+                    placeholder="John Smith" />
                 </div>
-
                 <div>
-                  <label className="block text-[#eeba2b] mb-2">Message *</label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows={5}
-                    className="w-full px-4 py-3 bg-[#262626] border border-[#632D3F]/50 rounded-lg text-white focus:border-[#eeba2b] focus:outline-none resize-none"
-                    placeholder="Tell us about your security operations needs..."
-                  />
+                  <label className="block text-gray-400 text-xs font-medium mb-2">Email Address *</label>
+                  <input type="email" name="email" value={formData.email} onChange={handleChange} required
+                    className="w-full px-4 py-3 bg-[#0f0f0f] border border-[#262626] rounded-lg text-white text-sm focus:border-[#f7b91c] focus:outline-none transition placeholder:text-gray-600"
+                    placeholder="john@company.co.uk" />
                 </div>
+              </div>
+              <div className="grid md:grid-cols-2 gap-5">
+                <div>
+                  <label className="block text-gray-400 text-xs font-medium mb-2">Company</label>
+                  <input type="text" name="company" value={formData.company} onChange={handleChange}
+                    className="w-full px-4 py-3 bg-[#0f0f0f] border border-[#262626] rounded-lg text-white text-sm focus:border-[#f7b91c] focus:outline-none transition placeholder:text-gray-600"
+                    placeholder="Security Company Ltd" />
+                </div>
+                <div>
+                  <label className="block text-gray-400 text-xs font-medium mb-2">Phone Number</label>
+                  <input type="tel" name="phone" value={formData.phone} onChange={handleChange}
+                    className="w-full px-4 py-3 bg-[#0f0f0f] border border-[#262626] rounded-lg text-white text-sm focus:border-[#f7b91c] focus:outline-none transition placeholder:text-gray-600"
+                    placeholder="+44 7700 900000" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-gray-400 text-xs font-medium mb-2">I'm interested in...</label>
+                <select name="interest" value={formData.interest} onChange={handleChange}
+                  className="w-full px-4 py-3 bg-[#0f0f0f] border border-[#262626] rounded-lg text-white text-sm focus:border-[#f7b91c] focus:outline-none transition">
+                  <option value="demo">Product Demo</option>
+                  <option value="alpha">Alpha Programme</option>
+                  <option value="pricing">Pricing Information</option>
+                  <option value="enterprise">Enterprise Solutions</option>
+                  <option value="partnership">Partnership Opportunities</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-gray-400 text-xs font-medium mb-2">Message *</label>
+                <textarea name="message" value={formData.message} onChange={handleChange} required rows={5}
+                  className="w-full px-4 py-3 bg-[#0f0f0f] border border-[#262626] rounded-lg text-white text-sm focus:border-[#f7b91c] focus:outline-none transition resize-none placeholder:text-gray-600"
+                  placeholder="Tell us about your security operations needs..." />
+              </div>
+              <button type="submit" className="w-full bg-gradient-to-r from-[#f7b91c] to-[#d4a017] text-[#1a1a1a] py-3.5 rounded-full font-semibold hover:opacity-90 transition">
+                Send Message
+              </button>
+            </form>
+          </div>
 
-                <button
-                  type="submit"
-                  className="w-full bg-[#eeba2b] text-[#262626] py-3 rounded-lg hover:bg-[#d4a526] transition-colors font-semibold"
-                >
-                  Send Message
-                </button>
-              </form>
+          {/* Info — 2 cols */}
+          <div className="md:col-span-2 space-y-6">
+            {/* Contact cards */}
+            <div className="bg-[#1a1a1a] border border-[#262626] rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-white mb-5">Contact Information</h3>
+              <div className="space-y-5">
+                {contactInfo.map((item, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-gradient-to-r from-[#f7b91c]/10 to-[#d4a017]/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <item.icon className="size-4 text-[#f7b91c]" />
+                    </div>
+                    <div>
+                      <p className="text-gray-500 text-xs">{item.title}</p>
+                      {item.href ? (
+                        <a href={item.href} className="text-white text-sm font-medium hover:text-[#f7b91c] transition">{item.value}</a>
+                      ) : (
+                        <p className="text-white text-sm font-medium">{item.value}</p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            {/* Contact Information */}
-            <div className="space-y-8">
-              {/* Quick Contact */}
-              <div className="bg-[#33262B] p-8 rounded-xl border border-[#632D3F]/30">
-                <h3 className="text-2xl font-bold text-white mb-6">Get in Touch</h3>
-                <div className="space-y-4">
-                  <div className="flex items-center text-[#eeba2b]">
-                    <svg className="w-6 h-6 mr-4 text-[#eeba2b]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                    </svg>
-                    <div>
-                      <div className="font-semibold">Phone</div>
-                      <div>+1 (555) 123-4567</div>
-                    </div>
+            {/* Support hours */}
+            <div className="bg-[#1a1a1a] border border-[#262626] rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-white mb-5">Support Hours</h3>
+              <div className="space-y-3">
+                {[
+                  { day: 'Monday – Friday', time: '9:00 AM – 5:30 PM GMT' },
+                  { day: 'Saturday', time: '10:00 AM – 2:00 PM GMT' },
+                  { day: 'Sunday', time: 'Email support only' },
+                ].map((row, i) => (
+                  <div key={i} className="flex justify-between text-[13px]">
+                    <span className="text-gray-400">{row.day}</span>
+                    <span className="text-white font-medium">{row.time}</span>
                   </div>
-                  <div className="flex items-center text-[#eeba2b]">
-                    <svg className="w-6 h-6 mr-4 text-[#eeba2b]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                    </svg>
-                    <div>
-                      <div className="font-semibold">Email</div>
-                      <div>info@coreguardsms.com</div>
-                    </div>
-                  </div>
-                  <div className="flex items-start text-[#eeba2b]">
-                    <svg className="w-6 h-6 mr-4 text-[#eeba2b] mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                    </svg>
-                    <div>
-                      <div className="font-semibold">Headquarters</div>
-                      <div>123 Security Boulevard<br />San Francisco, CA 94105<br />United States</div>
-                    </div>
-                  </div>
-                </div>
+                ))}
               </div>
+            </div>
 
-              {/* Office Locations */}
-              <div className="bg-[#33262B] p-8 rounded-xl border border-[#632D3F]/30">
-                <h3 className="text-2xl font-bold text-white mb-6">Office Locations</h3>
-                <div className="space-y-6">
-                  <div>
-                    <h4 className="font-semibold text-[#eeba2b] mb-2">North America</h4>
-                    <div className="text-[#eeba2b] text-sm space-y-1">
-                      <div>• San Francisco, CA (HQ)</div>
-                      <div>• New York, NY</div>
-                      <div>• Toronto, ON</div>
-                      <div>• Los Angeles, CA</div>
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-[#eeba2b] mb-2">Europe</h4>
-                    <div className="text-[#eeba2b] text-sm space-y-1">
-                      <div>• London, UK</div>
-                      <div>• Berlin, Germany</div>
-                      <div>• Paris, France</div>
-                      <div>• Amsterdam, Netherlands</div>
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-[#eeba2b] mb-2">Asia Pacific</h4>
-                    <div className="text-[#eeba2b] text-sm space-y-1">
-                      <div>• Singapore</div>
-                      <div>• Sydney, Australia</div>
-                      <div>• Tokyo, Japan</div>
-                      <div>• Hong Kong</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Support Hours */}
-              <div className="bg-[#33262B] p-8 rounded-xl border border-[#632D3F]/30">
-                <h3 className="text-2xl font-bold text-white mb-6">Support Hours</h3>
-                <div className="space-y-3 text-[#eeba2b]">
-                  <div className="flex justify-between">
-                    <span>Monday - Friday</span>
-                    <span>6:00 AM - 6:00 PM PST</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Saturday</span>
-                    <span>8:00 AM - 4:00 PM PST</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Sunday</span>
-                    <span>Emergency Support Only</span>
-                  </div>
-                  <div className="flex justify-between font-semibold text-[#eeba2b]">
-                    <span>24/7 Emergency</span>
-                    <span>+1 (555) 911-HELP</span>
-                  </div>
-                </div>
+            {/* Quick links */}
+            <div className="bg-[#1a1a1a] border border-[#262626] rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-white mb-5">Quick Links</h3>
+              <div className="space-y-3">
+                {[
+                  { label: 'View Products', href: '/products' },
+                  { label: 'See Pricing', href: '/pricing' },
+                  { label: 'About CoreGuard', href: '/about' },
+                ].map((link, i) => (
+                  <a key={i} href={link.href} onClick={(e) => { e.preventDefault(); navigate(link.href); }}
+                    className="flex items-center justify-between text-[13px] text-gray-400 hover:text-[#f7b91c] transition group">
+                    {link.label}
+                    <ArrowRightIcon className="size-3.5 opacity-0 group-hover:opacity-100 transition" />
+                  </a>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Sales Team */}
-      <section className="py-16 px-12">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-white text-center mb-12">Our Sales Team</h2>
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              {
-                name: "Alexandra Chen",
-                title: "Enterprise Sales Director",
-                region: "North America",
-                email: "alexandra@coreguardsms.com",
-                phone: "+1 (555) 234-5678"
-              },
-              {
-                name: "Marcus Johnson",
-                title: "SMB Sales Manager",
-                region: "North America",
-                email: "marcus@coreguardsms.com",
-                phone: "+1 (555) 345-6789"
-              },
-              {
-                name: "Sophie Martin",
-                title: "European Sales Director",
-                region: "Europe",
-                email: "sophie@coreguardsms.com",
-                phone: "+44 20 1234 5678"
-              },
-              {
-                name: "Raj Patel",
-                title: "Asia Pacific Sales Manager",
-                region: "Asia Pacific",
-                email: "raj@coreguardsms.com",
-                phone: "+65 6123 4567"
-              }
-            ].map((person, index) => (
-              <div key={index} className="bg-[#33262B] p-6 rounded-xl border border-[#632D3F]/30 text-center">
-                <div className="w-20 h-20 bg-[#eeba2b] rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <span className="text-2xl font-bold text-[#262626]">{person.name.split(' ').map(n => n[0]).join('')}</span>
-                </div>
-                <h3 className="text-lg font-bold text-white mb-1">{person.name}</h3>
-                <p className="text-[#eeba2b] font-semibold mb-1">{person.title}</p>
-                <p className="text-[#eeba2b] text-sm mb-3">{person.region}</p>
-                <div className="space-y-2 text-[#eeba2b] text-sm">
-                  <div className="flex items-center justify-center">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                    </svg>
-                    {person.email}
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                    </svg>
-                    {person.phone}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+      {/* CTA */}
+      <section className="flex flex-col items-center justify-center px-6 py-28 md:px-16 lg:px-24">
+        <div className="flex flex-col items-center justify-center">
+          <h2 className="text-center text-3xl md:text-4xl font-bold tracking-tight text-white">Prefer a Demo?</h2>
+          <p className="mt-4 max-w-md text-center text-gray-400 md:max-w-xl leading-relaxed">Schedule a personalised walkthrough and see how CoreGuard can transform your security operations.</p>
+        </div>
+        <div className="flex flex-wrap items-center justify-center gap-4 mt-10">
+          <button onClick={() => navigate('/onboarding')} className="flex items-center gap-2 bg-gradient-to-r from-[#f7b91c] to-[#d4a017] hover:opacity-90 text-[#1a1a1a] font-semibold px-8 py-3.5 rounded-full transition">
+            Get Started Free <ArrowRightIcon className="size-4" />
+          </button>
+          <button onClick={() => navigate('/products')} className="flex items-center gap-2 border border-[#555] hover:border-[#f7b91c] text-white px-8 py-3.5 rounded-full transition">
+            View Products
+          </button>
         </div>
       </section>
 
-      {/* Map Section */}
-      <section className="py-16 px-12 bg-[#1e1e1e]">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-white text-center mb-12">Visit Our Headquarters</h2>
-          <div className="bg-[#33262B] p-8 rounded-xl border border-[#632D3F]/30">
-            <div className="aspect-w-16 aspect-h-9 bg-[#262626] rounded-lg flex items-center justify-center">
-              <div className="text-center">
-                <svg className="w-16 h-16 text-[#eeba2b] mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                </svg>
-                <p className="text-[#eeba2b] mb-4">Interactive Map</p>
-                <p className="text-[#eeba2b] text-sm">123 Security Boulevard, San Francisco, CA 94105</p>
-                <button className="mt-4 bg-[#eeba2b] text-[#262626] px-6 py-2 rounded-lg hover:bg-[#d4a526] transition-colors">
-                  Get Directions
-                </button>
-              </div>
-            </div>
+      {/* FOOTER */}
+      <footer className="px-6 md:px-16 lg:px-24 text-[13px] border-t border-[#262626] bg-[#0a0a0a]">
+        <div className="flex flex-wrap items-start gap-10 py-16 md:gap-16">
+          <div className="max-w-xs">
+            <img src={LOGO_URL} alt="CoreGuard UK" className="h-10 w-auto mb-4" />
+            <p className="text-gray-500 leading-relaxed">Enterprise security management for UK-regulated private security companies.</p>
+          </div>
+          <div>
+            <p className="font-semibold text-white mb-4">Platform</p>
+            <ul className="space-y-2.5">
+              {[{ t: 'Features', h: '/products' }, { t: 'Pricing', h: '/pricing' }, { t: 'Security', h: '/security' }].map((l) => (
+                <li key={l.t}><a href={l.h} onClick={(e) => { e.preventDefault(); navigate(l.h); }} className="text-gray-500 hover:text-[#f7b91c] transition">{l.t}</a></li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="font-semibold text-white mb-4">Company</p>
+            <ul className="space-y-2.5">
+              {[{ t: 'About Us', h: '/about' }, { t: 'Contact', h: '/contact' }].map((l) => (
+                <li key={l.t}><a href={l.h} onClick={(e) => { e.preventDefault(); navigate(l.h); }} className="text-gray-500 hover:text-[#f7b91c] transition">{l.t}</a></li>
+              ))}
+            </ul>
           </div>
         </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-12 bg-[#170A0F] text-white">
-        <div className="px-12 mx-auto max-w-7xl">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-4 md:mb-0">
-              <img src="https://i.ibb.co/wZ2KpQtK/Core-Guard-SMS-Official-Logo-white-2-1.png" alt="CoreGuard SMS Official Logo" className="mb-3" style={{width: 'calc(100% - 100px)', maxWidth: '300px'}} />
-              <div className="text-[#eeba2b]">Enterprise Security Management Platform</div>
-            </div>
-            <div className="flex gap-8">
-              <a href="/" className="text-[#eeba2b] hover:text-white transition-colors">Home</a>
-              <a href="/about" className="text-[#eeba2b] hover:text-white transition-colors">About</a>
-              <a href="/products" className="text-[#eeba2b] hover:text-white transition-colors">Products</a>
-              <a href="/pricing" className="text-[#eeba2b] hover:text-white transition-colors">Pricing</a>
-              <a href="/security" className="text-[#eeba2b] hover:text-white transition-colors">Security</a>
-              <a href="/contact" className="text-white hover:text-[#eeba2b] transition-colors">Contact</a>
-            </div>
-          </div>
-          <div className="text-center mt-8 text-[#eeba2b]/60">
-            &copy; 2026 CoreGuard SMS. All rights reserved.
+        <div className="flex flex-col md:flex-row py-6 border-t border-[#262626] md:justify-between max-md:items-center gap-3 items-end">
+          <p className="text-gray-600">&copy; 2026 CoreGuard UK Ltd. All rights reserved.</p>
+          <div className="flex items-center gap-4">
+            <a href="https://linkedin.com" target="_blank" rel="noreferrer"><LinkedinIcon className="size-5 text-gray-600 hover:text-[#f7b91c] transition" /></a>
+            <a href="https://twitter.com" target="_blank" rel="noreferrer"><TwitterIcon className="size-5 text-gray-600 hover:text-[#f7b91c] transition" /></a>
+            <a href="mailto:info@coreguarduk.com"><MailIcon className="size-5 text-gray-600 hover:text-[#f7b91c] transition" /></a>
           </div>
         </div>
       </footer>

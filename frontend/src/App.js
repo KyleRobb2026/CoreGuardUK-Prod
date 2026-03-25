@@ -30,6 +30,8 @@ import ContactPage from './react-pages/ContactPage';
 import SecurityPage from './react-pages/SecurityPage';
 import PartnersPage from './react-pages/PartnersPage';
 import ResourcesPage from './react-pages/ResourcesPage';
+import StatusPage from './react-pages/StatusPage';
+import IncidentsPage from './react-pages/IncidentsPage';
 
 function ProtectedRoute({ children, adminOnly = false }) {
   const { user, loading } = useAuth();
@@ -62,6 +64,8 @@ function AppRoutes() {
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/partners" element={<PartnersPage />} />
       <Route path="/resources" element={<ResourcesPage />} />
+      <Route path="/status" element={<StatusPage />} />
+      <Route path="/status/incidents" element={<IncidentsPage />} />
       
       {/* Authentication Routes */}
       <Route path="/login" element={<LoginPage />} />

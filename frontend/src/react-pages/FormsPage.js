@@ -232,7 +232,7 @@ export default function FormsPage() {
                         <input type="text" value={field.label} onChange={e => updateField(idx, { label: e.target.value })}
                           placeholder="Field label" className="flex-1 bg-transparent border-b border-[#2e2e2e] text-sm text-white outline-none pb-1 placeholder:text-[#676767]" />
                         <label className="flex items-center gap-1 text-xs text-[#a1a0a0]">
-                          <input type="checkbox" checked={field.required} onChange={e => updateField(idx, { required: e.target.checked })} className="accent-[#007AFF]" />
+                          <input type="checkbox" checked={field.required} onChange={e => updateField(idx, { required: e.target.checked })} className="accent-[#f7b91c]" />
                           Required
                         </label>
                         <button type="button" onClick={() => removeField(idx)} className="text-[#EF4444] hover:text-red-400"><Trash2 size={14} /></button>
@@ -281,7 +281,7 @@ export default function FormsPage() {
                     <div className="space-y-2">
                       {field.options?.map(o => (
                         <label key={o} className="flex items-center gap-2 text-sm text-white">
-                          <input type="checkbox" className="accent-[#007AFF]"
+                          <input type="checkbox" className="accent-[#f7b91c]"
                             checked={(formData[field.id] || []).includes(o)}
                             onChange={e => {
                               const current = formData[field.id] || [];

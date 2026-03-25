@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 
-const WS_BASE = process.env.REACT_APP_BACKEND_URL
-  ? process.env.REACT_APP_BACKEND_URL.replace(/^https/, 'wss').replace(/^http/, 'ws')
+const WS_BASE = process.env.NEXT_PUBLIC_API_URL
+  ? process.env.NEXT_PUBLIC_API_URL.replace(/^https/, 'wss').replace(/^http/, 'ws')
   : '';
 
 export function useRealtimeAlerts(orgId) {

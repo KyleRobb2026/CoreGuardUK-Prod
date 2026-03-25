@@ -1,108 +1,200 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  MenuIcon, XIcon, ChevronDown, ArrowRightIcon,
+  ShieldCheck, Users, MapPin, ClipboardCheck, Phone, FileText,
+  CheckCircle, LinkedinIcon, TwitterIcon, MailIcon,
+} from 'lucide-react';
 
-// Force dynamic rendering - prevent static generation
-export const dynamic = 'force-dynamic';
-export const revalidate = false;
+const LOGO_URL = 'https://i.ibb.co/wZ2KpQtK/Core-Guard-SMS-Official-Logo-white-2-1.png';
 
 export default function ProductsPage() {
   const navigate = useNavigate();
-  
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(null);
+
+  const links = [
+    { name: 'Home', href: '/' },
+    {
+      name: 'Products',
+      subLinks: [
+        { name: 'Personnel Management', href: '/products', icon: Users, description: 'Manage your entire workforce' },
+        { name: 'Site Management', href: '/products', icon: MapPin, description: 'Control all your locations' },
+        { name: 'Compliance Engine', href: '/products', icon: ShieldCheck, description: 'Automated SIA enforcement' },
+        { name: 'Check Calls', href: '/products', icon: Phone, description: 'Real-time welfare monitoring' },
+        { name: 'Audit & Reporting', href: '/products', icon: FileText, description: 'Full traceability & logs' },
+      ],
+    },
+    { name: 'About', href: '/about' },
+    { name: 'Pricing', href: '/pricing' },
+    { name: 'Contact', href: '/contact' },
+  ];
+
+  const modules = [
+    {
+      title: 'Personnel Management',
+      icon: Users,
+      description: 'Complete workforce registry with identity verification, role assignment, and document management.',
+      features: ['Officer profiles & documents', 'SIA licence tracking', 'Role-based access control', 'Training record management', 'BS7858 vetting support', 'Emergency contact registry'],
+    },
+    {
+      title: 'Site Management',
+      icon: MapPin,
+      description: 'Full control over every location — assignments, protocols, client requirements, and operational procedures.',
+      features: ['Multi-site dashboard', 'Assignment instructions', 'Client-specific protocols', 'Site risk assessments', 'Asset tracking', 'Geo-fenced check-ins'],
+    },
+    {
+      title: 'Compliance Engine',
+      icon: ShieldCheck,
+      description: 'Automated licence monitoring that blocks non-compliant deployments before they happen.',
+      features: ['Real-time licence validation', 'Expiry alerts & warnings', 'Deployment blocking rules', 'Compliance scoring', 'Regulatory change tracking', 'Automated enforcement'],
+    },
+    {
+      title: 'Check Calls',
+      icon: Phone,
+      description: 'Real-time welfare monitoring with automated escalation for lone workers and high-risk sites.',
+      features: ['Scheduled welfare checks', 'GPS-stamped responses', 'Missed call escalation', 'Lone worker protection', 'Supervisor alerts', 'Full audit trail'],
+    },
+    {
+      title: 'Audit & Reporting',
+      icon: FileText,
+      description: 'Every action logged, every decision traceable. Generate inspection-ready reports in seconds.',
+      features: ['Immutable audit logs', 'Custom report builder', 'Compliance dashboards', 'Export to PDF/CSV', 'SIA inspection packs', 'Trend analytics'],
+    },
+    {
+      title: 'Operations Centre',
+      icon: ClipboardCheck,
+      description: 'Real-time operational visibility — shift management, incident reporting, and live site status.',
+      features: ['Live shift tracker', 'Incident reporting', 'Digital forms & signatures', 'Shift handover notes', 'Real-time notifications', 'Duty roster management'],
+    },
+  ];
+
+  const techFeatures = [
+    { title: 'Infrastructure', items: ['UK/EU hosted infrastructure', 'End-to-end encryption', 'Role-based access controls', 'Regular penetration testing', 'Automated backups', 'GDPR compliant architecture'] },
+    { title: 'Integration & API', items: ['RESTful API access', 'Webhook support', 'Payroll system integration', 'HR platform connectors', 'Custom data exports', 'Mobile SDK (coming soon)'] },
+  ];
+
   return (
-    <div className="min-h-screen bg-[#262626] text-white">
-      {/* Navigation */}
-      <nav className="fixed w-full bg-[#262626] border-b border-[#632D3F]/30 backdrop-blur-md z-50">
-        <div className="px-12 py-4">
-          <div className="flex justify-between items-center">
-            {/* Logo */}
-            <div className="flex items-center">
-              <img src="https://i.ibb.co/wZ2KpQtK/Core-Guard-SMS-Official-Logo-white-2-1.png" alt="CoreGuard SMS Official Logo" style={{width: 'calc(100% - 100px)', maxWidth: '300px'}} />
-            </div>
-            
-            {/* Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
-              <a href="/" className="text-white hover:text-[#eeba2b] transition-colors">Home</a>
-              <a href="/about" className="text-[#eeba2b] hover:text-white transition-colors">About</a>
-              <a href="/products" className="text-white hover:text-[#eeba2b] transition-colors">Products</a>
-              <a href="/pricing" className="text-[#eeba2b] hover:text-white transition-colors">Pricing</a>
-              <a href="/security" className="text-[#eeba2b] hover:text-white transition-colors">Security</a>
-              <a href="/contact" className="text-[#eeba2b] hover:text-white transition-colors">Contact</a>
-            </nav>
-            
-            {/* CTA Button */}
-            <button 
-              onClick={() => navigate('/login')}
-              className="bg-[#eeba2b] hover:bg-[#d4a526] text-[#262626] px-6 py-2 rounded-lg font-semibold transition-colors"
-            >
-              Access Platform
-            </button>
-          </div>
+    <div className="min-h-screen bg-[#0f0f0f] text-sm antialiased text-gray-300">
+
+      {/* BANNER */}
+      <div className="flex w-full flex-wrap items-center justify-center gap-2 bg-gradient-to-r from-[#f7b91c] to-[#d4a017] py-2 text-center font-medium text-[#1a1a1a]">
+        <p className="text-sm">CoreGuard UK — Professional Security Management Platform</p>
+        <button onClick={() => navigate('/onboarding')} className="ml-2 flex items-center gap-1 rounded-md bg-[#1a1a1a] px-3 py-1 text-[#f7b91c] text-xs font-semibold transition hover:bg-[#262626] active:scale-95">
+          Get Started <ArrowRightIcon className="size-3.5" />
+        </button>
+      </div>
+
+      {/* NAVBAR */}
+      <nav className="sticky top-0 z-50 flex w-full items-center justify-between bg-[#0f0f0f]/80 px-4 py-3.5 backdrop-blur-md border-b border-[#262626] md:px-16 lg:px-24">
+        <a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); }}>
+          <img src={LOGO_URL} alt="CoreGuard UK" className="h-9 w-auto" />
+        </a>
+        <div className="hidden items-center space-x-7 text-gray-400 md:flex">
+          {links.map((link) =>
+            link.subLinks ? (
+              <div key={link.name} className="group relative" onMouseEnter={() => setOpenDropdown(link.name)} onMouseLeave={() => setOpenDropdown(null)}>
+                <div className="flex cursor-pointer items-center gap-1 text-white transition">
+                  {link.name} <ChevronDown className={`mt-px size-4 transition-transform duration-200 ${openDropdown === link.name ? 'rotate-180' : ''}`} />
+                </div>
+                <div className={`absolute top-8 left-0 z-40 w-[28rem] rounded-lg border border-[#333] bg-[#1a1a1a] p-3 shadow-xl transition-all duration-200 ${openDropdown === link.name ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-2 opacity-0'}`}>
+                  <p className="text-gray-500 text-xs px-2 pb-2">Explore our platform</p>
+                  <div className="grid grid-cols-2 gap-1">
+                    {link.subLinks.map((sub) => (
+                      <a href={sub.href} key={sub.name} onClick={(e) => { e.preventDefault(); navigate(sub.href); }} className="group/link flex items-center gap-2.5 rounded-md p-2.5 transition hover:bg-[#262626]">
+                        <div className="flex shrink-0 items-center justify-center rounded-md bg-gradient-to-r from-[#f7b91c] to-[#d4a017] p-2">
+                          <sub.icon className="size-4 text-[#1a1a1a]" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-white text-xs">{sub.name}</p>
+                          <p className="text-gray-500 text-[11px]">{sub.description}</p>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <a key={link.name} href={link.href} onClick={(e) => { e.preventDefault(); navigate(link.href); }} className="transition hover:text-white">{link.name}</a>
+            )
+          )}
         </div>
+        <div className="hidden md:flex items-center gap-3">
+          <button onClick={() => navigate('/login')} className="text-white hover:text-[#f7b91c] transition text-sm">Log In</button>
+          <button onClick={() => navigate('/onboarding')} className="rounded-full bg-gradient-to-r from-[#f7b91c] to-[#d4a017] px-6 py-2 font-medium text-[#1a1a1a] transition hover:opacity-90">Sign Up</button>
+        </div>
+        <button onClick={() => setMobileOpen(true)} className="transition active:scale-90 md:hidden text-white"><MenuIcon className="size-6" /></button>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-24 pb-16 px-12">
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-5xl font-bold text-white mb-6">CoreGuard SMS Platform</h1>
-          <p className="text-xl text-[#eeba2b] mb-8 max-w-3xl mx-auto">
-            Comprehensive security operations management platform designed for modern security companies and enterprises.
-          </p>
+      {/* MOBILE MENU */}
+      <div className={`fixed inset-0 z-[60] flex flex-col items-center justify-center gap-6 bg-[#0f0f0f]/95 text-lg font-medium backdrop-blur-2xl transition duration-300 md:hidden ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        {links.map((link) => (
+          <div key={link.name} className="text-center">
+            {link.subLinks ? (
+              <button onClick={() => navigate('/products')} className="text-gray-300 hover:text-white transition">{link.name}</button>
+            ) : (
+              <a href={link.href} onClick={(e) => { e.preventDefault(); navigate(link.href); setMobileOpen(false); }} className="text-gray-300 hover:text-white transition">{link.name}</a>
+            )}
+          </div>
+        ))}
+        <button onClick={() => { navigate('/login'); setMobileOpen(false); }} className="text-white hover:text-[#f7b91c]">Log In</button>
+        <button onClick={() => { navigate('/onboarding'); setMobileOpen(false); }} className="rounded-full bg-gradient-to-r from-[#f7b91c] to-[#d4a017] px-8 py-2.5 font-medium text-[#1a1a1a]">Sign Up</button>
+        <button onClick={() => setMobileOpen(false)} className="mt-4 rounded-md bg-gradient-to-r from-[#f7b91c] to-[#d4a017] p-2 text-[#1a1a1a]"><XIcon className="size-5" /></button>
+      </div>
+
+      {/* HERO */}
+      <section className="flex flex-col items-center justify-center px-6 py-28 md:px-16">
+        <div className="flex flex-wrap items-center justify-center rounded-full border border-[#f7b91c]/20 bg-[#f7b91c]/5 p-1.5 px-4 mb-8">
+          <span className="w-2 h-2 rounded-full bg-[#f7b91c] animate-pulse mr-2" />
+          <p className="text-[#f7b91c] text-xs font-medium">Platform Overview</p>
+        </div>
+        <h1 className="text-4xl md:text-5xl lg:text-6xl text-center font-bold max-w-3xl leading-[1.15] tracking-tight">
+          <span className="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">Everything You Need to Run </span>
+          <span className="bg-gradient-to-b from-[#f7b91c] to-[#d4a017] bg-clip-text text-transparent">Security Operations</span>
+        </h1>
+        <p className="text-gray-400 text-base md:text-lg text-center max-w-xl mt-6 leading-relaxed">
+          Six integrated modules covering personnel, sites, compliance, check calls, reporting, and live operations — all in one platform.
+        </p>
+      </section>
+
+      {/* MODULES */}
+      <section className="px-6 py-28 md:px-16 lg:px-24">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {modules.map((mod, i) => (
+            <div key={i} className="bg-[#1a1a1a] border border-[#262626] rounded-xl p-6 hover:border-[#f7b91c]/30 transition duration-300">
+              <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-[#f7b91c] to-[#d4a017] flex items-center justify-center mb-5">
+                <mod.icon className="size-6 text-[#1a1a1a]" />
+              </div>
+              <h3 className="text-lg font-semibold text-white mb-2">{mod.title}</h3>
+              <p className="text-gray-400 text-[14px] leading-relaxed mb-5">{mod.description}</p>
+              <ul className="space-y-2">
+                {mod.features.map((f, j) => (
+                  <li key={j} className="flex items-center gap-2 text-gray-400 text-[13px]">
+                    <CheckCircle className="size-3.5 text-[#f7b91c] shrink-0" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* Main Features Overview */}
-      <section className="py-16 px-12 bg-[#1e1e1e]">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-white text-center mb-12">Platform Capabilities</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Officer Management",
-                description: "Complete personnel management with secure access codes, training records, and compliance tracking.",
-                icon: "👥",
-                features: ["Secure access codes", "Training management", "Performance tracking", "License monitoring"]
-              },
-              {
-                title: "Site Operations",
-                description: "Multi-site management with dedicated operations, incident reporting, and site-specific protocols.",
-                icon: "🏢",
-                features: ["Multi-site support", "Site-specific protocols", "Incident reporting", "Asset tracking"]
-              },
-              {
-                title: "Smart Scheduling",
-                description: "AI-powered roster management with automated scheduling, conflict detection, and compliance validation.",
-                icon: "📅",
-                features: ["AI scheduling", "Conflict detection", "Compliance validation", "Shift reminders"]
-              },
-              {
-                title: "Lone Worker Safety",
-                description: "Advanced lone worker protection with automated check-ins, GPS tracking, and emergency escalation.",
-                icon: "🛡️",
-                features: ["Automated check-ins", "GPS tracking", "Emergency escalation", "Risk assessment"]
-              },
-              {
-                title: "Digital Forms",
-                description: "Customizable digital forms with mobile capture, digital signatures, and automated workflows.",
-                icon: "📝",
-                features: ["Custom forms", "Mobile capture", "Digital signatures", "Workflow automation"]
-              },
-              {
-                title: "Compliance Engine",
-                description: "Automated compliance management with regulatory tracking, audit trails, and reporting.",
-                icon: "✅",
-                features: ["Regulatory tracking", "Audit trails", "Automated reporting", "License management"]
-              }
-            ].map((feature, index) => (
-              <div key={index} className="bg-[#33262B] p-8 rounded-xl border border-[#632D3F]/30 hover:border-[#eeba2b]/50 transition-colors">
-                <div className="text-4xl mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
-                <p className="text-[#eeba2b] mb-4">{feature.description}</p>
-                <ul className="space-y-2">
-                  {feature.features.map((item, i) => (
-                    <li key={i} className="flex items-center text-[#eeba2b] text-sm">
-                      <svg className="w-4 h-4 mr-2 text-[#eeba2b]" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                      </svg>
+      {/* TECHNICAL */}
+      <section className="px-6 py-28 md:px-16 lg:px-24 bg-[#1a1a1a]/50 border-y border-[#262626]">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col items-center justify-center mb-14">
+            <h2 className="text-center text-3xl md:text-4xl font-bold tracking-tight text-white">Technical Foundation</h2>
+            <p className="mt-4 max-w-md text-center text-gray-400 md:max-w-xl leading-relaxed">Built with security-first architecture and designed for integration with your existing workflows.</p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {techFeatures.map((col, i) => (
+              <div key={i} className="bg-[#1a1a1a] border border-[#262626] rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-white mb-5">{col.title}</h3>
+                <ul className="space-y-3">
+                  {col.items.map((item, j) => (
+                    <li key={j} className="flex items-center gap-3 text-gray-400 text-[14px]">
+                      <CheckCircle className="size-4 text-[#f7b91c] shrink-0" />
                       {item}
                     </li>
                   ))}
@@ -113,244 +205,52 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      {/* Technical Features */}
-      <section className="py-16 px-12">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-white text-center mb-12">Technical Excellence</h2>
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="bg-[#33262B] p-8 rounded-xl border border-[#632D3F]/30">
-              <h3 className="text-2xl font-bold text-[#eeba2b] mb-6">Infrastructure & Security</h3>
-              <div className="space-y-4">
-                {[
-                  "99.9% uptime SLA guarantee",
-                  "24/7 monitoring and support",
-                  "End-to-end encryption",
-                  "SOC 2 Type II certified",
-                  "GDPR and CCPA compliant",
-                  "Regular security audits",
-                  "Disaster recovery protocols",
-                  "Multi-region data centers"
-                ].map((item, index) => (
-                  <div key={index} className="flex items-center text-[#eeba2b]">
-                    <svg className="w-5 h-5 mr-3 text-[#eeba2b]" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-                    </svg>
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="bg-[#33262B] p-8 rounded-xl border border-[#632D3F]/30">
-              <h3 className="text-2xl font-bold text-[#eeba2b] mb-6">Integration & API</h3>
-              <div className="space-y-4">
-                {[
-                  "RESTful API with comprehensive documentation",
-                  "Webhook support for real-time integrations",
-                  "Biometric device integration",
-                  "GPS and IoT device support",
-                  "Third-party HR system integration",
-                  "Custom reporting and analytics",
-                  "Mobile SDK for native applications",
-                  "White-label solutions available"
-                ].map((item, index) => (
-                  <div key={index} className="flex items-center text-[#eeba2b]">
-                    <svg className="w-5 h-5 mr-3 text-[#eeba2b]" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-                    </svg>
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+      {/* CTA */}
+      <section className="flex flex-col items-center justify-center px-6 py-28 md:px-16 lg:px-24">
+        <div className="flex flex-col items-center justify-center">
+          <h2 className="text-center text-3xl md:text-4xl font-bold tracking-tight text-white">Ready to See It in Action?</h2>
+          <p className="mt-4 max-w-md text-center text-gray-400 md:max-w-xl leading-relaxed">Get started with CoreGuard today and take control of your security operations.</p>
+        </div>
+        <div className="flex flex-wrap items-center justify-center gap-4 mt-10">
+          <button onClick={() => navigate('/onboarding')} className="flex items-center gap-2 bg-gradient-to-r from-[#f7b91c] to-[#d4a017] hover:opacity-90 text-[#1a1a1a] font-semibold px-8 py-3.5 rounded-full transition">
+            Get Started Free <ArrowRightIcon className="size-4" />
+          </button>
+          <button onClick={() => navigate('/contact')} className="flex items-center gap-2 border border-[#555] hover:border-[#f7b91c] text-white px-8 py-3.5 rounded-full transition">
+            Contact Sales
+          </button>
         </div>
       </section>
 
-      {/* Industry Solutions */}
-      <section className="py-16 px-12 bg-[#1e1e1e]">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-white text-center mb-12">Industry Solutions</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                industry: "Corporate Security",
-                description: "Enterprise-grade security management for corporate campuses, office buildings, and facilities.",
-                clients: "Fortune 500 companies, multinational corporations",
-                features: ["Access control", "Visitor management", "Incident response", "Compliance reporting"]
-              },
-              {
-                industry: "Healthcare Security",
-                description: "Specialized solutions for hospitals, clinics, and healthcare facilities with patient privacy focus.",
-                clients: "Major hospital systems, healthcare networks",
-                features: ["HIPAA compliance", "Patient safety", "Emergency response", "Staff protection"]
-              },
-              {
-                industry: "Educational Institutions",
-                description: "Comprehensive security management for schools, universities, and educational campuses.",
-                clients: "School districts, universities, educational institutions",
-                features: ["Campus security", "Student safety", "Emergency protocols", "Staff management"]
-              },
-              {
-                industry: "Retail Security",
-                description: "Loss prevention and asset protection solutions for retail chains and shopping centers.",
-                clients: "Major retailers, shopping malls, security contractors",
-                features: ["Loss prevention", "Asset protection", "Foot traffic monitoring", "Incident reporting"]
-              },
-              {
-                industry: "Government & Public",
-                description: "Secure solutions for government buildings, public facilities, and critical infrastructure.",
-                clients: "Government agencies, public facilities, municipalities",
-                features: ["High-security protocols", "Audit compliance", "Emergency management", "Staff vetting"]
-              },
-              {
-                industry: "Event Security",
-                description: "Temporary and permanent security solutions for venues, events, and crowd management.",
-                clients: "Event venues, stadiums, security contractors",
-                features: ["Crowd management", "Event coordination", "Staff deployment", "Incident tracking"]
-              }
-            ].map((solution, index) => (
-              <div key={index} className="bg-[#33262B] p-8 rounded-xl border border-[#632D3F]/30">
-                <h3 className="text-xl font-bold text-[#eeba2b] mb-3">{solution.industry}</h3>
-                <p className="text-[#eeba2b] mb-4">{solution.description}</p>
-                <div className="mb-4">
-                  <span className="text-sm text-[#eeba2b]/80">Trusted by:</span>
-                  <p className="text-sm text-[#eeba2b]">{solution.clients}</p>
-                </div>
-                <div className="space-y-2">
-                  {solution.features.map((feature, i) => (
-                    <div key={i} className="flex items-center text-[#eeba2b] text-sm">
-                      <svg className="w-3 h-3 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                      </svg>
-                      {feature}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
+      {/* FOOTER */}
+      <footer className="px-6 md:px-16 lg:px-24 text-[13px] border-t border-[#262626] bg-[#0a0a0a]">
+        <div className="flex flex-wrap items-start gap-10 py-16 md:gap-16">
+          <div className="max-w-xs">
+            <img src={LOGO_URL} alt="CoreGuard UK" className="h-10 w-auto mb-4" />
+            <p className="text-gray-500 leading-relaxed">Enterprise security management for UK-regulated private security companies.</p>
+          </div>
+          <div>
+            <p className="font-semibold text-white mb-4">Platform</p>
+            <ul className="space-y-2.5">
+              {['Features', 'Pricing', 'Security'].map((t) => (
+                <li key={t}><a href={`/${t.toLowerCase()}`} onClick={(e) => { e.preventDefault(); navigate(`/${t.toLowerCase()}`); }} className="text-gray-500 hover:text-[#f7b91c] transition">{t}</a></li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="font-semibold text-white mb-4">Company</p>
+            <ul className="space-y-2.5">
+              {[{ t: 'About Us', h: '/about' }, { t: 'Contact', h: '/contact' }].map((l) => (
+                <li key={l.t}><a href={l.h} onClick={(e) => { e.preventDefault(); navigate(l.h); }} className="text-gray-500 hover:text-[#f7b91c] transition">{l.t}</a></li>
+              ))}
+            </ul>
           </div>
         </div>
-      </section>
-
-      {/* Mobile App */}
-      <section className="py-16 px-12">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl font-bold text-white mb-6">Mobile Excellence</h2>
-              <p className="text-[#eeba2b] mb-6">
-                Our native mobile applications provide field personnel with instant access to critical information and real-time communication capabilities.
-              </p>
-              <div className="grid grid-cols-2 gap-6 mb-8">
-                <div>
-                  <h4 className="text-lg font-bold text-[#eeba2b] mb-3">iOS App</h4>
-                  <ul className="space-y-2 text-[#eeba2b] text-sm">
-                    <li>• Native iOS experience</li>
-                    <li>• Face ID & Touch ID support</li>
-                    <li>• Offline mode capability</li>
-                    <li>• Push notifications</li>
-                    <li>• GPS tracking integration</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="text-lg font-bold text-[#eeba2b] mb-3">Android App</h4>
-                  <ul className="space-y-2 text-[#eeba2b] text-sm">
-                    <li>• Native Android experience</li>
-                    <li>• Biometric authentication</li>
-                    <li>• Offline mode capability</li>
-                    <li>• Push notifications</li>
-                    <li>• GPS tracking integration</li>
-                  </ul>
-                </div>
-              </div>
-              <div className="flex space-x-4">
-                <button className="bg-black text-white px-6 py-3 rounded-lg flex items-center">
-                  <svg className="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
-                  </svg>
-                  App Store
-                </button>
-                <button className="bg-black text-white px-6 py-3 rounded-lg flex items-center">
-                  <svg className="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M3 20.5v-17c0-.83.67-1.5 1.5-1.5h14c.83 0 1.5.67 1.5 1.5v17c0 .83-.67 1.5-1.5 1.5h-14c-.83 0-1.5-.67-1.5-1.5zm8.5-15.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0 3c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z"/>
-                  </svg>
-                  Google Play
-                </button>
-              </div>
-            </div>
-            <div className="bg-[#33262B] p-8 rounded-xl border border-[#632D3F]/30">
-              <div className="grid grid-cols-2 gap-6">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-[#eeba2b] mb-2">4.8★</div>
-                  <div className="text-[#eeba2b] text-sm">App Store Rating</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-[#eeba2b] mb-2">4.7★</div>
-                  <div className="text-[#eeba2b] text-sm">Google Play Rating</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-[#eeba2b] mb-2">50K+</div>
-                  <div className="text-[#eeba2b] text-sm">Active Users</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-[#eeba2b] mb-2">99.9%</div>
-                  <div className="text-[#eeba2b] text-sm">Uptime</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 px-12 bg-[#1e1e1e]">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">Ready to Transform Your Operations?</h2>
-          <p className="text-xl text-[#eeba2b] mb-8 max-w-2xl mx-auto">
-            Schedule a personalized demo to see how CoreGuard SMS can revolutionize your security operations.
-          </p>
-          <div className="space-x-0 md:space-x-4">
-            <button 
-              onClick={() => navigate('/contact')}
-              className="inline-flex items-center justify-center px-6 py-3 text-lg text-[#262626] bg-[#eeba2b] rounded-2xl hover:bg-[#d4a526] transition-colors"
-            >
-              Schedule Demo
-              <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-              </svg>
-            </button>
-            <button 
-              onClick={() => navigate('/pricing')}
-              className="inline-flex items-center justify-center px-6 py-3 text-lg bg-[#33262B] text-white rounded-2xl hover:bg-[#634B53] transition-colors"
-            >
-              View Pricing
-              <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-12 bg-[#170A0F] text-white">
-        <div className="px-12 mx-auto max-w-7xl">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-4 md:mb-0">
-              <img src="https://i.ibb.co/wZ2KpQtK/Core-Guard-SMS-Official-Logo-white-2-1.png" alt="CoreGuard SMS Official Logo" className="mb-3" style={{width: 'calc(100% - 100px)', maxWidth: '300px'}} />
-              <div className="text-[#eeba2b]">Enterprise Security Management Platform</div>
-            </div>
-            <div className="flex gap-8">
-              <a href="/" className="text-[#eeba2b] hover:text-white transition-colors">Home</a>
-              <a href="/about" className="text-[#eeba2b] hover:text-white transition-colors">About</a>
-              <a href="/products" className="text-white hover:text-[#eeba2b] transition-colors">Products</a>
-              <a href="/pricing" className="text-[#eeba2b] hover:text-white transition-colors">Pricing</a>
-              <a href="/security" className="text-[#eeba2b] hover:text-white transition-colors">Security</a>
-              <a href="/contact" className="text-[#eeba2b] hover:text-white transition-colors">Contact</a>
-            </div>
-          </div>
-          <div className="text-center mt-8 text-[#eeba2b]/60">
-            © 2026 CoreGuard SMS. All rights reserved.
+        <div className="flex flex-col md:flex-row py-6 border-t border-[#262626] md:justify-between max-md:items-center gap-3 items-end">
+          <p className="text-gray-600">&copy; 2026 CoreGuard UK Ltd. All rights reserved.</p>
+          <div className="flex items-center gap-4">
+            <a href="https://linkedin.com" target="_blank" rel="noreferrer"><LinkedinIcon className="size-5 text-gray-600 hover:text-[#f7b91c] transition" /></a>
+            <a href="https://twitter.com" target="_blank" rel="noreferrer"><TwitterIcon className="size-5 text-gray-600 hover:text-[#f7b91c] transition" /></a>
+            <a href="mailto:info@coreguarduk.com"><MailIcon className="size-5 text-gray-600 hover:text-[#f7b91c] transition" /></a>
           </div>
         </div>
       </footer>

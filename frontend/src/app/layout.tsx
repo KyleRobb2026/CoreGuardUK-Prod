@@ -13,15 +13,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
       <body style={{ margin: 0, padding: 0 }}>
-        <div id="root">
-          {children}
-        </div>
+        {children}
       </body>
     </html>
   );

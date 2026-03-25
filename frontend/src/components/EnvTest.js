@@ -1,9 +1,9 @@
 import React from 'react';
 
 export default function EnvTest() {
-  const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
-  const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
-  const backendUrl = process.env.REACT_APP_BACKEND_URL;
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const backendUrl = process.env.NEXT_PUBLIC_API_URL;
 
   return (
     <div style={{ 
@@ -34,7 +34,7 @@ export default function EnvTest() {
         <p><strong>Next Steps:</strong></p>
         <ol>
           <li>Check .env file exists in project root</li>
-          <li>Verify REACT_APP_ prefix is used</li>
+          <li>Verify NEXT_PUBLIC_ prefix is used</li>
           <li>Restart app after changing .env</li>
           <li>Get valid Supabase credentials from dashboard</li>
         </ol>

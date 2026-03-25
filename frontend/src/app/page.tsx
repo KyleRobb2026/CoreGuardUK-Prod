@@ -7,6 +7,7 @@ import { AuthProvider, useAuth } from '../contexts/AuthContext';
 import { SupabaseProvider, useSupabase } from '../contexts/SupabaseContext';
 import AppLayout from '../components/layout/AppLayout';
 import SupabaseConfigWarning from '../components/SupabaseConfigWarning';
+import ErrorBoundary from '../components/ErrorBoundary';
 
 // Pages
 import LandingPage from '../react-pages/LandingPage';
@@ -33,9 +34,8 @@ import ContactPage from '../react-pages/ContactPage';
 import SecurityPage from '../react-pages/SecurityPage';
 import PartnersPage from '../react-pages/PartnersPage';
 import ResourcesPage from '../react-pages/ResourcesPage';
-
-// Force dynamic rendering
-export const dynamic = 'force-dynamic';
+import StatusPage from '../react-pages/StatusPage';
+import IncidentsPage from '../react-pages/IncidentsPage';
 
 function ProtectedRoute({ children, adminOnly = false }: { children: React.ReactNode; adminOnly?: boolean }) {
   const { user, loading } = useAuth();
@@ -66,6 +66,8 @@ function AppRoutes() {
       <Route path="/pricing" element={<PricingPage />} />
       <Route path="/security" element={<SecurityPage />} />
       <Route path="/contact" element={<ContactPage />} />
+      <Route path="/status" element={<StatusPage />} />
+      <Route path="/status/incidents" element={<IncidentsPage />} />
       
       {/* Authentication Routes */}
       <Route path="/login" element={<LoginPage />} />
@@ -110,29 +112,31 @@ function SupabaseConfigCheck({ children }: { children: React.ReactNode }) {
 
 function AppContent() {
   return (
-    <SupabaseProvider>
-      <SupabaseConfigCheck>
-        <AuthProvider>
-          <BrowserRouter>
-            <AppRoutes />
-            <Toaster
-              position="top-right"
-              theme="dark"
-              toastOptions={{
-                style: {
-                  background: '#333333',
-                  border: '1px solid #525252',
-                  color: '#E5E5E5',
-                  borderRadius: '2px',
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '13px',
-                },
-              }}
-            />
-          </BrowserRouter>
-        </AuthProvider>
-      </SupabaseConfigCheck>
-    </SupabaseProvider>
+    <ErrorBoundary>
+      <SupabaseProvider>
+        <SupabaseConfigCheck>
+          <AuthProvider>
+            <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+              <AppRoutes />
+              <Toaster
+                position="top-right"
+                theme="dark"
+                toastOptions={{
+                  style: {
+                    background: '#333333',
+                    border: '1px solid #525252',
+                    color: '#E5E5E5',
+                    borderRadius: '2px',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '13px',
+                  },
+                }}
+              />
+            </BrowserRouter>
+          </AuthProvider>
+        </SupabaseConfigCheck>
+      </SupabaseProvider>
+    </ErrorBoundary>
   );
 }
 
@@ -155,15 +159,6 @@ export default function App() {
         fontFamily: 'system-ui, -apple-system, sans-serif'
       }}>
         <div style={{ textAlign: 'center' }}>
-          <div style={{
-            width: '40px',
-            height: '40px',
-            border: '3px solid #f7b91c',
-            borderTop: '3px solid transparent',
-            borderRadius: '50%',
-            animation: 'spin 1s linear infinite',
-            margin: '0 auto 1rem'
-          }} />
           <h1 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>CoreGuard UK</h1>
           <p style={{ color: '#a1a0a0' }}>Loading system...</p>
         </div>

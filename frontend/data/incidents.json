@@ -1,0 +1,16 @@
+[
+  {
+    "id": "inc-001",
+    "title": "Scheduled Maintenance — Database Migration",
+    "description": "Planned maintenance window for database schema updates. No downtime expected.",
+    "status": "resolved",
+    "service": "database",
+    "createdAt": "2026-03-20T02:00:00Z",
+    "updatedAt": "2026-03-20T04:30:00Z",
+    "updates": [
+      { "status": "investigating", "message": "Starting scheduled maintenance.", "timestamp": "2026-03-20T02:00:00Z" },
+      { "status": "identified", "message": "Migration in progress. All systems remain online.", "timestamp": "2026-03-20T02:45:00Z" },
+      { "status": "resolved", "message": "Maintenance completed successfully. All systems nominal.", "timestamp": "2026-03-20T04:30:00Z" }
+    ]
+  }
+]
