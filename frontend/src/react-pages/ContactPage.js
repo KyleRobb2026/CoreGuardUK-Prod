@@ -43,7 +43,7 @@ export default function ContactPage() {
   ];
 
   const contactInfo = [
-    { icon: MailIcon, title: 'Email', value: 'info@coreguarduk.com', href: 'mailto:info@coreguarduk.com' },
+    { icon: MailIcon, title: 'Email', value: 'info@coreguard-uk.co.uk', href: 'mailto:info@coreguard-uk.co.uk' },
     { icon: Phone, title: 'Phone', value: '+44 (0) 800 000 0000', href: 'tel:+448000000000' },
     { icon: MapPinIcon, title: 'Location', value: 'United Kingdom', href: null },
     { icon: Clock, title: 'Response Time', value: 'Within 24 hours', href: null },
@@ -299,7 +299,7 @@ export default function ContactPage() {
           <div className="flex items-center gap-4">
             <a href="https://linkedin.com" target="_blank" rel="noreferrer"><LinkedinIcon className="size-5 text-gray-600 hover:text-[#f7b91c] transition" /></a>
             <a href="https://twitter.com" target="_blank" rel="noreferrer"><TwitterIcon className="size-5 text-gray-600 hover:text-[#f7b91c] transition" /></a>
-            <a href="mailto:info@coreguarduk.com"><MailIcon className="size-5 text-gray-600 hover:text-[#f7b91c] transition" /></a>
+            <a href="mailto:info@coreguard-uk.co.uk"><MailIcon className="size-5 text-gray-600 hover:text-[#f7b91c] transition" /></a>
           </div>
         </div>
       </footer>

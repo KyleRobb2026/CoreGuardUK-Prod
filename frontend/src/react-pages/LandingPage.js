@@ -508,7 +508,7 @@ export default function LandingPage() {
             <a href="https://twitter.com" target="_blank" rel="noreferrer">
               <TwitterIcon className="size-5 text-gray-600 hover:text-[#f7b91c] transition" />
             </a>
-            <a href="mailto:info@coreguarduk.com">
+            <a href="mailto:info@coreguard-uk.co.uk">
               <MailIcon className="size-5 text-gray-600 hover:text-[#f7b91c] transition" />
             </a>
           </div>

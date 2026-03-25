@@ -198,7 +198,7 @@ export default function IncidentsPage() {
             <a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); }} className="text-gray-500 hover:text-[#f7b91c] transition flex items-center gap-1">
               CoreGuard UK <ExternalLink className="size-3" />
             </a>
-            <a href="mailto:support@coreguarduk.com" className="text-gray-500 hover:text-[#f7b91c] transition">Support</a>
+            <a href="mailto:support@coreguard-uk.co.uk" className="text-gray-500 hover:text-[#f7b91c] transition">Support</a>
           </div>
         </div>
       </footer>

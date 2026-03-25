@@ -231,7 +231,7 @@ export default function StatusPage() {
           <p className="text-gray-500 text-xs leading-relaxed">
             This page shows the real-time status of CoreGuard UK services. Status is updated automatically every 60 seconds.
             <br />
-            For urgent issues, contact <a href="mailto:support@coreguarduk.com" className="text-[#f7b91c] hover:underline">support@coreguarduk.com</a>
+            For urgent issues,            <a href="mailto:support@coreguard-uk.co.uk" className="text-[#f7b91c] hover:underline">support@coreguard-uk.co.uk</a>
           </p>
         </div>
       </main>
@@ -244,7 +244,7 @@ export default function StatusPage() {
             <a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); }} className="text-gray-500 hover:text-[#f7b91c] transition flex items-center gap-1">
               CoreGuard UK <ExternalLink className="size-3" />
             </a>
-            <a href="mailto:support@coreguarduk.com" className="text-gray-500 hover:text-[#f7b91c] transition">Support</a>
+            <a href="mailto:support@coreguard-uk.co.uk" className="text-gray-500 hover:text-[#f7b91c] transition">Support</a>
           </div>
         </div>
       </footer>

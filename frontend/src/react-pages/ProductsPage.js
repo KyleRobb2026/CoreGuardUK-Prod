@@ -250,7 +250,7 @@ export default function ProductsPage() {
           <div className="flex items-center gap-4">
             <a href="https://linkedin.com" target="_blank" rel="noreferrer"><LinkedinIcon className="size-5 text-gray-600 hover:text-[#f7b91c] transition" /></a>
             <a href="https://twitter.com" target="_blank" rel="noreferrer"><TwitterIcon className="size-5 text-gray-600 hover:text-[#f7b91c] transition" /></a>
-            <a href="mailto:info@coreguarduk.com"><MailIcon className="size-5 text-gray-600 hover:text-[#f7b91c] transition" /></a>
+            <a href="mailto:support@coreguard-uk.co.uk" className="text-[#f7b91c] hover:underline">support@coreguard-uk.co.uk</a>
           </div>
         </div>
       </footer>

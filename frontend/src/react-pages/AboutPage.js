@@ -271,7 +271,7 @@ export default function AboutPage() {
           <div className="flex items-center gap-4">
             <a href="https://linkedin.com" target="_blank" rel="noreferrer"><LinkedinIcon className="size-5 text-gray-600 hover:text-[#f7b91c] transition" /></a>
             <a href="https://twitter.com" target="_blank" rel="noreferrer"><TwitterIcon className="size-5 text-gray-600 hover:text-[#f7b91c] transition" /></a>
-            <a href="mailto:info@coreguarduk.com"><MailIcon className="size-5 text-gray-600 hover:text-[#f7b91c] transition" /></a>
+            <a href="mailto:info@coreguard-uk.co.uk"><MailIcon className="size-5 text-gray-600 hover:text-[#f7b91c] transition" /></a>
           </div>
         </div>
       </footer>
