@@ -2,8 +2,9 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { SupabaseProvider } from './contexts/SupabaseContext';
+import { SupabaseProvider, useSupabase } from './contexts/SupabaseContext';
 import AppLayout from './components/layout/AppLayout';
+import SupabaseConfigWarning from './components/SupabaseConfigWarning';
 
 // Pages
 import LandingPage from './react-pages/LandingPage';
@@ -52,10 +53,16 @@ function OfficerRoute({ children }) {
   return children;
 }
 
+function SupabaseGate({ children }) {
+  const { isConfigured } = useSupabase();
+  if (!isConfigured) return <SupabaseConfigWarning />;
+  return <AuthProvider>{children}</AuthProvider>;
+}
+
 function AppRoutes() {
   return (
     <Routes>
-      {/* Public Website Routes */}
+      {/* Public Website Routes — no Supabase required */}
       <Route path="/" element={<LandingPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/products" element={<ProductsPage />} />
@@ -66,13 +73,13 @@ function AppRoutes() {
       <Route path="/resources" element={<ResourcesPage />} />
       <Route path="/status" element={<StatusPage />} />
       <Route path="/status/incidents" element={<IncidentsPage />} />
-      
-      {/* Authentication Routes */}
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/onboarding" element={<OnboardingPage />} />
+
+      {/* Auth & Protected Routes — require Supabase */}
+      <Route element={<SupabaseGate><LoginPage /></SupabaseGate>} path="/login" />
+      <Route element={<SupabaseGate><OnboardingPage /></SupabaseGate>} path="/onboarding" />
 
       {/* Admin routes */}
-      <Route element={<ProtectedRoute adminOnly><AppLayout /></ProtectedRoute>}>
+      <Route element={<SupabaseGate><ProtectedRoute adminOnly><AppLayout /></ProtectedRoute></SupabaseGate>}>
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/personnel" element={<PersonnelPage />} />
         <Route path="/sites" element={<SitesPage />} />
@@ -86,7 +93,7 @@ function AppRoutes() {
       </Route>
 
       {/* Officer routes */}
-      <Route element={<OfficerRoute><AppLayout /></OfficerRoute>}>
+      <Route element={<SupabaseGate><OfficerRoute><AppLayout /></OfficerRoute></SupabaseGate>}>
         <Route path="/officer/dashboard" element={<OfficerDashboardPage />} />
         <Route path="/officer/logs" element={<LogsPage />} />
         <Route path="/officer/check-calls" element={<OfficerCheckCallPage />} />
@@ -101,25 +108,23 @@ function AppRoutes() {
 export default function App() {
   return (
     <SupabaseProvider>
-      <AuthProvider>
-        <BrowserRouter>
-          <AppRoutes />
-          <Toaster
-            position="top-right"
-            theme="dark"
-            toastOptions={{
-              style: {
-                background: '#333333',
-                border: '1px solid #525252',
-                color: '#E5E5E5',
-                borderRadius: '2px',
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '13px',
-              },
-            }}
-          />
-        </BrowserRouter>
-      </AuthProvider>
+      <BrowserRouter>
+        <AppRoutes />
+        <Toaster
+          position="top-right"
+          theme="dark"
+          toastOptions={{
+            style: {
+              background: '#333333',
+              border: '1px solid #525252',
+              color: '#E5E5E5',
+              borderRadius: '2px',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '13px',
+            },
+          }}
+        />
+      </BrowserRouter>
     </SupabaseProvider>
   );
 }

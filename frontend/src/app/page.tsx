@@ -56,10 +56,16 @@ function OfficerRoute({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+function SupabaseGate({ children }: { children: React.ReactNode }) {
+  const { isConfigured } = useSupabase();
+  if (!isConfigured) return <SupabaseConfigWarning />;
+  return <AuthProvider>{children}</AuthProvider>;
+}
+
 function AppRoutes() {
   return (
     <Routes>
-      {/* Public Website Routes */}
+      {/* Public Website Routes — no Supabase required */}
       <Route path="/" element={<LandingPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/products" element={<ProductsPage />} />
@@ -68,13 +74,13 @@ function AppRoutes() {
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/status" element={<StatusPage />} />
       <Route path="/status/incidents" element={<IncidentsPage />} />
-      
-      {/* Authentication Routes */}
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/onboarding" element={<OnboardingPage />} />
+
+      {/* Auth & Protected Routes — require Supabase */}
+      <Route element={<SupabaseGate><LoginPage /></SupabaseGate>} path="/login" />
+      <Route element={<SupabaseGate><OnboardingPage /></SupabaseGate>} path="/onboarding" />
 
       {/* Admin routes */}
-      <Route element={<ProtectedRoute adminOnly><AppLayout /></ProtectedRoute>}>
+      <Route element={<SupabaseGate><ProtectedRoute adminOnly><AppLayout /></ProtectedRoute></SupabaseGate>}>
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/personnel" element={<PersonnelPage />} />
         <Route path="/sites" element={<SitesPage />} />
@@ -88,7 +94,7 @@ function AppRoutes() {
       </Route>
 
       {/* Officer routes */}
-      <Route element={<OfficerRoute><AppLayout /></OfficerRoute>}>
+      <Route element={<SupabaseGate><OfficerRoute><AppLayout /></OfficerRoute></SupabaseGate>}>
         <Route path="/officer/dashboard" element={<OfficerDashboardPage />} />
         <Route path="/officer/logs" element={<LogsPage />} />
         <Route path="/officer/check-calls" element={<OfficerCheckCallPage />} />
@@ -100,41 +106,27 @@ function AppRoutes() {
   );
 }
 
-function SupabaseConfigCheck({ children }: { children: React.ReactNode }) {
-  const { isConfigured } = useSupabase();
-  
-  if (!isConfigured) {
-    return <SupabaseConfigWarning />;
-  }
-  
-  return <>{children}</>;
-}
-
 function AppContent() {
   return (
     <ErrorBoundary>
       <SupabaseProvider>
-        <SupabaseConfigCheck>
-          <AuthProvider>
-            <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-              <AppRoutes />
-              <Toaster
-                position="top-right"
-                theme="dark"
-                toastOptions={{
-                  style: {
-                    background: '#333333',
-                    border: '1px solid #525252',
-                    color: '#E5E5E5',
-                    borderRadius: '2px',
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '13px',
-                  },
-                }}
-              />
-            </BrowserRouter>
-          </AuthProvider>
-        </SupabaseConfigCheck>
+        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+          <AppRoutes />
+          <Toaster
+            position="top-right"
+            theme="dark"
+            toastOptions={{
+              style: {
+                background: '#333333',
+                border: '1px solid #525252',
+                color: '#E5E5E5',
+                borderRadius: '2px',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '13px',
+              },
+            }}
+          />
+        </BrowserRouter>
       </SupabaseProvider>
     </ErrorBoundary>
   );
