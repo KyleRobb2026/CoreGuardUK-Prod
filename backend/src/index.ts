@@ -24,12 +24,31 @@ app.use(helmet({
 }));
 
 // CORS configuration
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'https://www.coreguard-uk.co.uk',
+  'https://coreguard-uk.co.uk',
+  'https://app.coreguardsms.co.uk',
+  process.env.CORS_ORIGIN,
+  process.env.FRONTEND_URL,
+].filter(Boolean);
+
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(null, true); // allow all for now
+    }
+  },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
 }));
+
+// Handle preflight requests
+app.options('*', cors());
 
 // General middleware
 app.use(compression());
@@ -217,6 +236,50 @@ app.get('/api/personnel', (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ error: 'Failed to get personnel' });
+  }
+});
+
+// Organisation onboarding
+app.post('/api/organisations/onboard', (req, res) => {
+  try {
+    const { org_data, admin_data, subscription_data } = req.body;
+
+    if (!org_data?.name || !org_data?.email) {
+      return res.status(400).json({ detail: 'Company name and email are required' });
+    }
+    if (!admin_data?.email || !admin_data?.password) {
+      return res.status(400).json({ detail: 'Admin email and password are required' });
+    }
+
+    const orgId = `org_${Date.now()}`;
+    const userId = `user_${Date.now()}`;
+
+    const token = jwt.sign(
+      { sub: userId, org: orgId, role: 'admin', actor_type: 'admin' },
+      process.env.JWT_SECRET || 'fallback-secret-for-railway',
+      { expiresIn: '24h' }
+    );
+
+    res.status(201).json({
+      token,
+      user: {
+        id: userId,
+        email: admin_data.email,
+        first_name: admin_data.first_name || 'Admin',
+        last_name: admin_data.last_name || 'User',
+        role: 'admin',
+        actor_type: 'admin',
+        organisation_id: orgId,
+      },
+      organisation: {
+        id: orgId,
+        name: org_data.name,
+        email: org_data.email,
+        subscription_plan: subscription_data?.plan || 'starter',
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ detail: 'Registration failed' });
   }
 });
 
