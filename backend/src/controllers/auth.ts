@@ -110,6 +110,8 @@ router.post('/register', validateRequest(schemas.register), catchAsync(async (re
 
 // POST /api/auth/login
 router.post('/login', validateRequest(schemas.login), catchAsync(async (req: ValidatedRequest, res: Response) => {
+  // Test error - intentional break
+  throw new Error('Test error for login endpoint');
   const { email, password } = req.validatedBody;
 
   // Find user
