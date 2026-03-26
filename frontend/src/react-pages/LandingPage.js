@@ -252,11 +252,11 @@ export default function LandingPage() {
       </div>
 
       {/* ═══ HERO ═══ */}
-      <section className="flex flex-col items-center justify-center relative min-h-[90vh] overflow-hidden px-6 py-24 md:px-16">
+      <section className="flex flex-col items-center justify-center relative min-h-[90vh] overflow-hidden px-6 py-24 md:px-16 z-10">
         {/* Background test - simple solid color */}
-        <div className="absolute inset-0 -z-10 w-full h-full bg-red-500">
+        <div className="fixed inset-0 w-full h-screen bg-red-500 z-0">
           {/* Test text */}
-          <div className="absolute top-4 left-4 text-white text-2xl font-bold">TEST BACKGROUND</div>
+          <div className="absolute top-4 left-4 text-white text-2xl font-bold z-10">TEST BACKGROUND</div>
         </div>
         
         {/* Background glow for additional depth */}
