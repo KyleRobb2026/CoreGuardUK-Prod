@@ -253,19 +253,19 @@ export default function LandingPage() {
       {/* ═══ HERO ═══ */}
       <section className="flex flex-col items-center justify-center relative min-h-[90vh] overflow-hidden px-6 py-24 md:px-16">
         {/* Background image with overlay */}
-        <div 
-          className="absolute inset-0 -z-10 w-full h-full"
-          style={{
-            backgroundImage: `
-              linear-gradient(to bottom, rgba(15, 15, 15, 0.7), rgba(15, 15, 15, 0.85), rgba(15, 15, 15, 0.95)),
-              url('https://images.unsplash.com/photo-1563729784474-dfdb12c6e5d5?w=1920&h=1080&fit=crop&auto=format')
-            `,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            backgroundColor: '#1a1a1a' // Fallback color
-          }}
-        />
+        <div className="absolute inset-0 -z-10 w-full h-full bg-gradient-to-br from-[#1a1a1a] via-[#0f0f0f] to-[#1a1a1a]">
+          {/* Simple test image */}
+          <div 
+            className="absolute inset-0 w-full h-full opacity-30"
+            style={{
+              backgroundImage: "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMTkyMCIgeTI9IjEwODAiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj48c3RvcCBzdG9wLWNvbG9yPSIjZjdiOTE5Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMWExYTFhIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjE5MjAiIGhlaWdodD0iMTA4MCIgZmlsbD0idXJsKCNnKSIvPjx0ZXh0IHg9Ijk2MCIgeT0iNTQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNDgiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkNvcmVHdWFyZDwvdGV4dD48L3N2Zz4=')",
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          />
+          {/* Dark overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0f0f0f]/70 via-[#0f0f0f]/85 to-[#0f0f0f]/95" />
+        </div>
         
         {/* Background glow for additional depth */}
         <svg className="absolute inset-0 -z-10 w-full h-full mix-blend-screen" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
