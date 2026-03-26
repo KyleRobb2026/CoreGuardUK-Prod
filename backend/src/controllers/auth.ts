@@ -110,8 +110,6 @@ router.post('/register', validateRequest(schemas.register), catchAsync(async (re
 
 // POST /api/auth/login
 router.post('/login', validateRequest(schemas.login), catchAsync(async (req: ValidatedRequest, res: Response) => {
-  // Test error - intentional break
-  throw new Error('Test error for login endpoint');
   const { email, password } = req.validatedBody;
 
   // Find user
@@ -240,6 +238,106 @@ router.post('/logout', catchAsync(async (req: AuthenticatedRequest, res: Respons
 
   res.json({
     message: 'Logout successful',
+  });
+}));
+
+// POST /api/organisations/onboard
+router.post('/organisations/onboard', catchAsync(async (req: Request, res: Response) => {
+  const { org_data, admin_data, subscription_data } = req.body;
+
+  if (!org_data?.name || !org_data?.email) {
+    throw new AppErrorImpl('Company name and email are required', 400);
+  }
+  if (!admin_data?.email || !admin_data?.password) {
+    throw new AppErrorImpl('Admin email and password are required', 400);
+  }
+
+  // Check if organisation email already exists
+  const { data: existingOrg } = await config.getClient()
+    .from('organisations')
+    .select('id')
+    .eq('email', org_data.email.toLowerCase())
+    .single();
+
+  if (existingOrg) {
+    throw new AppErrorImpl('Organisation email already registered', 400);
+  }
+
+  // Check if admin email already exists
+  const { data: existingUser } = await config.getClient()
+    .from('users')
+    .select('id')
+    .eq('email', admin_data.email.toLowerCase())
+    .single();
+
+  if (existingUser) {
+    throw new AppErrorImpl('Admin email already in use', 400);
+  }
+
+  // Create organisation
+  const { data: organisation, error: orgError } = await config.getClient()
+    .from('organisations')
+    .insert({
+      name: org_data.name,
+      email: org_data.email.toLowerCase(),
+      phone: org_data.phone || null,
+      subscription_plan: subscription_data?.plan || 'starter',
+      billing_email: subscription_data?.billing_email || null,
+      status: 'active',
+    })
+    .select()
+    .single();
+
+  if (orgError || !organisation) {
+    throw new AppErrorImpl('Failed to create organisation', 500);
+  }
+
+  // Hash password and create admin user
+  const hashedPassword = await hashPassword(admin_data.password);
+
+  const { data: user, error: userError } = await config.getClient()
+    .from('users')
+    .insert({
+      organisation_id: organisation.id,
+      email: admin_data.email.toLowerCase(),
+      password_hash: hashedPassword,
+      first_name: admin_data.first_name || 'Admin',
+      last_name: admin_data.last_name || 'User',
+      actor_type: 'admin',
+      is_active: true,
+    })
+    .select()
+    .single();
+
+  if (userError || !user) {
+    throw new AppErrorImpl('Failed to create admin account', 500);
+  }
+
+  const token = generateToken({
+    id: user.id,
+    email: user.email,
+    actor_type: user.actor_type,
+    organisation_id: user.organisation_id,
+  });
+
+  logger.info('Organisation onboarded', { orgId: organisation.id, adminEmail: user.email });
+
+  res.status(201).json({
+    token,
+    user: {
+      id: user.id,
+      email: user.email,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      actor_type: user.actor_type,
+      organisation_id: user.organisation_id,
+    },
+    organisation: {
+      id: organisation.id,
+      name: organisation.name,
+      email: organisation.email,
+      subscription_plan: organisation.subscription_plan,
+    },
   });
 }));
 
