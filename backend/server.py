@@ -33,17 +33,23 @@ WEATHER_API_KEY = os.environ.get("WEATHER_API_KEY", "")
 app = FastAPI(title="CoreGuard SMS API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://localhost:3001",
-        "https://www.coreguard-uk.co.uk",
-        "https://coreguard-uk.co.uk",
-        "https://coreguarduk-prod-production.up.railway.app"
-    ],
+    allow_origins=["*"],  # Temporarily allow all origins to fix CORS
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "PATCH"],
     allow_headers=["*"],
+    expose_headers=["*"]
 )
+
+# Add explicit CORS headers for all responses
+@app.middleware("http")
+async def add_cors_headers(request, call_next):
+    response = await call_next(request)
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH"
+    response.headers["Access-Control-Allow-Headers"] = "*"
+    response.headers["Access-Control-Allow-Credentials"] = "true"
+    response.headers["Access-Control-Expose-Headers"] = "*"
+    return response
 
 pwd_ctx = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -1654,6 +1660,10 @@ async def check_overdue_check_calls(current_user=Depends(get_current_user)):
 # HEALTH
 # ════════════════════════════════════════════════════════════════════════════
 
-@app.get("/api/health")
-async def health():
-    return {"status": "ok", "service": "CoreGuard SMS API"}
+@app.get("/")
+async def root():
+    return {"message": "CoreGuard SMS API running", "status": "healthy"}
+
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy", "timestamp": now_utc().isoformat()}
