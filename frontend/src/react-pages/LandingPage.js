@@ -27,8 +27,7 @@ function useSmoothScroll() {
 function SectionTitle({ title, subtitle }) {
   return (
     <div className="flex flex-col items-center justify-center mb-16">
-      <h2 className="text-center text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">{title}</h2>
-      <div className="w-20 h-[3px] rounded-full bg-gradient-to-r from-[#f7b91c] to-[#d4a017] mb-6" />
+      <h2 className="text-center text-3xl md:text-4xl font-bold tracking-tight text-white mb-6">{title}</h2>
       <p className="max-w-md text-center text-gray-400 md:max-w-xl leading-relaxed">{subtitle}</p>
     </div>
   );
@@ -348,8 +347,7 @@ export default function LandingPage() {
         {/* Text */}
         <div className="max-w-md space-y-6">
           <div>
-            <h3 className="text-2xl uppercase font-bold text-white tracking-wide mb-4">What We Do</h3>
-            <div className="w-20 h-[3px] rounded-full bg-gradient-to-r from-[#f7b91c] to-[#d4a017]" />
+            <h3 className="text-2xl uppercase font-bold text-white tracking-wide mb-6">What We Do</h3>
           </div>
           <div className="space-y-5">
             {whatWeDo.map((p, i) => (

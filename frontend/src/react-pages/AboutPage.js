@@ -129,9 +129,8 @@ export default function AboutPage() {
       <section className="px-6 py-28 md:px-16 lg:px-24 bg-[#1a1a1a]/50 border-y border-[#262626]">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12 md:gap-20">
           <div className="max-w-lg">
-            <h2 className="text-2xl uppercase font-bold text-white tracking-wide">Our Story</h2>
-            <div className="w-20 h-[3px] rounded-full bg-gradient-to-r from-[#f7b91c] to-[#d4a017] mt-3" />
-            <p className="mt-6 text-gray-400 leading-relaxed text-[15px]">
+            <h2 className="text-2xl uppercase font-bold text-white tracking-wide mb-6">Our Story</h2>
+            <p className="text-gray-400 leading-relaxed text-[15px]">
               Founded in 2026, CoreGuard UK is an enterprise-grade Security Management System designed for regulated private security organisations. We serve as a single source of truth for operational control, workforce legitimacy, compliance enforcement, and audit-ready reporting.
             </p>
             <p className="mt-4 text-gray-400 leading-relaxed text-[15px]">
