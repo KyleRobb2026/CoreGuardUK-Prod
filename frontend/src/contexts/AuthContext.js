@@ -138,7 +138,7 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const register = async (orgData, adminData) => {
+  const register = async (orgData, adminData, subscriptionData) => {
     try {
       setLoading(true);
       
@@ -146,7 +146,8 @@ export function AuthProvider({ children }) {
       const api = createApiService();
       const response = await api.post('/api/organisations/onboard', {
         org_data: orgData,
-        admin_data: adminData
+        admin_data: adminData,
+        subscription_data: subscriptionData
       });
       
       const { user, token } = response.data;
