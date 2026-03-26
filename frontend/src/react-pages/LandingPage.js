@@ -253,14 +253,17 @@ export default function LandingPage() {
       {/* ═══ HERO ═══ */}
       <section className="flex flex-col items-center justify-center relative min-h-[90vh] overflow-hidden px-6 py-24 md:px-16 z-10">
         {/* Background image with overlay */}
-        <div className="absolute inset-0 w-full h-full -z-10">
+        <div className="absolute inset-0 w-full h-full -z-10 bg-gradient-to-br from-[#1a1a1a] via-[#0f0f0f] to-[#1a1a1a]">
           <img 
-            src="https://images.unsplash.com/photo-1563729784474-dfdb12c6e5d5?w=1920&h=1080&fit=crop&auto=format"
+            src="https://images.pexels.com/photos/544114/pexels-photo-544114.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop"
             alt="Security Management"
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover opacity-80"
+            onError={(e) => {
+              e.target.style.display = 'none';
+            }}
           />
           {/* Dark overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0f0f0f]/70 via-[#0f0f0f]/85 to-[#0f0f0f]/95" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0f0f0f]/60 via-[#0f0f0f]/75 to-[#0f0f0f]/90" />
         </div>
         
         {/* Background glow for additional depth */}
