@@ -252,19 +252,10 @@ export default function LandingPage() {
 
       {/* ═══ HERO ═══ */}
       <section className="flex flex-col items-center justify-center relative min-h-[90vh] overflow-hidden px-6 py-24 md:px-16">
-        {/* Background image with overlay */}
-        <div className="absolute inset-0 -z-10 w-full h-full bg-gradient-to-br from-[#1a1a1a] via-[#0f0f0f] to-[#1a1a1a]">
-          {/* Simple test image */}
-          <div 
-            className="absolute inset-0 w-full h-full opacity-30"
-            style={{
-              backgroundImage: "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMTkyMCIgeTI9IjEwODAiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj48c3RvcCBzdG9wLWNvbG9yPSIjZjdiOTE5Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMWExYTFhIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjE5MjAiIGhlaWdodD0iMTA4MCIgZmlsbD0idXJsKCNnKSIvPjx0ZXh0IHg9Ijk2MCIgeT0iNTQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNDgiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkNvcmVHdWFyZDwvdGV4dD48L3N2Zz4=')",
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}
-          />
-          {/* Dark overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0f0f0f]/70 via-[#0f0f0f]/85 to-[#0f0f0f]/95" />
+        {/* Background test - simple solid color */}
+        <div className="absolute inset-0 -z-10 w-full h-full bg-red-500">
+          {/* Test text */}
+          <div className="absolute top-4 left-4 text-white text-2xl font-bold">TEST BACKGROUND</div>
         </div>
         
         {/* Background glow for additional depth */}
