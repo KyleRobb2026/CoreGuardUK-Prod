@@ -7,10 +7,6 @@ import {
 } from 'lucide-react';
 import { format } from 'date-fns';
 
-// Force dynamic rendering - prevent static generation
-export const dynamic = 'force-dynamic';
-export const revalidate = false;
-
 export default function DashboardPage() {
   const { user } = useAuth();
   const api = useApi();
