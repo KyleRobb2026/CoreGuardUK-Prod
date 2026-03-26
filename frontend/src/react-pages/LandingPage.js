@@ -253,18 +253,19 @@ export default function LandingPage() {
       {/* ═══ HERO ═══ */}
       <section className="flex flex-col items-center justify-center relative min-h-[90vh] overflow-hidden px-6 py-24 md:px-16 z-10">
         {/* Background image with overlay */}
-        <div className="absolute inset-0 w-full h-full -z-10 bg-gradient-to-br from-[#1a1a1a] via-[#0f0f0f] to-[#1a1a1a]">
-          <img 
-            src="https://i.ibb.co/ZRmjPt68/The-Future-of-Security-Management-Starts-Here-Website.png"
-            alt="Security Management"
-            className="absolute inset-0 w-full h-full object-cover opacity-80"
-            onError={(e) => {
-              e.target.style.display = 'none';
-            }}
-          />
-          {/* Dark overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0f0f0f]/60 via-[#0f0f0f]/75 to-[#0f0f0f]/90" />
-        </div>
+        <div 
+          className="absolute inset-0 w-full h-full -z-10"
+          style={{
+            backgroundImage: `
+              linear-gradient(to bottom, rgba(15, 15, 15, 0.6), rgba(15, 15, 15, 0.75), rgba(15, 15, 15, 0.9)),
+              url('https://i.ibb.co/ZRmjPt68/The-Future-of-Security-Management-Starts-Here-Website.png')
+            `,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: '#1a1a1a'
+          }}
+        />
         
         {/* Background glow for additional depth */}
         <svg className="absolute inset-0 -z-10 w-full h-full mix-blend-screen" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
