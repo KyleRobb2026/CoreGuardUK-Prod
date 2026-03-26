@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL;
+// Use Railway backend URL if not set (fallback for Railway deployment)
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://coreguarduk-prod-production.up.railway.app';
 
 // API service for CoreGuard SMS
 export function createApiService() {
