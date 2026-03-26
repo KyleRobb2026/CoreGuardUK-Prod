@@ -41,7 +41,16 @@ export default function LandingPage() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [faqOpen, setFaqOpen] = useState(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
   useSmoothScroll();
+
+  // Preload hero image
+  useEffect(() => {
+    const img = new Image();
+    img.src = 'https://i.postimg.cc/1zccLMZj/The-Future-of-Security-Management-Starts-Here-(Website).png';
+    img.onload = () => setImageLoaded(true);
+    img.onerror = () => setImageLoaded(false);
+  }, []);
 
   /* ── Nav links ── */
   const links = [
@@ -253,15 +262,23 @@ export default function LandingPage() {
       {/* ═══ HERO ═══ */}
       <section className="flex flex-col items-center justify-center relative min-h-[90vh] overflow-hidden px-6 py-24 md:px-16">
         {/* Background image with overlay */}
-        <div 
-          className="absolute inset-0 -z-10 w-full h-full bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `url('https://i.postimg.cc/1zccLMZj/The-Future-of-Security-Management-Starts-Here-(Website).png')`
-          }}
-        >
-          {/* Dark overlay for text readability */}
-          <div className="absolute inset-0 bg-[#0f0f0f]/80" />
-        </div>
+        {imageLoaded ? (
+          <div 
+            className="absolute inset-0 -z-10 w-full h-full bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: `url('https://i.postimg.cc/1zccLMZj/The-Future-of-Security-Management-Starts-Here-(Website).png')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat'
+            }}
+          >
+            {/* Dark overlay for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#0f0f0f]/60 via-[#0f0f0f]/80 to-[#0f0f0f]/90" />
+          </div>
+        ) : (
+          /* Fallback gradient background */
+          <div className="absolute inset-0 -z-10 w-full h-full bg-gradient-to-br from-[#1a1a1a] via-[#0f0f0f] to-[#1a1a1a]" />
+        )}
         
         {/* Background glow for additional depth */}
         <svg className="absolute inset-0 -z-10 w-full h-full mix-blend-screen" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
