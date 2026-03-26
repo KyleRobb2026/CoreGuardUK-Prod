@@ -241,8 +241,8 @@ router.post('/logout', catchAsync(async (req: AuthenticatedRequest, res: Respons
   });
 }));
 
-// POST /api/organisations/onboard
-router.post('/organisations/onboard', catchAsync(async (req: Request, res: Response) => {
+// POST /api/organisations/onboard (mounted at /api/organisations in index.ts)
+router.post('/onboard', catchAsync(async (req: Request, res: Response) => {
   const { org_data, admin_data, subscription_data } = req.body;
 
   if (!org_data?.name || !org_data?.email) {
