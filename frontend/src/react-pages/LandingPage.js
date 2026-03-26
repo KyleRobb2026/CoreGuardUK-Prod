@@ -47,7 +47,7 @@ export default function LandingPage() {
   // Preload hero image
   useEffect(() => {
     const img = new Image();
-    img.src = 'https://i.postimg.cc/1zccLMZj/The-Future-of-Security-Management-Starts-Here-(Website).png';
+    img.src = 'https://i.ibb.co/HLdSs1Dz/The-Future-of-Security-Management-Starts-Here-Website.png';
     img.onload = () => setImageLoaded(true);
     img.onerror = () => setImageLoaded(false);
   }, []);
@@ -266,7 +266,7 @@ export default function LandingPage() {
           <div 
             className="absolute inset-0 -z-10 w-full h-full bg-cover bg-center bg-no-repeat"
             style={{
-              backgroundImage: `url('https://i.postimg.cc/1zccLMZj/The-Future-of-Security-Management-Starts-Here-(Website).png')`,
+              backgroundImage: `url('https://i.ibb.co/HLdSs1Dz/The-Future-of-Security-Management-Starts-Here-Website.png')`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat'
