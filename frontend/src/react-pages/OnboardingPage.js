@@ -171,29 +171,33 @@ export default function OnboardingPage() {
           <p className="text-sm text-[#676767] mb-7">Get started with CoreGuard in minutes</p>
 
           {/* Progress steps */}
-          <div className="flex items-center justify-between mb-8">
-            {STEPS.map((s, i) => (
-              <div key={s.id} className="flex items-center">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
-                  step >= s.id ? 'text-[#1e1e1e]' : 'text-[#676767]'
-                }`} style={{
-                  background: step >= s.id ? '#f7b91c' : '#171717',
-                  border: '1px solid #2e2e2e'
-                }}>
-                  {step > s.id ? <Check size={14} /> : s.id}
-                </div>
-                <span className={`ml-2 text-xs font-medium ${
-                  step >= s.id ? 'text-white' : 'text-[#676767]'
-                }`}>
-                  {s.label}
-                </span>
-                {i < STEPS.length - 1 && (
-                  <div className={`w-8 h-0.5 mx-2 transition-all ${
-                    step > s.id ? 'bg-[#f7b91c]' : 'bg-[#2e2e2e]'
-                  }`} />
-                )}
-              </div>
-            ))}
+          <div className="mb-8">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-2">
+              {STEPS.map((s, i) => (
+                <React.Fragment key={s.id}>
+                  <div className="flex items-center">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
+                      step >= s.id ? 'text-[#1e1e1e]' : 'text-[#676767]'
+                    }`} style={{
+                      background: step >= s.id ? '#f7b91c' : '#171717',
+                      border: '1px solid #2e2e2e'
+                    }}>
+                      {step > s.id ? <Check size={16} /> : s.id}
+                    </div>
+                    <span className={`ml-3 text-xs font-medium whitespace-nowrap ${
+                      step >= s.id ? 'text-white' : 'text-[#676767]'
+                    }`}>
+                      {s.label}
+                    </span>
+                  </div>
+                  {i < STEPS.length - 1 && (
+                    <div className={`w-12 h-0.5 transition-all hidden sm:block ${
+                      step > s.id ? 'bg-[#f7b91c]' : 'bg-[#2e2e2e]'
+                    }`} />
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
           </div>
 
           {/* Step 1: Company Details */}
