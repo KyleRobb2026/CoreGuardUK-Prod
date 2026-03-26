@@ -258,7 +258,7 @@ export default function LandingPage() {
           style={{
             backgroundImage: `
               linear-gradient(to bottom, rgba(15, 15, 15, 0.6), rgba(15, 15, 15, 0.75), rgba(15, 15, 15, 0.9)),
-              url('/hero-background.png')
+              url('/The Future Security of Management Starts Here. (Website).png')
             `,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
