@@ -252,8 +252,19 @@ export default function LandingPage() {
 
       {/* ═══ HERO ═══ */}
       <section className="flex flex-col items-center justify-center relative min-h-[90vh] overflow-hidden px-6 py-24 md:px-16">
-        {/* Background glow */}
-        <svg className="absolute inset-0 -z-10 w-full h-full" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        {/* Background image with overlay */}
+        <div 
+          className="absolute inset-0 -z-10 w-full h-full bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url('https://i.postimg.cc/1zccLMZj/The-Future-of-Security-Management-Starts-Here-(Website).png')`
+          }}
+        >
+          {/* Dark overlay for text readability */}
+          <div className="absolute inset-0 bg-[#0f0f0f]/80" />
+        </div>
+        
+        {/* Background glow for additional depth */}
+        <svg className="absolute inset-0 -z-10 w-full h-full mix-blend-screen" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
           <g filter="url(#glow1)">
             <ellipse cx="300" cy="200" rx="300" ry="200" fill="#f7b91c" fillOpacity="0.06" />
           </g>
