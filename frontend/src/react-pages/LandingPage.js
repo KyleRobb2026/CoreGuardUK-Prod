@@ -257,8 +257,8 @@ export default function LandingPage() {
           className="absolute inset-0 -z-10 w-full h-full"
           style={{
             backgroundImage: `
-              linear-gradient(to bottom, rgba(15, 15, 15, 0.6), rgba(15, 15, 15, 0.8), rgba(15, 15, 15, 0.9)),
-              url('https://i.ibb.co/HLdSs1Dz/The-Future-of-Security-Management-Starts-Here-Website.png')
+              linear-gradient(to bottom, rgba(15, 15, 15, 0.7), rgba(15, 15, 15, 0.85), rgba(15, 15, 15, 0.95)),
+              url('https://images.unsplash.com/photo-1563729784474-dfdb12c6e5d5?w=1920&h=1080&fit=crop&auto=format')
             `,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
