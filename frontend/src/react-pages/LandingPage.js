@@ -252,10 +252,15 @@ export default function LandingPage() {
 
       {/* ═══ HERO ═══ */}
       <section className="flex flex-col items-center justify-center relative min-h-[90vh] overflow-hidden px-6 py-24 md:px-16 z-10">
-        {/* Background test - simple solid color */}
-        <div className="fixed inset-0 w-full h-screen bg-red-500 z-0">
-          {/* Test text */}
-          <div className="absolute top-4 left-4 text-white text-2xl font-bold z-10">TEST BACKGROUND</div>
+        {/* Background image with overlay */}
+        <div className="fixed inset-0 w-full h-screen z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1563729784474-dfdb12c6e5d5?w=1920&h=1080&fit=crop&auto=format"
+            alt="Security Management"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          {/* Dark overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0f0f0f]/70 via-[#0f0f0f]/85 to-[#0f0f0f]/95" />
         </div>
         
         {/* Background glow for additional depth */}
