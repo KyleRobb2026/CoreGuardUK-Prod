@@ -257,7 +257,7 @@ export default function LandingPage() {
           className="absolute inset-0 w-full h-full -z-10"
           style={{
             backgroundImage: `
-              linear-gradient(to bottom, rgba(15, 15, 15, 0.6), rgba(15, 15, 15, 0.75), rgba(15, 15, 15, 0.9)),
+              linear-gradient(to bottom, rgba(15, 15, 15, 0.3), rgba(15, 15, 15, 0.4), rgba(15, 15, 15, 0.5)),
               url('/The Future Security of Management Starts Here. (Website).png')
             `,
             backgroundSize: 'cover',
