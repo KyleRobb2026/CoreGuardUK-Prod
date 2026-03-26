@@ -49,36 +49,21 @@ export function AuthProvider({ children }) {
     try {
       setLoading(true);
       
-      // Authenticate via Supabase — signIn returns { user, session } directly, throws on error
-      const authData = await supabaseSignIn(email, password);
-      const authUser = authData?.user;
-
-      if (!authUser) {
-        throw new Error('Invalid email or password');
-      }
-
-      // Fetch user record from users table to get organisation_id
-      const { data: userRecord } = await supabase
-        .from('users')
-        .select('organisation_id, first_name, last_name, actor_type')
-        .eq('id', authUser.id)
-        .single();
-
-      const coreGuardUser = {
-        id: authUser.id,
-        email: authUser.email,
-        first_name: userRecord?.first_name || authUser.user_metadata?.first_name || '',
-        last_name: userRecord?.last_name || authUser.user_metadata?.last_name || '',
-        actor_type: userRecord?.actor_type || authUser.user_metadata?.actor_type || 'admin',
-        organisation_id: userRecord?.organisation_id || authUser.user_metadata?.organisation_id || null,
-        supabase_id: authUser.id,
-        auth_provider: 'supabase'
-      };
+      // Use backend API for authentication
+      const api = createApiService();
+      const response = await api.post('/api/auth/login', {
+        email,
+        password
+      });
       
-      localStorage.setItem('cg_user', JSON.stringify(coreGuardUser));
-      setUser(coreGuardUser);
+      const { user, token } = response.data;
       
-      return coreGuardUser;
+      // Store token and user
+      localStorage.setItem('cg_token', token);
+      localStorage.setItem('cg_user', JSON.stringify(user));
+      setUser(user);
+      
+      return user;
     } catch (error) {
       localStorage.removeItem('cg_token');
       localStorage.removeItem('cg_user');
@@ -157,82 +142,21 @@ export function AuthProvider({ children }) {
     try {
       setLoading(true);
       
-      // 1. Sign up via Supabase Auth — signUp returns { user, session } directly, throws on error
-      const signUpData = await supabaseSignUp(adminData.email, adminData.password, {
-        data: {
-          first_name: adminData.first_name,
-          last_name: adminData.last_name,
-          actor_type: 'admin',
-          organisation_id: null
-        }
-      });
-      const authUser = signUpData?.user;
-
-      if (!authUser) {
-        throw new Error('Registration failed — no user returned');
-      }
-
-      // 2. Create organisation directly in Supabase
-      const { data: organisation, error: orgError } = await supabase
-        .from('organisations')
-        .insert({
-          name: orgData.name,
-          email: orgData.email,
-          phone: orgData.phone || null,
-          address: orgData.address || null,
-          status: 'active'
-        })
-        .select()
-        .single();
-      
-      if (orgError) {
-        console.error('Error creating organisation:', orgError);
-        throw new Error(orgError.message || 'Failed to create organisation');
-      }
-
-      // 3. Create user record in users table
-      const { error: userError } = await supabase
-        .from('users')
-        .insert({
-          id: authUser.id,
-          organisation_id: organisation.id,
-          email: adminData.email,
-          first_name: adminData.first_name,
-          last_name: adminData.last_name,
-          actor_type: 'admin',
-          is_active: true
-        });
-      
-      if (userError) {
-        console.error('Error creating user record:', userError);
-      }
-
-      // 4. Update Supabase auth metadata with organisation_id
-      const { error: updateError } = await supabase.auth.updateUser({
-        data: {
-          organisation_id: organisation.id
-        }
+      // Use backend API for organisation creation
+      const api = createApiService();
+      const response = await api.post('/api/organisations/onboard', {
+        org_data: orgData,
+        admin_data: adminData
       });
       
-      if (updateError) {
-        console.error('Error updating user metadata:', updateError);
-      }
+      const { user, token } = response.data;
       
-      const coreGuardUser = {
-        id: authUser.id,
-        email: authUser.email,
-        first_name: adminData.first_name,
-        last_name: adminData.last_name,
-        actor_type: 'admin',
-        organisation_id: organisation.id,
-        supabase_id: authUser.id,
-        auth_provider: 'supabase'
-      };
+      // Store token and user
+      localStorage.setItem('cg_token', token);
+      localStorage.setItem('cg_user', JSON.stringify(user));
+      setUser(user);
       
-      localStorage.setItem('cg_user', JSON.stringify(coreGuardUser));
-      setUser(coreGuardUser);
-      
-      return coreGuardUser;
+      return user;
     } catch (error) {
       localStorage.removeItem('cg_token');
       localStorage.removeItem('cg_user');
