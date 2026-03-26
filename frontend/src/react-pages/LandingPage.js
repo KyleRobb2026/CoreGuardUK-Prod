@@ -26,9 +26,10 @@ function useSmoothScroll() {
 /* ─── Reusable section title ─── */
 function SectionTitle({ title, subtitle }) {
   return (
-    <div className="flex flex-col items-center justify-center">
-      <h2 className="text-center text-3xl md:text-4xl font-bold tracking-tight text-white">{title}</h2>
-      <p className="mt-4 max-w-md text-center text-gray-400 md:max-w-xl leading-relaxed">{subtitle}</p>
+    <div className="flex flex-col items-center justify-center mb-16">
+      <h2 className="text-center text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">{title}</h2>
+      <div className="w-20 h-[3px] rounded-full bg-gradient-to-r from-[#f7b91c] to-[#d4a017] mb-6" />
+      <p className="max-w-md text-center text-gray-400 md:max-w-xl leading-relaxed">{subtitle}</p>
     </div>
   );
 }
@@ -345,15 +346,19 @@ export default function LandingPage() {
         </div>
 
         {/* Text */}
-        <div className="max-w-md">
-          <h3 className="text-2xl uppercase font-bold text-white tracking-wide">What We Do</h3>
-          <div className="w-20 h-[3px] rounded-full bg-gradient-to-r from-[#f7b91c] to-[#d4a017] mt-[7px]" />
-          {whatWeDo.map((p, i) => (
-            <p key={i} className="mt-[19px] text-gray-400 leading-relaxed text-[15px]">{p}</p>
-          ))}
+        <div className="max-w-md space-y-6">
+          <div>
+            <h3 className="text-2xl uppercase font-bold text-white tracking-wide mb-4">What We Do</h3>
+            <div className="w-20 h-[3px] rounded-full bg-gradient-to-r from-[#f7b91c] to-[#d4a017]" />
+          </div>
+          <div className="space-y-5">
+            {whatWeDo.map((p, i) => (
+              <p key={i} className="text-gray-400 leading-relaxed text-[15px]">{p}</p>
+            ))}
+          </div>
           <button
             onClick={() => navigate('/about')}
-            className="flex items-center gap-2 mt-8 hover:opacity-90 transition bg-gradient-to-r from-[#f7b91c] to-[#d4a017] py-3 px-8 rounded-full text-[#1a1a1a] font-semibold"
+            className="flex items-center gap-2 hover:opacity-90 transition bg-gradient-to-r from-[#f7b91c] to-[#d4a017] py-3 px-8 rounded-full text-[#1a1a1a] font-semibold"
           >
             Learn More
             <ArrowRightIcon className="size-4" />
@@ -367,14 +372,14 @@ export default function LandingPage() {
           title="Built for Security Operations"
           subtitle="Three core modules designed to give you complete control over your workforce, compliance, and day-to-day operations."
         />
-        <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8 mt-14">
+        <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8">
           {features.map((item, index) => (
             <div key={index} className="max-w-xs w-full bg-[#1a1a1a] border border-[#262626] rounded-xl p-6 hover:-translate-y-1 hover:border-[#f7b91c]/30 transition duration-300">
               <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-[#f7b91c] to-[#d4a017] flex items-center justify-center mb-5">
                 <item.icon className="size-6 text-[#1a1a1a]" />
               </div>
-              <h3 className="text-lg font-semibold text-white">{item.title}</h3>
-              <p className="text-gray-400 mt-3 leading-relaxed text-[14px]">{item.description}</p>
+              <h3 className="text-lg font-semibold text-white mb-3">{item.title}</h3>
+              <p className="text-gray-400 leading-relaxed text-[14px]">{item.description}</p>
             </div>
           ))}
         </div>
@@ -387,7 +392,7 @@ export default function LandingPage() {
             title="Compliance, Enforced Automatically"
             subtitle="CoreGuard actively prevents non-compliant deployments. Every licence tracked, every expiry monitored, every action logged."
           />
-          <div className="mt-14 grid md:grid-cols-3 gap-5">
+          <div className="grid md:grid-cols-3 gap-5">
             {[
               { name: 'James Thompson', licence: 'SIA DS-12847365', expiry: '14 Nov 2026', status: 'Compliant', color: 'text-green-400', border: 'border-green-500/20', bg: 'bg-green-500/5', dot: 'bg-green-500' },
               { name: 'Sarah Mitchell', licence: 'SIA DS-99281744', expiry: '02 Apr 2026', status: 'Expiring Soon', color: 'text-orange-400', border: 'border-orange-400/20', bg: 'bg-orange-400/5', dot: 'bg-orange-400' },
