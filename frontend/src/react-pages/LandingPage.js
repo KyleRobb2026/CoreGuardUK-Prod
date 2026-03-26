@@ -255,7 +255,7 @@ export default function LandingPage() {
         {/* Background image with overlay */}
         <div className="absolute inset-0 w-full h-full -z-10 bg-gradient-to-br from-[#1a1a1a] via-[#0f0f0f] to-[#1a1a1a]">
           <img 
-            src="https://images.pexels.com/photos/544114/pexels-photo-544114.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop"
+            src="https://i.ibb.co/ZRmjPt68/The-Future-of-Security-Management-Starts-Here-Website.png"
             alt="Security Management"
             className="absolute inset-0 w-full h-full object-cover opacity-80"
             onError={(e) => {
