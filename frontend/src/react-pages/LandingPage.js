@@ -253,7 +253,7 @@ export default function LandingPage() {
       {/* ═══ HERO ═══ */}
       <section className="flex flex-col items-center justify-center relative min-h-[90vh] overflow-hidden px-6 py-24 md:px-16 z-10">
         {/* Background image with overlay */}
-        <div className="fixed inset-0 w-full h-screen z-0">
+        <div className="absolute inset-0 w-full h-full -z-10">
           <img 
             src="https://images.unsplash.com/photo-1563729784474-dfdb12c6e5d5?w=1920&h=1080&fit=crop&auto=format"
             alt="Security Management"
