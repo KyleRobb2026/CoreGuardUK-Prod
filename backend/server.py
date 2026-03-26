@@ -33,9 +33,15 @@ WEATHER_API_KEY = os.environ.get("WEATHER_API_KEY", "")
 app = FastAPI(title="CoreGuard SMS API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "https://www.coreguard-uk.co.uk",
+        "https://coreguard-uk.co.uk",
+        "https://coreguarduk-prod-production.up.railway.app"
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 
@@ -314,11 +320,14 @@ class OnboardingStep(BaseModel):
 class OnboardRequest(BaseModel):
     org_data: OrgCreate
     admin_data: OrgAdminCreate
+    subscription_data: Optional[Dict[str, Any]] = None
 
 @app.post("/api/organisations/onboard")
 async def onboard_organisation(req: OnboardRequest):
     org_data = req.org_data
     admin_data = req.admin_data
+    subscription_data = req.subscription_data or {}
+    
     # Check if email taken
     existing = await db.organisations.find_one({"email": org_data.email.lower()})
     if existing:
@@ -336,6 +345,9 @@ async def onboard_organisation(req: OnboardRequest):
         "phone": org_data.phone,
         "address": org_data.address,
         "compliance_config": org_data.compliance_config or {},
+        "subscription_plan": subscription_data.get("plan", "starter"),
+        "billing_email": subscription_data.get("billing_email", ""),
+        "payment_method": subscription_data.get("payment_method", "invoice"),
         "onboarding_complete": False,
         "created_at": now_utc(),
         "updated_at": now_utc(),
@@ -369,10 +381,12 @@ async def onboard_organisation(req: OnboardRequest):
     await log_audit(org_id, "admin", user_id, "ORGANISATION_CREATED", {"name": org_data.name})
 
     created_user = await db.users.find_one({"_id": ObjectId(user_id)})
+    
+    # Return in format expected by frontend
     return {
+        "user": to_json(created_user),
         "token": token,
         "organisation": to_json({**org, "_id": org_result.inserted_id}),
-        "user": to_json(created_user),
     }
 
 @app.get("/api/organisations/current")
