@@ -26,7 +26,7 @@ import billingRouter from './routes/billing';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = Number(process.env.PORT) || 8000;
 
 // Log startup info
 console.log('=== CoreGuard SMS Backend Starting ===');
