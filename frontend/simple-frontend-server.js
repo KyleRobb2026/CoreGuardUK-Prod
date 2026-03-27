@@ -1034,78 +1034,6 @@ app.get('/', (req, res) => {
             max-width: 100%;
           }
         }
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          margin-bottom: 16px;
-          line-height: 1.1;
-        }
-
-        .launch-subtitle {
-          color: #9ca3af;
-          font-size: 18px;
-          line-height: 1.6;
-          max-width: 600px;
-        
-        .waitlist-form {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-          max-width: 28rem;
-          margin: 0 auto;
-        }
-        
-        @media (min-width: 768px) {
-          .waitlist-form {
-            flex-direction: row;
-          }
-        }
-        
-        .email-input {
-          flex: 1;
-          padding: 12px 16px;
-          background: #0f0f0f;
-          border: 1px solid #333;
-          border-radius: 8px;
-          color: white;
-          font-size: 16px;
-          outline: none;
-          transition: all 0.3s ease;
-        }
-        
-        .email-input::placeholder {
-          color: #6b7280;
-        }
-        
-        .email-input:focus {
-          border-color: #f7b91c;
-          box-shadow: 0 0 0 1px rgba(247, 185, 28, 0.2);
-        }
-        
-        .submit-btn {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          background: linear-gradient(to right, #f7b91c, #d4a017);
-          color: #1a1a1a;
-          font-weight: 600;
-          padding: 12px 24px;
-          border-radius: 9999px;
-          border: none;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          font-size: 16px;
-          min-width: 140px;
-        }
-        
-        .submit-btn:hover {
-          opacity: 0.9;
-        }
-        
-        .submit-btn:disabled {
-          opacity: 0.7;
-          cursor: not-allowed;
-        }
         
         /* Success Message */
         .success-message {
@@ -1486,7 +1414,8 @@ app.get('/', (req, res) => {
         }
         
         updateCountdown();
-        setInterval(updateCountdown, 1000); 
+        setInterval(updateCountdown, 1000);
+        
         function scrollToWaitlist() {
           document.getElementById('waitlist').scrollIntoView({ 
             behavior: 'smooth',
@@ -1498,9 +1427,17 @@ app.get('/', (req, res) => {
         async function handleWaitlistSubmit(event) {
           event.preventDefault();
           
-          const email = document.getElementById('emailInput').value;
+          const emailInput = document.getElementById('emailInput');
           const submitBtn = document.getElementById('submitBtn');
           const btnText = document.getElementById('btn-text');
+          
+          if (!emailInput || !submitBtn || !btnText) {
+            console.error('Required DOM elements not found');
+            alert('Form error: Please refresh the page and try again.');
+            return;
+          }
+          
+          const email = emailInput.value;
           
           console.log('Form submitted with email:', email);
           
@@ -1529,16 +1466,18 @@ app.get('/', (req, res) => {
             if (response.ok) {
               // Show success message
               const form = document.getElementById('waitlist-form');
-              form.innerHTML = '<div class="success-message">' +
-                '<div class="success-icon">✅</div>' +
-                '<h3 class="success-title">You\'re on the list!</h3>' +
-                '<p class="success-text">' +
-                  'Check your email for confirmation. We\'ll notify you as soon as we launch. Get ready to transform your security management!' +
-                '</p>' +
-                '<div class="success-count">' +
-                  'Total waitlist: ' + (data.totalWaitlist || 1) + ' members' +
-                '</div>' +
-                '</div>';
+              if (form) {
+                form.innerHTML = '<div class="success-message">' +
+                  '<div class="success-icon">✅</div>' +
+                  '<h3 class="success-title">You\'re on the list!</h3>' +
+                  '<p class="success-text">' +
+                    'Check your email for confirmation. We\'ll notify you as soon as we launch. Get ready to transform your security management!' +
+                  '</p>' +
+                  '<div class="success-count">' +
+                    'Total waitlist: ' + (data.totalWaitlist || 1) + ' members' +
+                  '</div>' +
+                  '</div>';
+              }
             } else {
               throw new Error(data.error || 'Failed to join waitlist');
             }
@@ -1549,10 +1488,6 @@ app.get('/', (req, res) => {
             alert('Something went wrong: ' + error.message + '. Please try again.');
           }
         }
-        
-        // Update countdown every second
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
       </script>
     </body>
     </html>
