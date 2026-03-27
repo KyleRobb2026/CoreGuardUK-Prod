@@ -92,7 +92,7 @@ app.get('/api/waitlist', (req, res) => {
 // Root endpoint - Launching Soon page (production-ready without CDN)
 app.get('/', (req, res) => {
   console.log('Root endpoint requested - serving launching soon page');
-  res.send(\`
+  res.send(`
     <!DOCTYPE html>
     <html>
     <head>
@@ -781,7 +781,7 @@ app.get('/', (req, res) => {
       </script>
     </body>
     </html>
-  \`);
+  `);
 });
 
 // Get port from environment or use default
@@ -790,11 +790,13 @@ const PORT = Number(process.env.PORT) || 3000;
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
   console.log('=== Simple Frontend Server Started ===');
-  console.log(`Running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log('Running on port ' + PORT);
+  console.log('Environment: ' + (process.env.NODE_ENV || 'development'));
   console.log('Available endpoints:');
   console.log('  GET /health');
   console.log('  GET /api/health');
   console.log('  GET /');
   console.log('=====================================');
 });
+
+// ... (rest of the code remains the same)
