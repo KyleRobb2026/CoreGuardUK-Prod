@@ -9,6 +9,18 @@ import { errorHandler } from './middleware/errorHandler';
 import authRouter from './controllers/auth';
 import dashboardRouter from './controllers/dashboard';
 import personnelRouter from './controllers/personnel';
+import betterAuthRouter from './routes/auth';
+import protectedRouter from './routes/protected';
+import organisationRouter from './routes/organisation';
+import rbacRouter from './routes/rbac';
+import sessionRouter from './routes/session';
+import onboardingRouter from './routes/onboarding';
+import secureSignupRouter from './routes/secureSignup';
+import invitationsRouter from './routes/invitations';
+import onboardingSetupRouter from './routes/onboardingSetup';
+import proFeaturesRouter from './routes/proFeatures';
+import subscriptionRouter from './routes/subscription';
+import billingRouter from './routes/billing';
 
 // Load environment variables
 dotenv.config();
@@ -41,10 +53,18 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin as string)) {
+    // Allow requests with no origin (mobile apps, curl, etc.)
+    if (!origin) {
+      return callback(null, true);
+    }
+    
+    // Check if origin is in allowed list
+    if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(null, true); // allow all origins
+      // Log unauthorized origin attempts for security monitoring
+      console.warn(`CORS violation attempt from origin: ${origin}`);
+      callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,
@@ -72,11 +92,43 @@ app.get('/health', async (req, res) => {
   });
 });
 
-// Public auth routes (no auth required)
+// Better Auth routes
+app.use(betterAuthRouter);
+
+// Onboarding routes - organize with specific subpaths
+app.use('/api/onboarding/signup', secureSignupRouter);
+app.use('/api/onboarding/setup', onboardingSetupRouter);
+app.use('/api/onboarding', onboardingRouter);
+
+// Invitation routes
+app.use('/api/invitations', invitationsRouter);
+
+// Pro features routes (feature-locked)
+app.use('/api/pro', proFeaturesRouter);
+
+// Subscription management routes
+app.use('/api/subscription', subscriptionRouter);
+
+// Billing management routes
+app.use('/api/billing', billingRouter);
+
+// Organisation management routes
+app.use('/api/organisation', organisationRouter);
+
+// RBAC-protected routes
+app.use('/api/rbac', rbacRouter);
+
+// Session management routes
+app.use('/api/session', sessionRouter);
+
+// Better Auth protected routes
+app.use('/api/protected', protectedRouter);
+
+// Legacy auth routes (keep for backward compatibility)
 app.use('/api/auth', authRouter);
 app.use('/api/organisations', authRouter);
 
-// Protected routes (auth required)
+// Legacy protected routes (auth required)
 app.use('/api/dashboard', authMiddleware, dashboardRouter);
 app.use('/api/personnel', authMiddleware, personnelRouter);
 

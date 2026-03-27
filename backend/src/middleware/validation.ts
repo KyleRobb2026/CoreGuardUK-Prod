@@ -2,12 +2,16 @@ import { Request, Response, NextFunction } from 'express';
 import Joi from 'joi';
 import { logger } from '../utils/logger';
 
-export interface ValidatedRequest extends Request {
-  validatedBody?: any;
+declare global {
+  namespace Express {
+    interface Request {
+      validatedBody?: any;
+    }
+  }
 }
 
 export const validateRequest = (schema: Joi.ObjectSchema) => {
-  return (req: ValidatedRequest, res: Response, next: NextFunction): void => {
+  return (req: Request, res: Response, next: NextFunction): void => {
     const { error, value } = schema.validate(req.body, {
       abortEarly: false,
       stripUnknown: true,
@@ -92,5 +96,32 @@ export const schemas = {
     notes: Joi.string().max(1000).optional(),
     location_lat: Joi.number().min(-90).max(90).optional(),
     location_lng: Joi.number().min(-180).max(180).optional(),
+  }),
+
+  // Billing
+  billingUpgrade: Joi.object({
+    plan: Joi.string().valid('pro', 'custom').required(),
+    dueDays: Joi.number().integer().min(1).max(90).default(7),
+  }),
+
+  invoicePayment: Joi.object({
+    invoiceId: Joi.string().uuid().required(),
+  }),
+
+  subscription: Joi.object({
+    plan: Joi.string().valid('core', 'pro', 'custom').required(),
+    billingType: Joi.string().valid('invoice', 'stripe').default('invoice'),
+  }),
+
+  // UUID parameter validation
+  uuidParam: Joi.object({
+    id: Joi.string().uuid().required(),
+  }),
+
+  // Pagination
+  pagination: Joi.object({
+    page: Joi.number().integer().min(1).default(1),
+    limit: Joi.number().integer().min(1).max(100).default(20),
+    offset: Joi.number().integer().min(0),
   }),
 };
