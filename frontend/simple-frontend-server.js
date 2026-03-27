@@ -190,11 +190,13 @@ app.get('/', (req, res) => {
           width: 100%;
           height: 100%;
           z-index: -1;
-          background-image: linear-gradient(to bottom, rgba(15, 15, 15, 0.3), rgba(15, 15, 15, 0.4), rgba(15, 15, 15, 0.5)), url('/The Future Security of Management Starts Here. (Website).png');
-          background-size: cover;
-          background-position: center;
+          background: 
+            radial-gradient(ellipse at 20% 30%, rgba(247, 185, 28, 0.15) 0%, transparent 50%),
+            radial-gradient(ellipse at 80% 70%, rgba(247, 185, 28, 0.1) 0%, transparent 50%),
+            linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
+          background-size: 100% 100%, 100% 100%, 100% 100%;
+          background-position: center, center, center;
           background-repeat: no-repeat;
-          background-color: #1a1a1a;
         }
         
         .hero-glow {
@@ -827,12 +829,22 @@ app.get('/', (req, res) => {
             <filter id="glow2">
               <feGaussianBlur stdDeviation="150" />
             </filter>
+            <filter id="glow3">
+              <feGaussianBlur stdDeviation="100" />
+            </filter>
+            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#f7b91c;stop-opacity:0.08" />
+              <stop offset="100%" style="stop-color:#d4a017;stop-opacity:0.04" />
+            </linearGradient>
           </defs>
           <g filter="url(#glow1)">
-            <ellipse cx="300" cy="200" rx="300" ry="200" fill="#f7b91c" fillOpacity="0.06" />
+            <ellipse cx="300" cy="200" rx="300" ry="200" fill="url(#grad1)" />
           </g>
           <g filter="url(#glow2)">
-            <ellipse cx="1100" cy="500" rx="400" ry="280" fill="#f7b91c" fillOpacity="0.04" />
+            <ellipse cx="1100" cy="500" rx="400" ry="280" fill="url(#grad1)" />
+          </g>
+          <g filter="url(#glow3)">
+            <ellipse cx="720" cy="450" rx="250" ry="150" fill="#f7b91c" fillOpacity="0.03" />
           </g>
         </svg>
 
