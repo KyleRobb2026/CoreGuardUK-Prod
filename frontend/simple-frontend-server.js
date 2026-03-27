@@ -89,7 +89,7 @@ app.get('/api/waitlist', (req, res) => {
   });
 });
 
-// Root endpoint - Launching Soon page (production-ready without CDN)
+// Root endpoint - Launching Soon page (exact landing page structure)
 app.get('/', (req, res) => {
   console.log('Root endpoint requested - serving launching soon page');
   res.send(`
@@ -175,6 +175,12 @@ app.get('/', (req, res) => {
         @media (min-width: 768px) {
           .hero {
             padding: 96px 64px;
+          }
+        }
+        
+        @media (min-width: 1024px) {
+          .hero {
+            padding: 96px 96px;
           }
         }
         
@@ -310,94 +316,365 @@ app.get('/', (req, res) => {
           opacity: 0.9;
         }
         
-        /* Launch Card Section */
-        .launch-section {
+        .btn-secondary {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          border: 1px solid #555;
+          color: white;
+          padding: 12px 32px;
+          border-radius: 9999px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          font-size: 16px;
+          text-decoration: none;
+          background: transparent;
+        }
+        
+        .btn-secondary:hover {
+          border-color: #f7b91c;
+        }
+        
+        /* What We Do Section */
+        .what-we-do-section {
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          padding: 96px 24px;
+          gap: 48px;
+          padding: 112px 24px;
         }
         
         @media (min-width: 768px) {
-          .launch-section {
-            padding: 96px 64px;
+          .what-we-do-section {
+            flex-direction: row;
+            gap: 48px;
+            padding: 112px 64px;
           }
         }
         
-        .launch-card {
+        @media (min-width: 1024px) {
+          .what-we-do-section {
+            gap: 80px;
+            padding: 112px 96px;
+          }
+        }
+        
+        .dashboard-card {
           position: relative;
           flex-shrink: 0;
           border-radius: 16px;
           overflow: hidden;
           border: 1px solid #333;
           background: #1a1a1a;
-          padding: 32px;
+          padding: 20px;
           box-shadow: 0 25px 50px -12px rgba(247, 185, 28, 0.05);
-          max-width: 42rem;
+          max-width: 384px;
           width: 100%;
         }
         
-        .launch-header {
-          text-align: center;
-          margin-bottom: 32px;
+        .window-controls {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 16px;
         }
         
-        .launch-status {
-          display: inline-flex;
-          flex-wrap: wrap;
+        .window-dot {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+        }
+        
+        .window-dot.red {
+          background: rgba(239, 68, 68, 0.6);
+        }
+        
+        .window-dot.yellow {
+          background: rgba(245, 158, 11, 0.6);
+        }
+        
+        .window-dot.green {
+          background: rgba(34, 197, 94, 0.6);
+        }
+        
+        .window-title {
+          margin-left: auto;
+          font-size: 10px;
+          color: #6b7280;
+          font-family: monospace;
+        }
+        
+        .stats-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 8px;
+          margin-bottom: 12px;
+        }
+        
+        .stat-card {
+          background: #0f0f0f;
+          border-radius: 8px;
+          padding: 12px;
+          border: 1px solid #262626;
+        }
+        
+        .stat-label {
+          font-size: 10px;
+          color: #6b7280;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          margin-bottom: 4px;
+        }
+        
+        .stat-value {
+          font-size: 20px;
+          font-weight: bold;
+        }
+        
+        .stat-value.white {
+          color: white;
+        }
+        
+        .stat-value.gold {
+          color: #f7b91c;
+        }
+        
+        .stat-value.orange {
+          color: #fb923c;
+        }
+        
+        .activity-log {
+          background: #0f0f0f;
+          border-radius: 8px;
+          border: 1px solid #262626;
+        }
+        
+        .activity-item {
+          padding: 8px 12px;
+          display: flex;
           align-items: center;
-          justify-content: center;
-          border-radius: 9999px;
-          border: 1px solid rgba(247, 185, 28, 0.2);
+          justify-content: space-between;
+          border-bottom: 1px solid rgba(38, 38, 38, 0.5);
+          font-size: 11px;
+        }
+        
+        .activity-item:last-child {
+          border-bottom: none;
+        }
+        
+        .activity-left {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        
+        .activity-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+        }
+        
+        .activity-dot.green {
+          background: #22c55e;
+        }
+        
+        .activity-dot.orange {
+          background: #fb923c;
+        }
+        
+        .activity-text {
+          color: #d1d5db;
+        }
+        
+        .activity-time {
+          color: #6b7280;
+        }
+        
+        .dashboard-glow {
+          position: absolute;
+          bottom: -16px;
+          right: -16px;
+          width: 128px;
+          height: 128px;
           background: rgba(247, 185, 28, 0.05);
-          padding: 8px 24px;
+          border-radius: 50%;
+          filter: blur(24px);
+        }
+        
+        .what-we-do-content {
+          max-width: 28rem;
+        }
+        
+        .section-title {
+          font-size: 24px;
+          text-transform: uppercase;
+          font-weight: bold;
+          color: white;
+          letter-spacing: 0.1em;
           margin-bottom: 24px;
         }
         
-        .launch-title {
-          font-size: 24px;
+        .what-we-do-text {
+          color: #9ca3af;
+          line-height: 1.75;
+          font-size: 15px;
+          margin-bottom: 20px;
+        }
+        
+        /* Features Section */
+        .features-section {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 112px 24px;
+        }
+        
+        @media (min-width: 768px) {
+          .features-section {
+            padding: 112px 64px;
+          }
+        }
+        
+        @media (min-width: 1024px) {
+          .features-section {
+            padding: 112px 96px;
+          }
+        }
+        
+        .features-title {
+          font-size: 32px;
           font-weight: bold;
+          text-align: center;
           color: white;
-          margin-bottom: 8px;
+          margin-bottom: 16px;
+          max-width: 48rem;
+        }
+        
+        .features-subtitle {
+          color: #9ca3af;
+          text-align: center;
+          max-width: 42rem;
+          margin-bottom: 48px;
+          line-height: 1.75;
+        }
+        
+        .features-grid {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+          gap: 24px;
+        }
+        
+        @media (min-width: 768px) {
+          .features-grid {
+            gap: 32px;
+          }
+        }
+        
+        .feature-card {
+          max-width: 320px;
+          width: 100%;
+          background: #1a1a1a;
+          border: 1px solid #262626;
+          border-radius: 12px;
+          padding: 24px;
+          transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+          transform: translateY(-4px);
+          border-color: rgba(247, 185, 28, 0.3);
+        }
+        
+        .feature-icon {
+          width: 48px;
+          height: 48px;
+          border-radius: 8px;
+          background: linear-gradient(to right, #f7b91c, #d4a017);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 20px;
+          font-size: 24px;
+        }
+        
+        .feature-title {
+          font-size: 18px;
+          font-weight: 600;
+          color: white;
+          margin-bottom: 12px;
+        }
+        
+        .feature-description {
+          color: #9ca3af;
+          line-height: 1.75;
+          font-size: 14px;
+        }
+        
+        /* Launch Countdown Section */
+        .launch-section {
+          background: rgba(26, 26, 26, 0.5);
+          border-top: 1px solid #262626;
+          border-bottom: 1px solid #262626;
+          padding: 112px 24px;
+        }
+        
+        @media (min-width: 768px) {
+          .launch-section {
+            padding: 112px 64px;
+          }
+        }
+        
+        @media (min-width: 1024px) {
+          .launch-section {
+            padding: 112px 96px;
+          }
+        }
+        
+        .launch-content {
+          max-width: 96rem;
+          margin: 0 auto;
+        }
+        
+        .launch-title {
+          font-size: 32px;
+          font-weight: bold;
+          text-align: center;
+          color: white;
+          margin-bottom: 16px;
         }
         
         .launch-subtitle {
           color: #9ca3af;
+          text-align: center;
+          max-width: 42rem;
+          margin: 0 auto 48px;
+          line-height: 1.75;
+        }
+        
+        .countdown-container {
+          text-align: center;
+          margin-bottom: 48px;
         }
         
         .countdown {
-          font-size: 48px;
+          font-size: 64px;
           font-weight: bold;
           background: linear-gradient(to bottom, #f7b91c, #d4a017);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          margin-bottom: 16px;
           letter-spacing: -0.025em;
+          margin-bottom: 16px;
         }
         
         @media (min-width: 768px) {
           .countdown {
-            font-size: 64px;
+            font-size: 80px;
           }
-        }
-        
-        .form-header {
-          text-align: center;
-          margin-bottom: 24px;
-        }
-        
-        .form-title {
-          font-size: 20px;
-          font-weight: 600;
-          color: white;
-          margin-bottom: 8px;
-        }
-        
-        .form-subtitle {
-          color: #9ca3af;
-          font-size: 14px;
         }
         
         .waitlist-form {
@@ -461,45 +738,6 @@ app.get('/', (req, res) => {
           cursor: not-allowed;
         }
         
-        /* Features */
-        .features {
-          margin-top: 48px;
-          padding-top: 32px;
-          border-top: 1px solid #333;
-        }
-        
-        .features-title {
-          font-size: 20px;
-          font-weight: 600;
-          color: white;
-          text-align: center;
-          margin-bottom: 24px;
-        }
-        
-        .features-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 16px;
-        }
-        
-        @media (min-width: 768px) {
-          .features-grid {
-            grid-template-columns: 1fr 1fr;
-          }
-        }
-        
-        .feature-item {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          color: #9ca3af;
-          font-size: 14px;
-        }
-        
-        .feature-icon {
-          font-size: 18px;
-        }
-        
         /* Success Message */
         .success-message {
           text-align: center;
@@ -542,16 +780,16 @@ app.get('/', (req, res) => {
         .footer {
           border-top: 1px solid #262626;
           background: #0f0f0f;
+          padding: 48px 24px;
         }
         
         .footer-content {
           max-width: 80rem;
           margin: 0 auto;
-          padding: 48px 24px;
+          text-align: center;
         }
         
         .footer-text {
-          text-align: center;
           color: #6b7280;
           font-size: 14px;
         }
@@ -617,31 +855,132 @@ app.get('/', (req, res) => {
             Join Waitlist
             <span>→</span>
           </button>
+          <button class="btn-secondary" onclick="scrollToWaitlist()">
+            Learn More
+            <span>→</span>
+          </button>
         </div>
       </section>
 
-      <!-- Launch Card Section -->
-      <section class="launch-section">
-        <div class="launch-card">
-          
-          <div class="launch-header">
-            <div class="launch-status">
-              <span class="status-dot"></span>
-              <span class="status-text">Launch Date</span>
-            </div>
-            <h3 class="launch-title">Monday, April 6th 2025</h3>
-            <p class="launch-subtitle">9:00 AM BST</p>
+      <!-- What We Do Section -->
+      <section class="what-we-do-section">
+        <!-- Mock dashboard card -->
+        <div class="dashboard-card">
+          <div class="window-controls">
+            <div class="window-dot red"></div>
+            <div class="window-dot yellow"></div>
+            <div class="window-dot green"></div>
+            <span class="window-title">coreguard.app/dashboard</span>
           </div>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-label">Officers</div>
+              <div class="stat-value white">127</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Compliance</div>
+              <div class="stat-value gold">94%</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Alerts</div>
+              <div class="stat-value orange">3</div>
+            </div>
+          </div>
+          <div class="activity-log">
+            <div class="activity-item">
+              <div class="activity-left">
+                <span class="activity-dot green"></span>
+                <span class="activity-text">Licence verified</span>
+              </div>
+              <span class="activity-time">2m</span>
+            </div>
+            <div class="activity-item">
+              <div class="activity-left">
+                <span class="activity-dot green"></span>
+                <span class="activity-text">Shift started</span>
+              </div>
+              <span class="activity-time">5m</span>
+            </div>
+            <div class="activity-item">
+              <div class="activity-left">
+                <span class="activity-dot orange"></span>
+                <span class="activity-text">Licence expiring</span>
+              </div>
+              <span class="activity-time">12m</span>
+            </div>
+          </div>
+          <div class="dashboard-glow"></div>
+        </div>
+
+        <!-- Text -->
+        <div class="what-we-do-content">
+          <div>
+            <h3 class="section-title">What We Do</h3>
+          </div>
+          <div>
+            <p class="what-we-do-text">
+              CoreGuard is an all-in-one security management platform built for UK private security companies.
+            </p>
+            <p class="what-we-do-text">
+              We handle workforce management, SIA licence compliance, site deployments, real-time check calls, and audit-ready reporting — so you can focus on delivering safe, professional services.
+            </p>
+            <p class="what-we-do-text">
+              From single-site operators to national firms, CoreGuard scales with your operation and keeps you inspection-ready at all times.
+            </p>
+          </div>
+          <button class="btn-primary" onclick="scrollToWaitlist()">
+            Learn More
+            <span>→</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section class="features-section">
+        <h2 class="features-title">Built for Security Operations</h2>
+        <p class="features-subtitle">
+          Three core modules designed to give you complete control over your workforce, compliance, and day-to-day operations.
+        </p>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">�</div>
+            <h3 class="feature-title">Workforce Command</h3>
+            <p class="feature-description">
+              Centralised personnel registry with SIA licence tracking, identity verification, and role-based access control.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🛡️</div>
+            <h3 class="feature-title">Compliance Engine</h3>
+            <p class="feature-description">
+              Automated licence monitoring, expiry enforcement, and deployment blocking for non-compliant officers.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📋</div>
+            <h3 class="feature-title">Operations Centre</h3>
+            <p class="feature-description">
+              Real-time site visibility, shift management, check-call monitoring, and instant incident reporting.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Launch Countdown Section -->
+      <section class="launch-section" id="waitlist">
+        <div class="launch-content">
+          <h2 class="features-title">Launching Soon</h2>
+          <p class="features-subtitle">
+            Be the first to experience the future of security management. Join our exclusive waitlist for early access.
+          </p>
           
-          <div class="countdown" id="countdown">Loading...</div>
+          <div class="countdown-container">
+            <div class="countdown" id="countdown">Loading...</div>
+            <p style="color: #f7b91c; font-size: 18px; font-weight: 500;">Monday, April 6th 2025 • 9:00 AM BST</p>
+          </div>
 
           <!-- Waitlist Form -->
           <div id="waitlist-form">
-            <div class="form-header">
-              <h3 class="form-title">Be the first to know when we launch</h3>
-              <p class="form-subtitle">Join our exclusive waitlist for early access</p>
-            </div>
-            
             <form class="waitlist-form" onsubmit="handleWaitlistSubmit(event)">
               <input
                 type="email"
@@ -655,37 +994,6 @@ app.get('/', (req, res) => {
                 <span>→</span>
               </button>
             </form>
-          </div>
-
-          <!-- Features -->
-          <div class="features">
-            <h3 class="features-title">What's Coming:</h3>
-            <div class="features-grid">
-              <div class="feature-item">
-                <span class="feature-icon">📱</span>
-                <span>Real-time Personnel Tracking</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-icon">🏢</span>
-                <span>Site Management</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-icon">📋</span>
-                <span>Compliance Reporting</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-icon">⏰</span>
-                <span>Rota Scheduling</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-icon">📞</span>
-                <span>Check-call System</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-icon">🔒</span>
-                <span>Audit Trails</span>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -714,7 +1022,7 @@ app.get('/', (req, res) => {
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
             
             document.getElementById('countdown').textContent = 
-              \`\${days}d \${hours}h \${minutes}m \${seconds}s\`;
+              days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's';
           } else {
             document.getElementById('countdown').textContent = '🎉 Launching Now!';
           }
@@ -722,7 +1030,7 @@ app.get('/', (req, res) => {
         
         // Smooth scroll to waitlist
         function scrollToWaitlist() {
-          document.getElementById('waitlist-form').scrollIntoView({ 
+          document.getElementById('waitlist').scrollIntoView({ 
             behavior: 'smooth',
             block: 'center'
           });
@@ -753,18 +1061,16 @@ app.get('/', (req, res) => {
             if (response.ok) {
               // Show success message
               const form = document.getElementById('waitlist-form');
-              form.innerHTML = \`
-                <div class="success-message">
-                  <div class="success-icon">✅</div>
-                  <h3 class="success-title">You're on the list!</h3>
-                  <p class="success-text">
-                    We'll notify you as soon as we launch. Get ready to transform your security management!
-                  </p>
-                  <div class="success-count">
-                    Total waitlist: \${data.totalWaitlist || 1} members
-                  </div>
-                </div>
-              \`;
+              form.innerHTML = '<div class="success-message">' +
+                '<div class="success-icon">✅</div>' +
+                '<h3 class="success-title">You're on the list!</h3>' +
+                '<p class="success-text">' +
+                  'We'll notify you as soon as we launch. Get ready to transform your security management!' +
+                '</p>' +
+                '<div class="success-count">' +
+                  'Total waitlist: ' + (data.totalWaitlist || 1) + ' members' +
+                '</div>' +
+                '</div>';
             } else {
               throw new Error(data.error || 'Failed to join waitlist');
             }
