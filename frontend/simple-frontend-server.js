@@ -1,6 +1,13 @@
 const express = require('express');
 const path = require('path');
+const { Resend } = require('resend');
 const app = express();
+
+// Initialize Resend for email sending (only if API key is available)
+let resend = null;
+if (process.env.RESEND_API_KEY) {
+  resend = new Resend(process.env.RESEND_API_KEY);
+}
 
 // Add JSON middleware for API routes
 app.use(express.json());
@@ -96,61 +103,81 @@ app.post('/api/waitlist', async (req, res) => {
 
 // Simulated email sending function (in production, use actual email service)
 async function sendConfirmationEmail(email) {
-  // Simulate email sending delay
-  await new Promise(resolve => setTimeout(resolve, 500));
-  
-  // In production, this would use a real email service like Resend, SendGrid, etc.
-  const confirmationData = {
-    to: email,
-    subject: 'Welcome to CoreGuard UK Alpha Waitlist! 🚀',
-    html: `
-      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background: #0f0f0f; color: #d4d4d4;">
-        <div style="text-align: center; margin-bottom: 40px;">
-          <h1 style="color: #f7b91c; font-size: 32px; margin-bottom: 10px;">CoreGuard UK</h1>
-          <p style="color: #9ca3af; font-size: 16px;">Alpha Stage Waitlist Confirmation</p>
+  try {
+    // Check if Resend is available
+    if (!resend) {
+      console.log('⚠️  RESEND_API_KEY not found, using simulated email sending');
+      // Fallback to simulation for development
+      await new Promise(resolve => setTimeout(resolve, 500));
+      console.log('📧 Confirmation email prepared (simulated):', email);
+      return { success: true, simulated: true };
+    }
+
+    // Send actual email using Resend
+    console.log('📧 Sending confirmation email to:', email);
+    
+    const { data, error } = await resend.emails.send({
+      from: 'CoreGuard UK <noreply@coreguard.uk>',
+      to: [email],
+      subject: 'Welcome to CoreGuard UK Alpha Waitlist! 🚀',
+      html: `
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background: #0f0f0f; color: #d4d4d4;">
+          <div style="text-align: center; margin-bottom: 40px;">
+            <h1 style="color: #f7b91c; font-size: 32px; margin-bottom: 10px;">CoreGuard UK</h1>
+            <p style="color: #9ca3af; font-size: 16px;">Alpha Stage Waitlist Confirmation</p>
+          </div>
+          
+          <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 12px; padding: 30px; margin-bottom: 30px;">
+            <h2 style="color: white; font-size: 24px; margin-bottom: 20px;">Welcome aboard! 🎉</h2>
+            <p style="color: #d4d4d4; line-height: 1.6; margin-bottom: 20px;">
+              Thank you for joining the CoreGuard UK alpha waitlist! You're now among the first to experience the future of security management.
+            </p>
+            <p style="color: #d4d4d4; line-height: 1.6; margin-bottom: 20px;">
+              <strong>Launch Details:</strong><br>
+              📅 Date: Monday, April 6th 2025<br>
+              🕘 Time: 9:00 AM BST<br>
+              🚀 Stage: Alpha Release
+            </p>
+            <p style="color: #d4d4d4; line-height: 1.6;">
+              We'll send you early access credentials and updates as we approach the launch date. Your feedback during the alpha stage will help shape the future of CoreGuard!
+            </p>
+          </div>
+          
+          <div style="text-align: center; padding: 20px; background: rgba(247, 185, 28, 0.1); border: 1px solid rgba(247, 185, 28, 0.2); border-radius: 8px;">
+            <p style="color: #f7b91c; font-weight: 600; margin-bottom: 10px;">What's Next?</p>
+            <p style="color: #9ca3af; font-size: 14px;">
+              • Early access credentials on launch day<br>
+              • Exclusive alpha features preview<br>
+              • Direct channel to provide feedback<br>
+              • Priority support during alpha stage
+            </p>
+          </div>
+          
+          <div style="text-align: center; margin-top: 40px; padding-top: 30px; border-top: 1px solid #262626;">
+            <p style="color: #6b7280; font-size: 14px;">
+              Questions? Reply to this email or contact us at<br>
+              <a href="mailto:support@coreguard.uk" style="color: #f7b91c;">support@coreguard.uk</a>
+            </p>
+            <p style="color: #6b7280; font-size: 12px; margin-top: 20px;">
+              © 2024 CoreGuard UK. Enterprise Security Management for the UK Private Security Industry
+            </p>
+          </div>
         </div>
-        
-        <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 12px; padding: 30px; margin-bottom: 30px;">
-          <h2 style="color: white; font-size: 24px; margin-bottom: 20px;">Welcome aboard! 🎉</h2>
-          <p style="color: #d4d4d4; line-height: 1.6; margin-bottom: 20px;">
-            Thank you for joining the CoreGuard UK alpha waitlist! You're now among the first to experience the future of security management.
-          </p>
-          <p style="color: #d4d4d4; line-height: 1.6; margin-bottom: 20px;">
-            <strong>Launch Details:</strong><br>
-            📅 Date: Monday, April 6th 2025<br>
-            🕘 Time: 9:00 AM BST<br>
-            🚀 Stage: Alpha Release
-          </p>
-          <p style="color: #d4d4d4; line-height: 1.6;">
-            We'll send you early access instructions and updates as we approach the launch date. Your feedback during the alpha stage will help shape the future of CoreGuard!
-          </p>
-        </div>
-        
-        <div style="text-align: center; padding: 20px; background: rgba(247, 185, 28, 0.1); border: 1px solid rgba(247, 185, 28, 0.2); border-radius: 8px;">
-          <p style="color: #f7b91c; font-weight: 600; margin-bottom: 10px;">What's Next?</p>
-          <p style="color: #9ca3af; font-size: 14px;">
-            • Early access credentials on launch day<br>
-            • Exclusive alpha features preview<br>
-            • Direct channel to provide feedback<br>
-            • Priority support during alpha stage
-          </p>
-        </div>
-        
-        <div style="text-align: center; margin-top: 40px; padding-top: 30px; border-top: 1px solid #262626;">
-          <p style="color: #6b7280; font-size: 14px;">
-            Questions? Reply to this email or contact us at<br>
-            <a href="mailto:support@coreguard.uk" style="color: #f7b91c;">support@coreguard.uk</a>
-          </p>
-          <p style="color: #6b7280; font-size: 12px; margin-top: 20px;">
-            © 2024 CoreGuard UK. Enterprise Security Management for the UK Private Security Industry
-          </p>
-        </div>
-      </div>
-    `
-  };
-  
-  console.log('📧 Confirmation email prepared:', confirmationData.subject);
-  return confirmationData;
+      `
+    });
+
+    if (error) {
+      console.error('❌ Email sending failed:', error);
+      throw new Error(`Email service error: ${error.message}`);
+    }
+
+    console.log('✅ Confirmation email sent successfully:', data);
+    return { success: true, data };
+    
+  } catch (error) {
+    console.error('❌ Failed to send confirmation email:', error);
+    throw error;
+  }
 }
 
 app.get('/api/waitlist', (req, res) => {
@@ -943,6 +970,20 @@ app.get('/', (req, res) => {
         .modern-submit-btn:hover .btn-arrow {
           transform: translateX(4px);
         }
+        
+        .loading-spinner {
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          border: 2px solid rgba(26, 26, 26, 0.3);
+          border-radius: 50%;
+          border-top-color: #1a1a1a;
+          animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
 
         .form-benefits {
           display: flex;
@@ -1071,6 +1112,59 @@ app.get('/', (req, res) => {
           margin-top: 24px;
           font-size: 14px;
           color: #6b7280;
+        }
+        
+        .success-details {
+          margin-top: 24px;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+        
+        .success-status {
+          padding: 8px 16px;
+          background: rgba(34, 197, 94, 0.1);
+          border: 1px solid rgba(34, 197, 94, 0.2);
+          border-radius: 8px;
+          color: #22c55e;
+          font-size: 14px;
+          font-weight: 600;
+          text-align: center;
+        }
+        
+        .success-count {
+          color: #f7b91c;
+          font-size: 16px;
+          font-weight: 600;
+          text-align: center;
+        }
+        
+        .success-date {
+          color: #9ca3af;
+          font-size: 14px;
+          text-align: center;
+        }
+        
+        .success-actions {
+          margin-top: 32px;
+          text-align: center;
+        }
+        
+        .success-btn {
+          background: linear-gradient(to right, #f7b91c, #d4a017);
+          color: #1a1a1a;
+          font-weight: 600;
+          padding: 12px 24px;
+          border-radius: 9999px;
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          font-size: 14px;
+        }
+        
+        .success-btn:hover {
+          opacity: 0.9;
+          transform: translateY(-1px);
         }
         
         /* Footer */
@@ -1448,6 +1542,10 @@ app.get('/', (req, res) => {
           
           btnText.textContent = 'Joining...';
           submitBtn.disabled = true;
+          submitBtn.style.cursor = 'not-allowed';
+          
+          // Add loading animation
+          submitBtn.innerHTML = '<span class="btn-content"><span class="loading-spinner"></span><span id="btn-text">Joining...</span></span>';
           
           try {
             console.log('Sending request to /api/waitlist...');
@@ -1464,17 +1562,28 @@ app.get('/', (req, res) => {
             console.log('Response data:', data);
             
             if (response.ok) {
-              // Show success message
+              // Show success message with enhanced styling
               const form = document.getElementById('waitlist-form');
               if (form) {
+                const emailStatus = data.confirmationSent ? '✅ Email sent successfully!' : '⚠️ Email confirmation pending';
+                const waitlistCount = data.totalWaitlist || 1;
+                
                 form.innerHTML = '<div class="success-message">' +
-                  '<div class="success-icon">✅</div>' +
+                  '<div class="success-icon">🎉</div>' +
                   '<h3 class="success-title">You\'re on the list!</h3>' +
                   '<p class="success-text">' +
-                    'Check your email for confirmation. We\'ll notify you as soon as we launch. Get ready to transform your security management!' +
+                    'Welcome to the CoreGuard UK alpha waitlist! ' +
+                    'Check your email for confirmation and get ready for early access on launch day.' +
                   '</p>' +
-                  '<div class="success-count">' +
-                    'Total waitlist: ' + (data.totalWaitlist || 1) + ' members' +
+                  '<div class="success-details">' +
+                    '<div class="success-status">' + emailStatus + '</div>' +
+                    '<div class="success-count">You are #' + waitlistCount + ' on the waitlist</div>' +
+                    '<div class="success-date">Launch: Monday, April 6th 2025 • 9:00 AM BST</div>' +
+                  '</div>' +
+                  '<div class="success-actions">' +
+                    '<button class="success-btn" onclick="window.location.reload()">' +
+                      'Join Another Email' +
+                    '</button>' +
                   '</div>' +
                   '</div>';
               }
@@ -1483,9 +1592,18 @@ app.get('/', (req, res) => {
             }
           } catch (error) {
             console.error('Form submission error:', error);
-            btnText.textContent = 'Join Waitlist';
+            
+            // Restore button state
             submitBtn.disabled = false;
-            alert('Something went wrong: ' + error.message + '. Please try again.');
+            submitBtn.style.cursor = 'pointer';
+            submitBtn.innerHTML = '<span class="btn-content"><span id="btn-text">Join Waitlist</span><span class="btn-arrow">→</span></span>';
+            
+            // Show user-friendly error message
+            const errorMessage = error.message.includes('Email service error') 
+              ? 'There was an issue sending the confirmation email, but you\'ve been added to the waitlist!'
+              : 'Something went wrong. Please try again.';
+            
+            alert(errorMessage);
           }
         }
       </script>
