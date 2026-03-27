@@ -89,10 +89,10 @@ app.get('/api/waitlist', (req, res) => {
   });
 });
 
-// Root endpoint - Launching Soon page (exact landing page styling)
+// Root endpoint - Launching Soon page (production-ready without CDN)
 app.get('/', (req, res) => {
   console.log('Root endpoint requested - serving launching soon page');
-  res.send(`
+  res.send(\`
     <!DOCTYPE html>
     <html>
     <head>
@@ -100,31 +100,158 @@ app.get('/', (req, res) => {
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="description" content="Enterprise Security Management System launching April 6th, 2025. Join our waitlist for early access.">
-      <script src="https://cdn.tailwindcss.com"></script>
-      <script>
-        tailwind.config = {
-          theme: {
-            extend: {
-              colors: {
-                'f7b91c': '#f7b91c',
-                'd4a017': '#d4a017'
-              }
-            }
+      <style>
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        
+        body {
+          min-height: 100vh;
+          background: #0f0f0f;
+          color: #d4d4d4;
+          font-size: 14px;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Banner */
+        .banner {
+          display: flex;
+          width: 100%;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          background: linear-gradient(to right, #f7b91c, #d4a017);
+          padding: 8px;
+          text-align: center;
+          font-weight: 500;
+          color: #1a1a1a;
+        }
+        
+        .banner p {
+          font-size: 14px;
+        }
+        
+        .banner button {
+          margin-left: 8px;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          border-radius: 6px;
+          background: #1a1a1a;
+          padding: 4px 12px;
+          color: #f7b91c;
+          font-size: 12px;
+          font-weight: 600;
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        
+        .banner button:hover {
+          background: #262626;
+        }
+        
+        .banner button:active {
+          transform: scale(0.95);
+        }
+        
+        /* Hero Section */
+        .hero {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          min-height: 90vh;
+          overflow: hidden;
+          padding: 96px 24px;
+          z-index: 10;
+        }
+        
+        @media (min-width: 768px) {
+          .hero {
+            padding: 96px 64px;
           }
         }
-      </script>
-      <style>
-        /* Custom animations */
+        
+        .hero-bg {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          z-index: -1;
+          background-image: linear-gradient(to bottom, rgba(15, 15, 15, 0.3), rgba(15, 15, 15, 0.4), rgba(15, 15, 15, 0.5)), url('/The Future Security of Management Starts Here. (Website).png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-color: #1a1a1a;
+        }
+        
+        .hero-glow {
+          position: absolute;
+          inset: 0;
+          z-index: -1;
+          mix-blend-mode: screen;
+        }
+        
+        .status-badge {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+          border-radius: 9999px;
+          border: 1px solid rgba(247, 185, 28, 0.2);
+          background: rgba(247, 185, 28, 0.05);
+          padding: 6px 16px;
+          margin-bottom: 32px;
+        }
+        
+        .status-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: #f7b91c;
+          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+          margin-right: 8px;
+        }
+        
         @keyframes pulse {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.5; }
         }
         
-        .animate-pulse {
-          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        .status-text {
+          color: #f7b91c;
+          font-size: 12px;
+          font-weight: 500;
         }
         
-        /* Gradient text */
+        .hero-title {
+          font-size: 48px;
+          line-height: 1.15;
+          font-weight: 700;
+          text-align: center;
+          max-width: 48rem;
+          letter-spacing: -0.025em;
+          margin-bottom: 24px;
+        }
+        
+        @media (min-width: 768px) {
+          .hero-title {
+            font-size: 64px;
+          }
+        }
+        
+        @media (min-width: 1024px) {
+          .hero-title {
+            font-size: 80px;
+          }
+        }
+        
         .gradient-text-1 {
           background: linear-gradient(to right, white, #d4d4d4);
           -webkit-background-clip: text;
@@ -139,148 +266,423 @@ app.get('/', (req, res) => {
           background-clip: text;
         }
         
-        /* Mix blend mode for SVG */
-        .mix-blend-screen {
-          mix-blend-mode: screen;
+        .hero-description {
+          color: #9ca3af;
+          font-size: 16px;
+          text-align: center;
+          max-width: 28rem;
+          margin-top: 24px;
+          line-height: 1.75;
+        }
+        
+        @media (min-width: 768px) {
+          .hero-description {
+            font-size: 18px;
+          }
+        }
+        
+        .cta-buttons {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+          gap: 16px;
+          margin-top: 40px;
+        }
+        
+        .btn-primary {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          background: linear-gradient(to right, #f7b91c, #d4a017);
+          color: #1a1a1a;
+          font-weight: 600;
+          padding: 12px 32px;
+          border-radius: 9999px;
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          font-size: 16px;
+          text-decoration: none;
+        }
+        
+        .btn-primary:hover {
+          opacity: 0.9;
+        }
+        
+        /* Launch Card Section */
+        .launch-section {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 96px 24px;
+        }
+        
+        @media (min-width: 768px) {
+          .launch-section {
+            padding: 96px 64px;
+          }
+        }
+        
+        .launch-card {
+          position: relative;
+          flex-shrink: 0;
+          border-radius: 16px;
+          overflow: hidden;
+          border: 1px solid #333;
+          background: #1a1a1a;
+          padding: 32px;
+          box-shadow: 0 25px 50px -12px rgba(247, 185, 28, 0.05);
+          max-width: 42rem;
+          width: 100%;
+        }
+        
+        .launch-header {
+          text-align: center;
+          margin-bottom: 32px;
+        }
+        
+        .launch-status {
+          display: inline-flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+          border-radius: 9999px;
+          border: 1px solid rgba(247, 185, 28, 0.2);
+          background: rgba(247, 185, 28, 0.05);
+          padding: 8px 24px;
+          margin-bottom: 24px;
+        }
+        
+        .launch-title {
+          font-size: 24px;
+          font-weight: bold;
+          color: white;
+          margin-bottom: 8px;
+        }
+        
+        .launch-subtitle {
+          color: #9ca3af;
+        }
+        
+        .countdown {
+          font-size: 48px;
+          font-weight: bold;
+          background: linear-gradient(to bottom, #f7b91c, #d4a017);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          margin-bottom: 16px;
+          letter-spacing: -0.025em;
+        }
+        
+        @media (min-width: 768px) {
+          .countdown {
+            font-size: 64px;
+          }
+        }
+        
+        .form-header {
+          text-align: center;
+          margin-bottom: 24px;
+        }
+        
+        .form-title {
+          font-size: 20px;
+          font-weight: 600;
+          color: white;
+          margin-bottom: 8px;
+        }
+        
+        .form-subtitle {
+          color: #9ca3af;
+          font-size: 14px;
+        }
+        
+        .waitlist-form {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          max-width: 28rem;
+          margin: 0 auto;
+        }
+        
+        @media (min-width: 768px) {
+          .waitlist-form {
+            flex-direction: row;
+          }
+        }
+        
+        .email-input {
+          flex: 1;
+          padding: 12px 16px;
+          background: #0f0f0f;
+          border: 1px solid #333;
+          border-radius: 8px;
+          color: white;
+          font-size: 16px;
+          outline: none;
+          transition: all 0.3s ease;
+        }
+        
+        .email-input::placeholder {
+          color: #6b7280;
+        }
+        
+        .email-input:focus {
+          border-color: #f7b91c;
+          box-shadow: 0 0 0 1px rgba(247, 185, 28, 0.2);
+        }
+        
+        .submit-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          background: linear-gradient(to right, #f7b91c, #d4a017);
+          color: #1a1a1a;
+          font-weight: 600;
+          padding: 12px 24px;
+          border-radius: 9999px;
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          font-size: 16px;
+          min-width: 140px;
+        }
+        
+        .submit-btn:hover {
+          opacity: 0.9;
+        }
+        
+        .submit-btn:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+        }
+        
+        /* Features */
+        .features {
+          margin-top: 48px;
+          padding-top: 32px;
+          border-top: 1px solid #333;
+        }
+        
+        .features-title {
+          font-size: 20px;
+          font-weight: 600;
+          color: white;
+          text-align: center;
+          margin-bottom: 24px;
+        }
+        
+        .features-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+        
+        @media (min-width: 768px) {
+          .features-grid {
+            grid-template-columns: 1fr 1fr;
+          }
+        }
+        
+        .feature-item {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          color: #9ca3af;
+          font-size: 14px;
+        }
+        
+        .feature-icon {
+          font-size: 18px;
+        }
+        
+        /* Success Message */
+        .success-message {
+          text-align: center;
+          padding: 32px 0;
+        }
+        
+        .success-icon {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 64px;
+          height: 64px;
+          border-radius: 50%;
+          background: rgba(34, 197, 94, 0.1);
+          border: 1px solid rgba(34, 197, 94, 0.2);
+          margin-bottom: 16px;
+          font-size: 24px;
+        }
+        
+        .success-title {
+          font-size: 24px;
+          font-weight: bold;
+          color: white;
+          margin-bottom: 8px;
+        }
+        
+        .success-text {
+          color: #9ca3af;
+          max-width: 28rem;
+          margin: 0 auto;
+        }
+        
+        .success-count {
+          margin-top: 24px;
+          font-size: 14px;
+          color: #6b7280;
+        }
+        
+        /* Footer */
+        .footer {
+          border-top: 1px solid #262626;
+          background: #0f0f0f;
+        }
+        
+        .footer-content {
+          max-width: 80rem;
+          margin: 0 auto;
+          padding: 48px 24px;
+        }
+        
+        .footer-text {
+          text-align: center;
+          color: #6b7280;
+          font-size: 14px;
+        }
+        
+        .footer-text p {
+          margin-bottom: 8px;
+        }
+        
+        .footer-text p:last-child {
+          margin-bottom: 0;
         }
       </style>
     </head>
-    <body class="min-h-screen bg-[#0f0f0f] text-sm antialiased text-gray-300">
+    <body>
 
-      {/* ═══ BANNER ═══ */}
-      <div class="flex w-full flex-wrap items-center justify-center gap-2 bg-gradient-to-r from-[#f7b91c] to-[#d4a017] py-2 text-center font-medium text-[#1a1a1a]">
-        <p class="text-sm">CoreGuard UK — Professional Security Management Platform</p>
-        <button
-          onclick="scrollToWaitlist()"
-          class="ml-2 flex items-center gap-1 rounded-md bg-[#1a1a1a] px-3 py-1 text-[#f7b91c] text-xs font-semibold transition hover:bg-[#262626] active:scale-95"
-        >
+      <!-- Banner -->
+      <div class="banner">
+        <p>CoreGuard UK — Professional Security Management Platform</p>
+        <button onclick="scrollToWaitlist()">
           Join Waitlist
-          <span class="text-xs">→</span>
+          <span>→</span>
         </button>
       </div>
 
-      {/* ═══ HERO ═══ */}
-      <section class="flex flex-col items-center justify-center relative min-h-[90vh] overflow-hidden px-6 py-24 md:px-16 z-10">
-        {/* Background image with overlay */}
-        <div 
-          class="absolute inset-0 w-full h-full -z-10"
-          style={{
-            backgroundImage: 'linear-gradient(to bottom, rgba(15, 15, 15, 0.3), rgba(15, 15, 15, 0.4), rgba(15, 15, 15, 0.5)), url(/The Future Security of Management Starts Here. (Website).png)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            backgroundColor: '#1a1a1a'
-          }}
-        />
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="hero-bg"></div>
         
-        {/* Background glow for additional depth */}
-        <svg class="absolute inset-0 -z-10 w-full h-full mix-blend-screen" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <!-- Background glow for additional depth -->
+        <svg class="hero-glow" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <defs>
+            <filter id="glow1">
+              <feGaussianBlur stdDeviation="150" />
+            </filter>
+            <filter id="glow2">
+              <feGaussianBlur stdDeviation="150" />
+            </filter>
+          </defs>
           <g filter="url(#glow1)">
             <ellipse cx="300" cy="200" rx="300" ry="200" fill="#f7b91c" fillOpacity="0.06" />
           </g>
           <g filter="url(#glow2)">
             <ellipse cx="1100" cy="500" rx="400" ry="280" fill="#f7b91c" fillOpacity="0.04" />
           </g>
-          <defs>
-            <filter id="glow1" x="-200" y="-200" width="1000" height="800" filterUnits="userSpaceOnUse"><feGaussianBlur stdDeviation="150" /></filter>
-            <filter id="glow2" x="500" y="20" width="1200" height="960" filterUnits="userSpaceOnUse"><feGaussianBlur stdDeviation="150" /></filter>
-          </defs>
         </svg>
 
-        <div class="flex flex-wrap items-center justify-center rounded-full border border-[#f7b91c]/20 bg-[#f7b91c]/5 p-1.5 px-4 mb-8">
-          <span class="w-2 h-2 rounded-full bg-[#f7b91c] animate-pulse mr-2" />
-          <p class="text-[#f7b91c] text-xs font-medium">Launching Monday, April 6th 2025</p>
+        <div class="status-badge">
+          <span class="status-dot"></span>
+          <span class="status-text">Launching Monday, April 6th 2025</span>
         </div>
 
-        <h1 class="text-4xl md:text-5xl lg:text-6xl text-center font-bold max-w-3xl leading-[1.15] tracking-tight">
+        <h1 class="hero-title">
           <span class="gradient-text-1">The Future of Security Management</span><br>
           <span class="gradient-text-2">Starts Soon</span>
         </h1>
 
-        <p class="text-gray-400 text-base md:text-lg text-center max-w-xl mt-6 leading-relaxed">
+        <p class="hero-description">
           The all-in-one platform for UK security companies. Manage workforce, enforce SIA compliance, and run operations — from a single command centre.
         </p>
 
-        <div class="flex flex-wrap items-center justify-center gap-4 mt-10">
-          <button
-            onclick="scrollToWaitlist()"
-            class="flex items-center gap-2 bg-gradient-to-r from-[#f7b91c] to-[#d4a017] hover:opacity-90 text-[#1a1a1a] font-semibold px-8 py-3 rounded-full transition"
-          >
+        <div class="cta-buttons">
+          <button class="btn-primary" onclick="scrollToWaitlist()">
             Join Waitlist
-            <span class="text-sm">→</span>
+            <span>→</span>
           </button>
         </div>
       </section>
 
-      {/* ═══ LAUNCH CARD ═══ */}
-      <section class="flex flex-col items-center justify-center px-6 py-24 md:px-16">
-        <div class="relative shrink-0 rounded-2xl overflow-hidden border border-[#333] bg-[#1a1a1a] p-8 shadow-2xl shadow-[#f7b91c]/5 max-w-2xl w-full">
+      <!-- Launch Card Section -->
+      <section class="launch-section">
+        <div class="launch-card">
           
-          <div class="text-center mb-8">
-            <div class="inline-flex flex-wrap items-center justify-center rounded-full border border-[#f7b91c]/20 bg-[#f7b91c]/5 p-2 px-6 mb-6">
-              <span class="w-2 h-2 rounded-full bg-[#f7b91c] animate-pulse mr-2" />
-              <p class="text-[#f7b91c] text-sm font-medium">Launch Date</p>
+          <div class="launch-header">
+            <div class="launch-status">
+              <span class="status-dot"></span>
+              <span class="status-text">Launch Date</span>
             </div>
-            <h3 class="text-2xl font-bold text-white mb-2">Monday, April 6th 2025</h3>
-            <p class="text-gray-400">9:00 AM BST</p>
+            <h3 class="launch-title">Monday, April 6th 2025</h3>
+            <p class="launch-subtitle">9:00 AM BST</p>
           </div>
           
-          <div class="text-center mb-8">
-            <div id="countdown" class="text-4xl md:text-5xl font-bold gradient-text-2 mb-4">Loading...</div>
-          </div>
+          <div class="countdown" id="countdown">Loading...</div>
 
-          {/* Waitlist Form */}
+          <!-- Waitlist Form -->
           <div id="waitlist-form">
-            <div class="text-center mb-6">
-              <h3 class="text-xl font-semibold text-white mb-2">Be the first to know when we launch</h3>
-              <p class="text-gray-400 text-sm">Join our exclusive waitlist for early access</p>
+            <div class="form-header">
+              <h3 class="form-title">Be the first to know when we launch</h3>
+              <p class="form-subtitle">Join our exclusive waitlist for early access</p>
             </div>
             
-            <form onsubmit="handleWaitlistSubmit(event)" class="flex flex-col md:flex-row gap-3 max-w-md mx-auto">
+            <form class="waitlist-form" onsubmit="handleWaitlistSubmit(event)">
               <input
                 type="email"
                 id="emailInput"
                 placeholder="Enter your email"
                 required
-                class="flex-1 px-4 py-3 bg-[#0f0f0f] border border-[#333] rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#f7b91c] focus:ring-1 focus:ring-[#f7b91c]/20 transition"
+                class="email-input"
               />
-              <button
-                type="submit"
-                id="submitBtn"
-                class="flex items-center justify-center gap-2 bg-gradient-to-r from-[#f7b91c] to-[#d4a017] hover:opacity-90 text-[#1a1a1a] font-semibold px-6 py-3 rounded-full transition min-w-[140px]"
-              >
+              <button type="submit" id="submitBtn" class="submit-btn">
                 <span id="btn-text">Join Waitlist</span>
-                <span class="text-sm">→</span>
+                <span>→</span>
               </button>
             </form>
           </div>
 
-          {/* Features */}
-          <div class="mt-12 pt-8 border-t border-[#333]">
-            <h3 class="text-xl font-semibold text-white text-center mb-6">What's Coming:</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="flex items-center gap-3 text-gray-400">
-                <span class="text-lg">📱</span>
+          <!-- Features -->
+          <div class="features">
+            <h3 class="features-title">What's Coming:</h3>
+            <div class="features-grid">
+              <div class="feature-item">
+                <span class="feature-icon">📱</span>
                 <span>Real-time Personnel Tracking</span>
               </div>
-              <div class="flex items-center gap-3 text-gray-400">
-                <span class="text-lg">🏢</span>
+              <div class="feature-item">
+                <span class="feature-icon">🏢</span>
                 <span>Site Management</span>
               </div>
-              <div class="flex items-center gap-3 text-gray-400">
-                <span class="text-lg">📋</span>
+              <div class="feature-item">
+                <span class="feature-icon">📋</span>
                 <span>Compliance Reporting</span>
               </div>
-              <div class="flex items-center gap-3 text-gray-400">
-                <span class="text-lg">⏰</span>
+              <div class="feature-item">
+                <span class="feature-icon">⏰</span>
                 <span>Rota Scheduling</span>
               </div>
-              <div class="flex items-center gap-3 text-gray-400">
-                <span class="text-lg">📞</span>
+              <div class="feature-item">
+                <span class="feature-icon">📞</span>
                 <span>Check-call System</span>
               </div>
-              <div class="flex items-center gap-3 text-gray-400">
-                <span class="text-lg">🔒</span>
+              <div class="feature-item">
+                <span class="feature-icon">🔒</span>
                 <span>Audit Trails</span>
               </div>
             </div>
@@ -288,11 +690,11 @@ app.get('/', (req, res) => {
         </div>
       </section>
 
-      {/* ═══ FOOTER ═══ */}
-      <footer class="border-t border-[#262626] bg-[#0f0f0f]">
-        <div class="max-w-7xl mx-auto px-6 py-12">
-          <div class="text-center text-gray-500 text-sm">
-            <p class="mb-2">© 2024 CoreGuard UK. All rights reserved.</p>
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="footer-content">
+          <div class="footer-text">
+            <p>© 2024 CoreGuard UK. All rights reserved.</p>
             <p>Enterprise Security Management for the UK Private Security Industry</p>
           </div>
         </div>
@@ -352,15 +754,13 @@ app.get('/', (req, res) => {
               // Show success message
               const form = document.getElementById('waitlist-form');
               form.innerHTML = \`
-                <div class="text-center py-8">
-                  <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-500/10 border border-green-500/20 mb-4">
-                    <span class="text-2xl">✅</span>
-                  </div>
-                  <h3 class="text-2xl font-bold text-white mb-2">You're on the list!</h3>
-                  <p class="text-gray-400 max-w-md mx-auto">
+                <div class="success-message">
+                  <div class="success-icon">✅</div>
+                  <h3 class="success-title">You're on the list!</h3>
+                  <p class="success-text">
                     We'll notify you as soon as we launch. Get ready to transform your security management!
                   </p>
-                  <div class="mt-6 text-sm text-gray-500">
+                  <div class="success-count">
                     Total waitlist: \${data.totalWaitlist || 1} members
                   </div>
                 </div>
@@ -381,7 +781,7 @@ app.get('/', (req, res) => {
       </script>
     </body>
     </html>
-  `);
+  \`);
 });
 
 // Get port from environment or use default
