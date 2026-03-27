@@ -8,7 +8,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "node server.js",
+    "start": "node simple-frontend-server.js",
+    "start:next": "node server.js",
     "lint": "next lint",
     "type-check": "tsc --noEmit"
   },
