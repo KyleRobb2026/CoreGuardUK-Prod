@@ -1047,7 +1047,7 @@ app.get('/', (req, res) => {
 
       <!-- Launch Countdown Section -->
       <section class="launch-section" id="waitlist">
-        <div class="launch-content">
+        <div class="launch-content text-center">
           <div class="flex flex-col items-center justify-center mb-16">
             <h2 class="text-center text-3xl md:text-4xl font-bold tracking-tight text-white mb-6">Alpha Stage Launch</h2>
             <p class="text-center text-base md:text-lg text-gray-400 max-w-3xl">
