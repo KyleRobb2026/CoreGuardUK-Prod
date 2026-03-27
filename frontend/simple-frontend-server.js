@@ -4,6 +4,18 @@ const { Resend } = require('resend');
 require('dotenv').config();
 const app = express();
 
+// Add CORS middleware
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
+
 // Initialize Resend for email sending (only if API key is available)
 let resend = null;
 if (process.env.RESEND_API_KEY && process.env.RESEND_API_KEY !== 'your_resend_api_key_here') {
@@ -122,12 +134,15 @@ async function sendConfirmationEmail(email) {
     
     try {
       const { data, error } = await resend.emails.send({
-        from: 'onboarding@resend.dev', // Use Resend's default verified domain
+        from: 'noreply@noreply.coreguardsms.co.uk', // Use your exact subdomain
         to: [email],
         subject: 'Welcome to CoreGuard UK Alpha Waitlist! 🚀',
         html: `
           <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background: #0f0f0f; color: #d4d4d4;">
             <div style="text-align: center; margin-bottom: 40px;">
+              <div style="margin-bottom: 20px;">
+                <img src="https://i.ibb.co/ZRmjPt68/The-Future-of-Security-Management-Starts-Here-Website.png" alt="CoreGuard UK" style="max-width: 200px; height: auto; border-radius: 8px;">
+              </div>
               <h1 style="color: #f7b91c; font-size: 32px; margin-bottom: 10px;">CoreGuard UK</h1>
               <p style="color: #9ca3af; font-size: 16px;">Alpha Stage Waitlist Confirmation</p>
             </div>
@@ -1566,7 +1581,7 @@ app.get('/', (req, res) => {
           
           try {
             console.log('Sending request to /api/waitlist...');
-            const response = await fetch('/api/waitlist', {
+            const response = await fetch('http://localhost:3000/api/waitlist', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
