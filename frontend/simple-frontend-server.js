@@ -691,66 +691,360 @@ app.get('/', (req, res) => {
         
         /* Launch Countdown Section */
         .launch-section {
-          background: rgba(26, 26, 26, 0.5);
-          border-top: 1px solid #262626;
-          border-bottom: 1px solid #262626;
-          padding: 112px 24px;
+          padding: 96px 24px;
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
+          position: relative;
+          overflow: hidden;
         }
-        
-        @media (min-width: 768px) {
-          .launch-section {
-            padding: 112px 64px;
-          }
-        }
-        
-        @media (min-width: 1024px) {
-          .launch-section {
-            padding: 112px 96px;
-          }
-        }
-        
+
         .launch-content {
-          max-width: 96rem;
-          margin: 0 auto;
+          max-width: 1200px;
+          width: 100%;
+          position: relative;
+          z-index: 2;
         }
-        
-        .launch-title {
-          font-size: 32px;
-          font-weight: bold;
-          text-align: center;
-          color: white;
-          margin-bottom: 16px;
+
+        .launch-card {
+          background: rgba(26, 26, 26, 0.8);
+          border: 1px solid rgba(247, 185, 28, 0.2);
+          border-radius: 24px;
+          padding: 48px;
+          backdrop-filter: blur(20px);
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+          position: relative;
+          overflow: hidden;
         }
-        
-        .launch-subtitle {
-          color: #9ca3af;
-          text-align: center;
-          max-width: 42rem;
-          margin: 0 auto 48px;
-          line-height: 1.75;
+
+        .launch-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background: linear-gradient(90deg, #f7b91c, #d4a017, #f7b91c);
+          animation: shimmer 2s infinite;
         }
-        
-        .countdown-container {
+
+        @keyframes shimmer {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+
+        .launch-header {
           text-align: center;
           margin-bottom: 48px;
         }
-        
-        .countdown {
-          font-size: 64px;
-          font-weight: bold;
-          background: linear-gradient(to bottom, #f7b91c, #d4a017);
+
+        .launch-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: rgba(247, 185, 28, 0.1);
+          border: 1px solid rgba(247, 185, 28, 0.3);
+          border-radius: 50px;
+          padding: 8px 16px;
+          margin-bottom: 24px;
+        }
+
+        .badge-dot {
+          width: 8px;
+          height: 8px;
+          background: #f7b91c;
+          border-radius: 50%;
+          animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
+        }
+
+        .badge-text {
+          color: #f7b91c;
+          font-size: 14px;
+          font-weight: 600;
+        }
+
+        .launch-title {
+          font-size: 48px;
+          font-weight: 800;
+          background: linear-gradient(135deg, #ffffff 0%, #f7b91c 50%, #ffffff 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          letter-spacing: -0.025em;
           margin-bottom: 16px;
+          line-height: 1.1;
+        }
+
+        .launch-subtitle {
+          color: #9ca3af;
+          font-size: 18px;
+          line-height: 1.6;
+          max-width: 600px;
+          margin: 0 auto;
+        }
+
+        .countdown-display {
+          margin-bottom: 48px;
+        }
+
+        .countdown-grid {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 24px;
+        }
+
+        .countdown-item {
+          text-align: center;
+          min-width: 80px;
+        }
+
+        .countdown-number {
+          font-size: 56px;
+          font-weight: 800;
+          color: #f7b91c;
+          line-height: 1;
+          margin-bottom: 8px;
+          text-shadow: 0 0 20px rgba(247, 185, 28, 0.3);
+        }
+
+        .countdown-label {
+          color: #6b7280;
+          font-size: 12px;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+
+        .countdown-separator {
+          color: #f7b91c;
+          font-size: 48px;
+          font-weight: 800;
+          margin: 0 4px;
+        }
+
+        .launch-date {
+          text-align: center;
+          color: #d4d4d4;
+          font-size: 16px;
+          font-weight: 500;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+        }
+
+        .date-icon {
+          font-size: 18px;
+        }
+
+        .waitlist-section {
+          text-align: center;
+        }
+
+        .form-header {
+          margin-bottom: 32px;
+        }
+
+        .form-title {
+          font-size: 32px;
+          font-weight: 700;
+          color: white;
+          margin-bottom: 8px;
+        }
+
+        .form-subtitle {
+          color: #9ca3af;
+          font-size: 16px;
+        }
+
+        .modern-waitlist-form {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          max-width: 400px;
+          margin: 0 auto 32px;
+        }
+
+        .input-group {
+          position: relative;
+        }
+
+        .modern-email-input {
+          width: 100%;
+          padding: 16px 48px 16px 20px;
+          background: rgba(15, 15, 15, 0.8);
+          border: 2px solid rgba(247, 185, 28, 0.2);
+          border-radius: 12px;
+          color: white;
+          font-size: 16px;
+          transition: all 0.3s ease;
+        }
+
+        .modern-email-input:focus {
+          outline: none;
+          border-color: #f7b91c;
+          box-shadow: 0 0 0 3px rgba(247, 185, 28, 0.1);
+        }
+
+        .modern-email-input::placeholder {
+          color: #6b7280;
+        }
+
+        .input-icon {
+          position: absolute;
+          right: 16px;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 18px;
+          color: #f7b91c;
+        }
+
+        .modern-submit-btn {
+          background: linear-gradient(135deg, #f7b91c 0%, #d4a017 100%);
+          border: none;
+          border-radius: 12px;
+          padding: 16px 24px;
+          color: #1a1a1a;
+          font-weight: 700;
+          font-size: 16px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .modern-submit-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 25px -5px rgba(247, 185, 28, 0.3);
+        }
+
+        .modern-submit-btn:active {
+          transform: translateY(0);
+        }
+
+        .btn-content {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+        }
+
+        .btn-arrow {
+          transition: transform 0.3s ease;
+        }
+
+        .modern-submit-btn:hover .btn-arrow {
+          transform: translateX(4px);
+        }
+
+        .form-benefits {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          max-width: 400px;
+          margin: 0 auto;
+        }
+
+        .benefit-item {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          color: #9ca3af;
+          font-size: 14px;
+        }
+
+        .benefit-icon {
+          font-size: 16px;
+        }
+
+        .launch-decoration {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          pointer-events: none;
+        }
+
+        .decoration-circle {
+          position: absolute;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(247, 185, 28, 0.1) 0%, transparent 70%);
+        }
+
+        .decoration-circle-1 {
+          width: 300px;
+          height: 300px;
+          top: -150px;
+          left: -150px;
+        }
+
+        .decoration-circle-2 {
+          width: 400px;
+          height: 400px;
+          bottom: -200px;
+          right: -200px;
+        }
+
+        .decoration-circle-3 {
+          width: 200px;
+          height: 200px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
         }
         
-        @media (min-width: 768px) {
-          .countdown {
-            font-size: 80px;
+        @media (max-width: 768px) {
+          .launch-section {
+            padding: 48px 16px;
+          }
+
+          .launch-card {
+            padding: 32px 24px;
+          }
+
+          .launch-title {
+            font-size: 32px;
+          }
+
+          .countdown-number {
+            font-size: 40px;
+          }
+
+          .countdown-item {
+            min-width: 60px;
+          }
+
+          .form-title {
+            font-size: 24px;
+          }
+
+          .modern-waitlist-form {
+            max-width: 100%;
+          }
+
+          .form-benefits {
+            max-width: 100%;
           }
         }
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          margin-bottom: 16px;
+          line-height: 1.1;
+        }
+
+        .launch-subtitle {
+          color: #9ca3af;
+          font-size: 18px;
+          line-height: 1.6;
+          max-width: 600px;
         
         .waitlist-form {
           display: flex;
@@ -1047,21 +1341,99 @@ app.get('/', (req, res) => {
 
       <!-- Launch Countdown Section -->
       <section class="launch-section" id="waitlist">
-        <div class="launch-content text-center">
-          <div class="countdown-container text-center mb-16">
-            <div class="countdown" id="countdown">Loading...</div>
-            <p style="color: #f7b91c; font-size: 18px; font-weight: 500;">Monday, April 6th 2025 • 9:00 AM BST</p>
+        <div class="launch-content">
+          <!-- Main Launch Card -->
+          <div class="launch-card">
+            <div class="launch-header">
+              <div class="launch-badge">
+                <span class="badge-dot"></span>
+                <span class="badge-text">Alpha Stage Launch</span>
+              </div>
+              <h2 class="launch-title">Get Ready for Launch</h2>
+              <p class="launch-subtitle">
+                Be among the first to experience CoreGuard UK. Join our exclusive alpha waitlist for early access.
+              </p>
+            </div>
+
+            <!-- Countdown Display -->
+            <div class="countdown-display">
+              <div class="countdown-grid">
+                <div class="countdown-item">
+                  <div class="countdown-number" id="days">00</div>
+                  <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-separator">:</div>
+                <div class="countdown-item">
+                  <div class="countdown-number" id="hours">00</div>
+                  <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-separator">:</div>
+                <div class="countdown-item">
+                  <div class="countdown-number" id="minutes">00</div>
+                  <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-separator">:</div>
+                <div class="countdown-item">
+                  <div class="countdown-number" id="seconds">00</div>
+                  <div class="countdown-label">Seconds</div>
+                </div>
+              </div>
+              <div class="launch-date">
+                <span class="date-icon">📅</span>
+                Monday, April 6th 2025 • 9:00 AM BST
+              </div>
+            </div>
+
+            <!-- Waitlist Form -->
+            <div class="waitlist-section">
+              <div class="form-header">
+                <h3 class="form-title">Join the Alpha Waitlist</h3>
+                <p class="form-subtitle">Secure your spot for early access</p>
+              </div>
+              
+              <div id="waitlist-form">
+                <form class="modern-waitlist-form" onsubmit="handleWaitlistSubmit(event)">
+                  <div class="input-group">
+                    <input 
+                      type="email" 
+                      id="emailInput" 
+                      placeholder="Enter your email address" 
+                      required 
+                      class="modern-email-input"
+                    >
+                    <div class="input-icon">📧</div>
+                  </div>
+                  <button type="submit" id="submitBtn" class="modern-submit-btn">
+                    <span class="btn-content">
+                      <span id="btn-text">Join Waitlist</span>
+                      <span class="btn-arrow">→</span>
+                    </span>
+                  </button>
+                </form>
+              </div>
+              
+              <div class="form-benefits">
+                <div class="benefit-item">
+                  <span class="benefit-icon">🚀</span>
+                  <span class="benefit-text">Early access to alpha features</span>
+                </div>
+                <div class="benefit-item">
+                  <span class="benefit-icon">💬</span>
+                  <span class="benefit-text">Direct feedback channel</span>
+                </div>
+                <div class="benefit-item">
+                  <span class="benefit-icon">🎯</span>
+                  <span class="benefit-text">Priority support during alpha</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <!-- Waitlist Form -->
-          <div id="waitlist-form" class="flex flex-col items-center justify-center">
-            <form class="waitlist-form" onsubmit="handleWaitlistSubmit(event)">
-              <input type="email" id="emailInput" placeholder="Enter your email" required="" class="email-input">
-              <button type="submit" id="submitBtn" class="submit-btn">
-                <span id="btn-text">Join Waitlist</span>
-                <span>→</span>
-              </button>
-            </form>
+          <!-- Side Elements -->
+          <div class="launch-decoration">
+            <div class="decoration-circle decoration-circle-1"></div>
+            <div class="decoration-circle decoration-circle-2"></div>
+            <div class="decoration-circle decoration-circle-3"></div>
           </div>
         </div>
       </section>
@@ -1077,7 +1449,7 @@ app.get('/', (req, res) => {
       </footer>
       
       <script>
-        // Countdown timer
+        // Update countdown every second
         function updateCountdown() {
           const launchDate = new Date('2025-04-06T09:00:00+01:00');
           const now = new Date();
@@ -1089,14 +1461,32 @@ app.get('/', (req, res) => {
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
             
-            document.getElementById('countdown').textContent = 
-              days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's';
+            // Update individual countdown elements
+            const daysEl = document.getElementById('days');
+            const hoursEl = document.getElementById('hours');
+            const minutesEl = document.getElementById('minutes');
+            const secondsEl = document.getElementById('seconds');
+            
+            if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
+            if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+            if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
+            if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
           } else {
-            document.getElementById('countdown').textContent = '🎉 Launching Now!';
+            // Launch has happened
+            const daysEl = document.getElementById('days');
+            const hoursEl = document.getElementById('hours');
+            const minutesEl = document.getElementById('minutes');
+            const secondsEl = document.getElementById('seconds');
+            
+            if (daysEl) daysEl.textContent = '00';
+            if (hoursEl) hoursEl.textContent = '00';
+            if (minutesEl) minutesEl.textContent = '00';
+            if (secondsEl) secondsEl.textContent = '00';
           }
         }
         
-        // Smooth scroll to waitlist
+        updateCountdown();
+        setInterval(updateCountdown, 1000); 
         function scrollToWaitlist() {
           document.getElementById('waitlist').scrollIntoView({ 
             behavior: 'smooth',
