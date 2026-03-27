@@ -1119,10 +1119,18 @@ app.get('/', (req, res) => {
           const submitBtn = document.getElementById('submitBtn');
           const btnText = document.getElementById('btn-text');
           
+          console.log('Form submitted with email:', email);
+          
+          if (!email) {
+            alert('Please enter your email address');
+            return;
+          }
+          
           btnText.textContent = 'Joining...';
           submitBtn.disabled = true;
           
           try {
+            console.log('Sending request to /api/waitlist...');
             const response = await fetch('/api/waitlist', {
               method: 'POST',
               headers: {
@@ -1131,7 +1139,9 @@ app.get('/', (req, res) => {
               body: JSON.stringify({ email }),
             });
             
+            console.log('Response status:', response.status);
             const data = await response.json();
+            console.log('Response data:', data);
             
             if (response.ok) {
               // Show success message
@@ -1150,9 +1160,10 @@ app.get('/', (req, res) => {
               throw new Error(data.error || 'Failed to join waitlist');
             }
           } catch (error) {
+            console.error('Form submission error:', error);
             btnText.textContent = 'Join Waitlist';
             submitBtn.disabled = false;
-            alert('Something went wrong. Please try again.');
+            alert('Something went wrong: ' + error.message + '. Please try again.');
           }
         }
         
