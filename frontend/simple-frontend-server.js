@@ -845,12 +845,12 @@ app.get('/', (req, res) => {
 
         <div class="status-badge">
           <span class="status-dot"></span>
-          <span class="status-text">Launching Monday, April 6th 2025</span>
+          <span class="status-text">Alpha Stage Launch - Monday, April 6th 2025</span>
         </div>
 
         <h1 class="hero-title">
           <span class="gradient-text-1">The Future of Security Management</span><br>
-          <span class="gradient-text-2">Starts Soon</span>
+          <span class="gradient-text-2">Alpha Stage</span>
         </h1>
 
         <p class="hero-description">
@@ -976,9 +976,9 @@ app.get('/', (req, res) => {
       <!-- Launch Countdown Section -->
       <section class="launch-section" id="waitlist">
         <div class="launch-content">
-          <h2 class="features-title">Launching Soon</h2>
+          <h2 class="features-title">Alpha Stage Launch</h2>
           <p class="features-subtitle">
-            Be the first to experience the future of security management. Join our exclusive waitlist for early access.
+            Be among the first to experience CoreGuard in its alpha stage. Join our exclusive waitlist for early access and help shape the future of security management.
           </p>
           
           <div class="countdown-container">
