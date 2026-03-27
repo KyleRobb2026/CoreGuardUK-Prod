@@ -64,10 +64,17 @@ export class DatabaseConfig {
   // Health check
   public async healthCheck(): Promise<boolean> {
     try {
-      const { error } = await this.supabase
-        .from('organisations')
-        .select('count')
-        .limit(1);
+      // Simple ping to check if Supabase is accessible
+      const { error } = await this.supabase.rpc('version');
+      
+      // If rpc doesn't work, try a simple select from information_schema
+      if (error && error.code === 'PGRST116') {
+        const { error: fallbackError } = await this.supabase
+          .from('pg_tables')
+          .select('tablename')
+          .limit(1);
+        return !fallbackError;
+      }
       
       return !error;
     } catch {
