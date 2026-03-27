@@ -43,7 +43,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // Waitlist API endpoint
-app.post('/api/waitlist', (req, res) => {
+app.post('/api/waitlist', async (req, res) => {
   try {
     const { email } = req.body;
 
@@ -59,7 +59,10 @@ app.post('/api/waitlist', (req, res) => {
 
     // Check if email already exists
     if (waitlist.has(email)) {
-      return res.json({ message: 'Email already registered for waitlist' });
+      return res.json({ 
+        message: 'Email already registered for waitlist',
+        totalWaitlist: waitlist.size 
+      });
     }
 
     // Add to waitlist
@@ -69,10 +72,20 @@ app.post('/api/waitlist', (req, res) => {
     console.log(`Waitlist signup: ${email}`);
     console.log(`Total waitlist: ${waitlist.size} emails`);
 
+    // Send confirmation email (simulated for now)
+    try {
+      await sendConfirmationEmail(email);
+      console.log(`Confirmation email sent to: ${email}`);
+    } catch (emailError) {
+      console.error('Failed to send confirmation email:', emailError);
+      // Still continue with signup even if email fails
+    }
+
     return res.json({
-      message: 'Successfully joined waitlist',
+      message: 'Successfully joined waitlist! Check your email for confirmation.',
       email: email,
-      totalWaitlist: waitlist.size
+      totalWaitlist: waitlist.size,
+      confirmationSent: true
     });
 
   } catch (error) {
@@ -80,6 +93,65 @@ app.post('/api/waitlist', (req, res) => {
     return res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+// Simulated email sending function (in production, use actual email service)
+async function sendConfirmationEmail(email) {
+  // Simulate email sending delay
+  await new Promise(resolve => setTimeout(resolve, 500));
+  
+  // In production, this would use a real email service like Resend, SendGrid, etc.
+  const confirmationData = {
+    to: email,
+    subject: 'Welcome to CoreGuard UK Alpha Waitlist! 🚀',
+    html: `
+      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background: #0f0f0f; color: #d4d4d4;">
+        <div style="text-align: center; margin-bottom: 40px;">
+          <h1 style="color: #f7b91c; font-size: 32px; margin-bottom: 10px;">CoreGuard UK</h1>
+          <p style="color: #9ca3af; font-size: 16px;">Alpha Stage Waitlist Confirmation</p>
+        </div>
+        
+        <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 12px; padding: 30px; margin-bottom: 30px;">
+          <h2 style="color: white; font-size: 24px; margin-bottom: 20px;">Welcome aboard! 🎉</h2>
+          <p style="color: #d4d4d4; line-height: 1.6; margin-bottom: 20px;">
+            Thank you for joining the CoreGuard UK alpha waitlist! You're now among the first to experience the future of security management.
+          </p>
+          <p style="color: #d4d4d4; line-height: 1.6; margin-bottom: 20px;">
+            <strong>Launch Details:</strong><br>
+            📅 Date: Monday, April 6th 2025<br>
+            🕘 Time: 9:00 AM BST<br>
+            🚀 Stage: Alpha Release
+          </p>
+          <p style="color: #d4d4d4; line-height: 1.6;">
+            We'll send you early access instructions and updates as we approach the launch date. Your feedback during the alpha stage will help shape the future of CoreGuard!
+          </p>
+        </div>
+        
+        <div style="text-align: center; padding: 20px; background: rgba(247, 185, 28, 0.1); border: 1px solid rgba(247, 185, 28, 0.2); border-radius: 8px;">
+          <p style="color: #f7b91c; font-weight: 600; margin-bottom: 10px;">What's Next?</p>
+          <p style="color: #9ca3af; font-size: 14px;">
+            • Early access credentials on launch day<br>
+            • Exclusive alpha features preview<br>
+            • Direct channel to provide feedback<br>
+            • Priority support during alpha stage
+          </p>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px; padding-top: 30px; border-top: 1px solid #262626;">
+          <p style="color: #6b7280; font-size: 14px;">
+            Questions? Reply to this email or contact us at<br>
+            <a href="mailto:support@coreguard.uk" style="color: #f7b91c;">support@coreguard.uk</a>
+          </p>
+          <p style="color: #6b7280; font-size: 12px; margin-top: 20px;">
+            © 2024 CoreGuard UK. Enterprise Security Management for the UK Private Security Industry
+          </p>
+        </div>
+      </div>
+    `
+  };
+  
+  console.log('📧 Confirmation email prepared:', confirmationData.subject);
+  return confirmationData;
+}
 
 app.get('/api/waitlist', (req, res) => {
   return res.json({
@@ -1066,9 +1138,9 @@ app.get('/', (req, res) => {
               const form = document.getElementById('waitlist-form');
               form.innerHTML = '<div class="success-message">' +
                 '<div class="success-icon">✅</div>' +
-                '<h3 class="success-title">You're on the list!</h3>' +
+                '<h3 class="success-title">You\'re on the list!</h3>' +
                 '<p class="success-text">' +
-                  'We'll notify you as soon as we launch. Get ready to transform your security management!' +
+                  'Check your email for confirmation. We\'ll notify you as soon as we launch. Get ready to transform your security management!' +
                 '</p>' +
                 '<div class="success-count">' +
                   'Total waitlist: ' + (data.totalWaitlist || 1) + ' members' +
