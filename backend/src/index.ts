@@ -169,7 +169,23 @@ app.use(errorHandler);
 // Start server
 const startServer = async () => {
   try {
+    console.log('=== CoreGuard SMS Backend Starting ===');
+    console.log('Node.js version:', process.version);
+    console.log('Environment:', process.env.NODE_ENV || 'development');
+    console.log('PORT from env:', process.env.PORT);
+    console.log('Final PORT:', PORT);
     console.log('Starting server initialization...');
+    
+    // Add unhandled exception handlers
+    process.on('uncaughtException', (error) => {
+      console.error('Uncaught Exception:', error);
+      process.exit(1);
+    });
+
+    process.on('unhandledRejection', (reason, promise) => {
+      console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+      process.exit(1);
+    });
     
     // Try to connect to database but don't fail if it's not ready
     try {
@@ -182,7 +198,7 @@ const startServer = async () => {
     
     console.log(`Attempting to start server on port ${PORT}...`);
     
-    const server = app.listen(PORT, () => {
+    const server = app.listen(PORT, '0.0.0.0', () => {
       console.log('=== Server Started Successfully ===');
       console.log(`CoreGuard SMS Backend running on port ${PORT}`);
       console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
@@ -193,10 +209,15 @@ const startServer = async () => {
 
     // Handle server errors
     server.on('error', (error: any) => {
+      console.error('Server error:', error);
       if (error.code === 'EADDRINUSE') {
         console.error(`Port ${PORT} is already in use`);
+      } else if (error.code === 'EADDRNOTAVAIL') {
+        console.error(`Port ${PORT} is not available`);
+      } else if (error.code === 'EACCES') {
+        console.error(`Permission denied for port ${PORT}`);
       } else {
-        console.error('Server error:', error);
+        console.error('Unknown server error:', error);
       }
       process.exit(1);
     });
@@ -210,8 +231,22 @@ const startServer = async () => {
       });
     });
 
+    process.on('SIGINT', () => {
+      console.log('SIGINT received, shutting down gracefully');
+      server.close(() => {
+        console.log('Server closed');
+        process.exit(0);
+      });
+    });
+
+    // Log successful startup after a delay
+    setTimeout(() => {
+      console.log('=== Startup Complete - Service Running ===');
+    }, 1000);
+
   } catch (error) {
     console.error('Failed to start server:', error);
+    console.error('Stack trace:', error.stack);
     process.exit(1);
   }
 };
