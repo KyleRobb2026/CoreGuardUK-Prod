@@ -1,12 +1,16 @@
 const express = require('express');
 const path = require('path');
 const { Resend } = require('resend');
+require('dotenv').config();
 const app = express();
 
 // Initialize Resend for email sending (only if API key is available)
 let resend = null;
-if (process.env.RESEND_API_KEY) {
+if (process.env.RESEND_API_KEY && process.env.RESEND_API_KEY !== 'your_resend_api_key_here') {
   resend = new Resend(process.env.RESEND_API_KEY);
+  console.log('✅ Resend email service initialized');
+} else {
+  console.log('⚠️  RESEND_API_KEY not configured, using simulated email sending');
 }
 
 // Add JSON middleware for API routes
