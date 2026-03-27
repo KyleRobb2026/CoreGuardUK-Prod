@@ -976,26 +976,22 @@ app.get('/', (req, res) => {
       <!-- Launch Countdown Section -->
       <section class="launch-section" id="waitlist">
         <div class="launch-content">
-          <h2 class="features-title">Alpha Stage Launch</h2>
-          <p class="features-subtitle">
-            Be among the first to experience CoreGuard in its alpha stage. Join our exclusive waitlist for early access and help shape the future of security management.
-          </p>
+          <div class="flex flex-col items-center justify-center mb-16">
+            <h2 class="text-center text-3xl md:text-4xl font-bold tracking-tight text-white mb-6">Alpha Stage Launch</h2>
+            <p class="text-center text-base md:text-lg text-gray-400 max-w-3xl">
+              Be among the first to experience CoreGuard in its alpha stage. Join our exclusive waitlist for early access and help shape the future of security management.
+            </p>
+          </div>
           
-          <div class="countdown-container">
+          <div class="countdown-container text-center mb-16">
             <div class="countdown" id="countdown">Loading...</div>
             <p style="color: #f7b91c; font-size: 18px; font-weight: 500;">Monday, April 6th 2025 • 9:00 AM BST</p>
           </div>
 
           <!-- Waitlist Form -->
-          <div id="waitlist-form">
+          <div id="waitlist-form" class="flex flex-col items-center justify-center">
             <form class="waitlist-form" onsubmit="handleWaitlistSubmit(event)">
-              <input
-                type="email"
-                id="emailInput"
-                placeholder="Enter your email"
-                required
-                class="email-input"
-              />
+              <input type="email" id="emailInput" placeholder="Enter your email" required="" class="email-input">
               <button type="submit" id="submitBtn" class="submit-btn">
                 <span id="btn-text">Join Waitlist</span>
                 <span>→</span>
