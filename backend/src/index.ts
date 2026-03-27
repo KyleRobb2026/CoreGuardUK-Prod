@@ -28,6 +28,13 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8000;
 
+// Log startup info
+console.log('=== CoreGuard SMS Backend Starting ===');
+console.log('Node.js version:', process.version);
+console.log('Environment:', process.env.NODE_ENV || 'development');
+console.log('PORT from env:', process.env.PORT);
+console.log('Final PORT:', PORT);
+
 // Security middleware
 app.use(helmet({
   contentSecurityPolicy: {
@@ -79,6 +86,16 @@ app.options('*', cors());
 app.use(compression());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Root endpoint for basic connectivity test
+app.get('/', (req, res) => {
+  res.json({
+    message: 'CoreGuard SMS Backend API',
+    status: 'running',
+    timestamp: new Date().toISOString(),
+    version: '1.0.0'
+  });
+});
 
 // Health check
 app.get('/health', async (req, res) => {
@@ -152,18 +169,47 @@ app.use(errorHandler);
 // Start server
 const startServer = async () => {
   try {
+    console.log('Starting server initialization...');
+    
     // Try to connect to database but don't fail if it's not ready
     try {
+      console.log('Attempting database connection...');
       await config.connect();
+      console.log('Database connection successful');
     } catch (dbError) {
       console.warn('Database connection failed during startup, but service will continue:', dbError.message);
     }
     
-    app.listen(PORT, () => {
+    console.log(`Attempting to start server on port ${PORT}...`);
+    
+    const server = app.listen(PORT, () => {
+      console.log('=== Server Started Successfully ===');
       console.log(`CoreGuard SMS Backend running on port ${PORT}`);
       console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
       console.log('Health check available at: /health');
+      console.log('Root endpoint available at: /');
+      console.log('=====================================');
     });
+
+    // Handle server errors
+    server.on('error', (error: any) => {
+      if (error.code === 'EADDRINUSE') {
+        console.error(`Port ${PORT} is already in use`);
+      } else {
+        console.error('Server error:', error);
+      }
+      process.exit(1);
+    });
+
+    // Handle graceful shutdown
+    process.on('SIGTERM', () => {
+      console.log('SIGTERM received, shutting down gracefully');
+      server.close(() => {
+        console.log('Server closed');
+        process.exit(0);
+      });
+    });
+
   } catch (error) {
     console.error('Failed to start server:', error);
     process.exit(1);
