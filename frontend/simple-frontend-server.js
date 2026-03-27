@@ -190,13 +190,13 @@ app.get('/', (req, res) => {
           width: 100%;
           height: 100%;
           z-index: -1;
-          background: 
-            radial-gradient(ellipse at 20% 30%, rgba(247, 185, 28, 0.15) 0%, transparent 50%),
-            radial-gradient(ellipse at 80% 70%, rgba(247, 185, 28, 0.1) 0%, transparent 50%),
-            linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
-          background-size: 100% 100%, 100% 100%, 100% 100%;
-          background-position: center, center, center;
+          background-image: 
+            linear-gradient(to bottom, rgba(15, 15, 15, 0.3), rgba(15, 15, 15, 0.4), rgba(15, 15, 15, 0.5)),
+            url('https://i.ibb.co/ZRmjPt68/The-Future-of-Security-Management-Starts-Here-Website.png');
+          background-size: cover;
+          background-position: center;
           background-repeat: no-repeat;
+          background-color: #1a1a1a;
         }
         
         .hero-glow {
