@@ -89,7 +89,7 @@ app.get('/api/waitlist', (req, res) => {
   });
 });
 
-// Root endpoint - Launching Soon page
+// Root endpoint - Launching Soon page (matching landing page design)
 app.get('/', (req, res) => {
   console.log('Root endpoint requested - serving launching soon page');
   res.send(`
@@ -108,129 +108,269 @@ app.get('/', (req, res) => {
         }
         
         body {
-          margin: 0;
-          padding: 20px;
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-          background: linear-gradient(135deg, #1e1e1e 0%, #2a2a2a 100%);
-          color: #ffffff;
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          background: #0f0f0f;
+          color: #d4d4d4;
+          line-height: 1.6;
         }
         
-        .container {
-          max-width: 600px;
+        /* Banner */
+        .banner {
+          display: flex;
           width: 100%;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          background: linear-gradient(to right, #f7b91c, #d4a017);
+          padding: 8px;
           text-align: center;
+          font-weight: 500;
+          color: #1a1a1a;
+          font-size: 14px;
+        }
+        
+        .banner button {
+          margin-left: 8px;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          border-radius: 6px;
+          background: #1a1a1a;
+          padding: 4px 12px;
+          color: #f7b91c;
+          font-size: 12px;
+          font-weight: 600;
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        
+        .banner button:hover {
+          background: #262626;
+        }
+        
+        .banner button:active {
+          transform: scale(0.95);
+        }
+        
+        /* Hero Section */
+        .hero {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
           position: relative;
+          min-height: 90vh;
+          overflow: hidden;
+          padding: 96px 24px;
+          z-index: 10;
         }
         
-        .logo-section {
-          margin-bottom: 3rem;
+        .hero-bg {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          z-index: -1;
+          background-image: 
+            linear-gradient(to bottom, rgba(15, 15, 15, 0.3), rgba(15, 15, 15, 0.4), rgba(15, 15, 15, 0.5)),
+            url('/The Future Security of Management Starts Here. (Website).png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-color: #1a1a1a;
+        }
+        
+        .status-badge {
           display: flex;
+          flex-wrap: items-center;
           align-items: center;
           justify-content: center;
-          gap: 1rem;
+          border-radius: 9999px;
+          border: 1px solid rgba(247, 185, 28, 0.2);
+          background: rgba(247, 185, 28, 0.05);
+          padding: 6px 16px;
+          margin-bottom: 32px;
         }
         
-        .logo {
-          width: 60px;
-          height: 60px;
-          background: linear-gradient(135deg, #f7b91c, #e6a719);
+        .status-dot {
+          width: 8px;
+          height: 8px;
           border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 2rem;
-          box-shadow: 0 8px 32px rgba(247, 185, 28, 0.3);
+          background: #f7b91c;
+          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+          margin-right: 8px;
         }
         
-        .brand {
-          font-size: 2.5rem;
-          font-weight: bold;
-          margin: 0;
-          background: linear-gradient(135deg, #f7b91c, #e6a719);
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
+        }
+        
+        .status-text {
+          color: #f7b91c;
+          font-size: 12px;
+          font-weight: 500;
+        }
+        
+        .hero-title {
+          font-size: 48px;
+          line-height: 1.15;
+          font-weight: 700;
+          text-align: center;
+          max-width: 48rem;
+          letter-spacing: -0.025em;
+          margin-bottom: 24px;
+        }
+        
+        .hero-title .gradient-1 {
+          background: linear-gradient(to right, white, #d4d4d4);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
         }
         
-        .main-card {
+        .hero-title .gradient-2 {
+          background: linear-gradient(to bottom, #f7b91c, #d4a017);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+        
+        .hero-description {
+          color: #a3a3a3;
+          font-size: 16px;
+          text-align: center;
+          max-width: 28rem;
+          margin-top: 24px;
+          line-height: 1.75;
+        }
+        
+        .cta-buttons {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+          gap: 16px;
+          margin-top: 40px;
+        }
+        
+        .btn-primary {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          background: linear-gradient(to right, #f7b91c, #d4a017);
+          color: #1a1a1a;
+          font-weight: 600;
+          padding: 12px 32px;
+          border-radius: 9999px;
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          font-size: 16px;
+          text-decoration: none;
+        }
+        
+        .btn-primary:hover {
+          opacity: 0.9;
+        }
+        
+        .btn-secondary {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          border: 1px solid #555;
+          color: white;
+          padding: 12px 32px;
+          border-radius: 9999px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          font-size: 16px;
+          text-decoration: none;
+          background: transparent;
+        }
+        
+        .btn-secondary:hover {
+          border-color: #f7b91c;
+        }
+        
+        /* Launch Card */
+        .launch-card {
           background: rgba(255, 255, 255, 0.05);
           backdrop-filter: blur(10px);
           border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 20px;
-          padding: 3rem;
-          margin-bottom: 2rem;
+          border-radius: 16px;
+          padding: 48px;
+          margin: 48px auto;
+          max-width: 600px;
+          text-align: center;
         }
         
-        .title {
-          font-size: 1.8rem;
-          margin-bottom: 1rem;
-          color: #ffffff;
-        }
-        
-        .description {
-          font-size: 1.1rem;
-          color: #a0a0a0;
-          margin-bottom: 2rem;
-          line-height: 1.6;
+        .countdown {
+          font-size: 48px;
+          font-weight: bold;
+          color: #f7b91c;
+          margin: 32px 0;
+          letter-spacing: -0.025em;
         }
         
         .launch-date {
           background: rgba(247, 185, 28, 0.1);
           border: 1px solid rgba(247, 185, 28, 0.3);
           border-radius: 12px;
-          padding: 1.5rem;
-          margin-bottom: 2rem;
+          padding: 24px;
+          margin: 32px 0;
         }
         
         .launch-label {
-          font-size: 0.9rem;
+          font-size: 14px;
           color: #f7b91c;
-          margin-bottom: 0.5rem;
+          margin-bottom: 8px;
           text-transform: uppercase;
-          letter-spacing: 1px;
+          letter-spacing: 0.1em;
+          font-weight: 500;
         }
         
         .launch-date-text {
-          font-size: 1.5rem;
+          font-size: 24px;
           font-weight: bold;
-          color: #ffffff;
-          margin-bottom: 0.5rem;
+          color: white;
+          margin-bottom: 8px;
         }
         
         .launch-time {
-          font-size: 1rem;
-          color: #a0a0a0;
+          font-size: 16px;
+          color: #a3a3a3;
         }
         
+        /* Form */
         .form-group {
-          margin-bottom: 1rem;
+          margin-bottom: 24px;
         }
         
         .form-label {
           display: block;
-          margin-bottom: 0.5rem;
-          color: #ffffff;
+          margin-bottom: 8px;
+          color: white;
           font-weight: 500;
+          text-align: left;
         }
         
         .form-row {
           display: flex;
-          gap: 0.5rem;
+          gap: 8px;
           flex-direction: column;
         }
         
         .email-input {
           flex: 1;
-          padding: 1rem;
+          padding: 16px;
           border: 1px solid rgba(255, 255, 255, 0.2);
           border-radius: 8px;
           background: rgba(255, 255, 255, 0.05);
-          color: #ffffff;
-          font-size: 1rem;
+          color: white;
+          font-size: 16px;
           outline: none;
           transition: all 0.3s ease;
         }
@@ -239,13 +379,17 @@ app.get('/', (req, res) => {
           color: #666;
         }
         
+        .email-input:focus {
+          border-color: #f7b91c;
+        }
+        
         .submit-btn {
-          padding: 1rem 2rem;
-          background: linear-gradient(135deg, #f7b91c, #e6a719);
-          color: #1e1e1e;
+          padding: 16px 32px;
+          background: linear-gradient(to right, #f7b91c, #d4a017);
+          color: #1a1a1a;
           border: none;
           border-radius: 8px;
-          font-size: 1rem;
+          font-size: 16px;
           font-weight: bold;
           cursor: pointer;
           transition: all 0.3s ease;
@@ -257,112 +401,179 @@ app.get('/', (req, res) => {
           box-shadow: 0 8px 32px rgba(247, 185, 28, 0.3);
         }
         
+        .submit-btn:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+          transform: none;
+        }
+        
+        /* Features */
         .features {
-          margin-top: 2rem;
-          padding-top: 2rem;
+          margin-top: 48px;
+          padding-top: 48px;
           border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .features-title {
-          font-size: 1.2rem;
-          margin-bottom: 1rem;
-          color: #ffffff;
+          font-size: 20px;
+          margin-bottom: 24px;
+          color: white;
+          font-weight: 600;
         }
         
         .features-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 1rem;
+          gap: 16px;
           text-align: left;
         }
         
         .feature-item {
-          color: #a0a0a0;
-          font-size: 0.9rem;
+          color: #a3a3a3;
+          font-size: 14px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
         }
         
+        /* Success Message */
+        .success-message {
+          background: rgba(34, 197, 94, 0.1);
+          border: 1px solid rgba(34, 197, 94, 0.3);
+          border-radius: 12px;
+          padding: 24px;
+          text-align: center;
+        }
+        
+        .success-icon {
+          font-size: 32px;
+          margin-bottom: 8px;
+        }
+        
+        .success-title {
+          color: #22c55e;
+          margin-bottom: 8px;
+          font-weight: 600;
+        }
+        
+        .success-text {
+          color: #a3a3a3;
+          margin: 0;
+        }
+        
+        /* Footer */
         .footer {
           color: #676767;
-          font-size: 0.9rem;
+          font-size: 14px;
+          text-align: center;
+          padding: 48px 24px;
         }
         
-        .countdown {
-          font-size: 2rem;
-          font-weight: bold;
-          color: #f7b91c;
-          margin: 1rem 0;
-        }
-        
-        @media (max-width: 768px) {
+        /* Responsive */
+        @media (min-width: 768px) {
+          .hero-title {
+            font-size: 64px;
+          }
+          
+          .hero-description {
+            font-size: 18px;
+          }
+          
           .form-row {
-            flex-direction: column;
+            flex-direction: row;
           }
           
           .features-grid {
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr 1fr;
           }
-          
-          .main-card {
-            padding: 2rem;
+        }
+        
+        @media (min-width: 1024px) {
+          .hero-title {
+            font-size: 80px;
           }
         }
       </style>
     </head>
     <body>
-      <div class="container">
-        <div class="logo-section">
-          <div class="logo">🛡️</div>
-          <h1 class="brand">CoreGuard UK</h1>
+      <!-- Banner -->
+      <div class="banner">
+        <p>CoreGuard UK — Professional Security Management Platform</p>
+        <button onclick="scrollToWaitlist()">
+          Join Waitlist
+          <span>→</span>
+        </button>
+      </div>
+
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="hero-bg"></div>
+        
+        <div class="status-badge">
+          <span class="status-dot"></span>
+          <span class="status-text">Launching Monday, April 6th 2025</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="gradient-1">The Future of Security Management</span><br>
+          <span class="gradient-2">Starts Soon</span>
+        </h1>
+
+        <p class="hero-description">
+          The all-in-one platform for UK security companies. Manage workforce, enforce SIA compliance, and run operations — from a single command centre.
+        </p>
+
+        <div class="cta-buttons">
+          <button class="btn-primary" onclick="scrollToWaitlist()">
+            Join Waitlist
+            <span>→</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Launch Card -->
+      <div class="launch-card" id="waitlist">
+        <div class="launch-date">
+          <div class="launch-label">Launch Date</div>
+          <div class="launch-date-text">Monday, April 6th 2025</div>
+          <div class="launch-time">9:00 AM BST</div>
         </div>
         
-        <div class="main-card">
-          <h2 class="title">🚀 Launching Soon</h2>
-          
-          <p class="description">
-            Enterprise Security Management System designed for regulated private security companies in the UK.
-          </p>
-          
-          <div class="launch-date">
-            <div class="launch-label">Launch Date</div>
-            <div class="launch-date-text">Monday, April 6th 2025</div>
-            <div class="launch-time">9:00 AM BST</div>
-          </div>
-          
-          <div class="countdown" id="countdown">Loading...</div>
-          
-          <form class="form-group" onsubmit="handleWaitlistSubmit(event)">
-            <div class="form-label">Join the Waitlist</div>
-            <div class="form-row">
-              <input 
-                type="email" 
-                class="email-input" 
-                placeholder="Enter your email" 
-                required 
-                id="emailInput"
-              />
-              <button type="submit" class="submit-btn" id="submitBtn">
-                Join Waitlist
-              </button>
-            </div>
-          </form>
-          
-          <div class="features">
-            <h3 class="features-title">What's Coming:</h3>
-            <div class="features-grid">
-              <div class="feature-item">📱 Real-time Personnel Tracking</div>
-              <div class="feature-item">🏢 Site Management</div>
-              <div class="feature-item">📋 Compliance Reporting</div>
-              <div class="feature-item">⏰ Rota Scheduling</div>
-              <div class="feature-item">📞 Check-call System</div>
-              <div class="feature-item">🔒 Audit Trails</div>
-            </div>
-          </div>
-        </div>
+        <div class="countdown" id="countdown">Loading...</div>
         
-        <div class="footer">
-          <p>© 2024 CoreGuard UK. All rights reserved.</p>
-          <p>Enterprise Security Management for the UK Private Security Industry</p>
+        <form class="form-group" onsubmit="handleWaitlistSubmit(event)">
+          <div class="form-label">Be the first to know when we launch</div>
+          <div class="form-row">
+            <input 
+              type="email" 
+              class="email-input" 
+              placeholder="Enter your email" 
+              required 
+              id="emailInput"
+            />
+            <button type="submit" class="submit-btn" id="submitBtn">
+              Join Waitlist
+            </button>
+          </div>
+        </form>
+        
+        <div class="features">
+          <h3 class="features-title">What's Coming:</h3>
+          <div class="features-grid">
+            <div class="feature-item">📱 Real-time Personnel Tracking</div>
+            <div class="feature-item">🏢 Site Management</div>
+            <div class="feature-item">📋 Compliance Reporting</div>
+            <div class="feature-item">⏰ Rota Scheduling</div>
+            <div class="feature-item">📞 Check-call System</div>
+            <div class="feature-item">🔒 Audit Trails</div>
+          </div>
         </div>
+      </div>
+      
+      <!-- Footer -->
+      <div class="footer">
+        <p>© 2024 CoreGuard UK. All rights reserved.</p>
+        <p>Enterprise Security Management for the UK Private Security Industry</p>
       </div>
       
       <script>
@@ -383,6 +594,13 @@ app.get('/', (req, res) => {
           } else {
             document.getElementById('countdown').textContent = '🎉 Launching Now!';
           }
+        }
+        
+        // Smooth scroll to waitlist
+        function scrollToWaitlist() {
+          document.getElementById('waitlist').scrollIntoView({ 
+            behavior: 'smooth' 
+          });
         }
         
         // Waitlist form submission
@@ -410,16 +628,10 @@ app.get('/', (req, res) => {
               // Show success message
               const form = event.target;
               form.innerHTML = \`
-                <div style="
-                  background: rgba(34, 197, 94, 0.1);
-                  border: 1px solid rgba(34, 197, 94, 0.3);
-                  border-radius: 12px;
-                  padding: 1.5rem;
-                  text-align: center;
-                ">
-                  <div style="font-size: 2rem; margin-bottom: 0.5rem;">✅</div>
-                  <h3 style="color: #22c55e; margin-bottom: 0.5rem;">You're on the list!</h3>
-                  <p style="color: #a0a0a0; margin: 0;">
+                <div class="success-message">
+                  <div class="success-icon">✅</div>
+                  <h3 class="success-title">You're on the list!</h3>
+                  <p class="success-text">
                     We'll notify you as soon as we launch. Get ready to transform your security management!
                   </p>
                 </div>
