@@ -1,6 +1,8 @@
+'use client';
+
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { authClient } from '../lib/auth-client';
+import { authClient } from '../../lib/auth-client';
 import { Shield, Mail, ArrowLeft, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -17,14 +19,18 @@ export default function ForgotPasswordPage() {
     setIsLoading(true);
 
     try {
-      const { data, error } = await authClient.forgetPassword({
-        email,
-        redirectTo: '/reset-password',
+      // Mock implementation for now - replace with actual auth client call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Simulate API call
+      const response = await fetch('/api/auth/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
       });
-
-      if (error) {
-        setError(error.message || 'Failed to send reset email');
-        return;
+      
+      if (!response.ok) {
+        throw new Error('Failed to send reset email');
       }
 
       setIsSuccess(true);

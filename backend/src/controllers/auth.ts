@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { config } from '../config/database';
 import { logger } from '../utils/logger';
-import { validateRequest, schemas, ValidatedRequest } from '../middleware/validation';
+import { validateRequest, schemas } from '../middleware/validation';
 import { catchAsync, AppErrorImpl } from '../middleware/errorHandler';
 import { AuthenticatedRequest } from '../middleware/auth';
 
@@ -33,7 +33,7 @@ const comparePassword = async (password: string, hash: string): Promise<boolean>
 };
 
 // POST /api/auth/register
-router.post('/register', validateRequest(schemas.register), catchAsync(async (req: ValidatedRequest, res: Response) => {
+router.post('/register', validateRequest(schemas.register), catchAsync(async (req: Request, res: Response) => {
   const { email, password, first_name, last_name, organisation_name } = req.validatedBody;
 
   // Check if user already exists
@@ -109,7 +109,7 @@ router.post('/register', validateRequest(schemas.register), catchAsync(async (re
 }));
 
 // POST /api/auth/login
-router.post('/login', validateRequest(schemas.login), catchAsync(async (req: ValidatedRequest, res: Response) => {
+router.post('/login', validateRequest(schemas.login), catchAsync(async (req: Request, res: Response) => {
   const { email, password } = req.validatedBody;
 
   // Find user

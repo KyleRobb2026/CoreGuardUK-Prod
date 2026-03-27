@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { useSubscription } from '../../components/SubscriptionProvider';
 import { PlanBadge, UpgradeButton, FeatureList } from '../../components/SubscriptionProvider';

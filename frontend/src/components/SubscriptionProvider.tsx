@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { Plan, Feature, FEATURE_CONFIG, PLANS } from '../../lib/featureFlags';
+import { Plan, Feature, FEATURE_CONFIG, PLANS } from '../lib/featureFlags';
 
 // Types for our subscription context
 interface SubscriptionData {
@@ -14,6 +14,7 @@ interface SubscriptionData {
   }>;
   disabledFeatures: Array<{
     name: Feature;
+    enabled: boolean;
     description: string;
     category: string;
   }>;
@@ -69,6 +70,7 @@ export function SubscriptionProvider({ children }: { children: React.ReactNode }
           .filter(([_, config]) => !config.core)
           .map(([name, config]) => ({
             name: name as Feature,
+            enabled: false,
             description: config.description,
             category: config.category
           }))

@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+'use client';
+
+import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Mail, Lock, User, Building2, CheckCircle, AlertCircle, Loader2, Shield } from 'lucide-react';
 import { toast } from 'sonner';
 
-export default function JoinOrganisationPage() {
+function JoinOrganisationContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [formData, setFormData] = useState({
@@ -17,7 +19,7 @@ export default function JoinOrganisationPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
-  const [organisation, setOrganisation] = useState(null);
+  const [organisation, setOrganisation] = useState<any>(null);
   const [error, setError] = useState('');
   const [validationError, setValidationError] = useState('');
 
@@ -387,5 +389,19 @@ export default function JoinOrganisationPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function JoinOrganisationPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center px-4">
+        <div className="max-w-md w-full bg-[#171717] border border-[#2e2e2e] rounded-xl p-8 text-center">
+          <Loader2 className="w-8 h-8 text-[#f7b91c] animate-spin mx-auto" />
+        </div>
+      </div>
+    }>
+      <JoinOrganisationContent />
+    </Suspense>
   );
 }

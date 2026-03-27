@@ -3,7 +3,7 @@ import { authClient } from "../lib/auth-client";
 import type { Session } from "better-auth/types";
 
 interface AuthContextType {
-  user: Session["user"] | null;
+  user: any | null;
   session: Session | null;
   isLoading: boolean;
   isAuthenticated: boolean;
@@ -16,7 +16,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<Session["user"] | null>(null);
+  const [user, setUser] = useState<any | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -30,8 +30,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const refreshSession = async () => {
     try {
       const { data } = await authClient.getSession();
-      setSession(data.session);
-      setUser(data.user);
+      if (data) {
+        setSession(data.session);
+        setUser(data.user || null);
+      } else {
+        setSession(null);
+        setUser(null);
+      }
     } catch (error) {
       console.error("Failed to refresh session:", error);
       setSession(null);
@@ -44,11 +49,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signUp = async (email: string, password: string, name?: string) => {
     setIsLoading(true);
     try {
-      const { data, error } = await authClient.signUp.email({
+      const signUpParams: any = {
         email,
         password,
-        name,
-      });
+      };
+      if (name) {
+        signUpParams.name = name;
+      }
+      
+      const { data, error } = await authClient.signUp.email(signUpParams);
 
       if (error) {
         throw new Error(error.message || "Failed to sign up");

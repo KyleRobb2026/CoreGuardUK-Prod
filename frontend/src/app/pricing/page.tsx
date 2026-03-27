@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Check, X, Star, Users, Shield, TrendingUp, Building2, Zap, Lock } from 'lucide-react';
 
@@ -321,7 +323,7 @@ export default function PricingPage() {
               </div>
 
               <button
-                onClick={() => handlePlanSelect(plan.id)}
+                onClick={() => handlePlanSelect(plan.id as 'core' | 'pro' | 'custom')}
                 className={`w-full py-3 px-4 rounded-lg font-medium transition-colors ${
                   plan.popular
                     ? 'bg-[#f7b91c] text-[#1e1e1e] hover:bg-[#e6a719]'

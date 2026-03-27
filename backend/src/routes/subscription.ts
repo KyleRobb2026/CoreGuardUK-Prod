@@ -258,17 +258,16 @@ router.get('/plans', async (req, res) => {
 // Get all features and their availability
 router.get('/features', async (req, res) => {
   try {
-    const { FeatureFlagService, FEATURE_CATEGORIES } = require('../lib/featureFlags');
-    
+    const { FEATURE_CATEGORIES } = require('../lib/featureFlags');
     const { FEATURE_CONFIG } = require('../lib/featureFlags');
-    const featuresByCategory = Object.entries(FEATURE_CATEGORIES).map(([category, info]) => ({
+    const featuresByCategory = Object.entries(FEATURE_CATEGORIES || {}).map(([category, info]: [string, any]) => ({
       category,
       name: info.name,
       description: info.description,
       icon: info.icon,
       features: Object.entries(FEATURE_CONFIG || {})
-        .filter(([_, config]) => config.category === category)
-        .map(([name, config]) => ({
+        .filter(([_, config]: [string, any]) => config.category === category)
+        .map(([name, config]: [string, any]) => ({
           name,
           description: config.description,
           core: config.core,

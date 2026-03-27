@@ -188,7 +188,7 @@ export class FeatureGuard {
       return {
         valid: true,
         user,
-        subscription: subscriptionValidation.valid ? subscriptionValidation.subscription : undefined,
+        subscription: subscriptionValidation.valid ? (subscriptionValidation as any).subscription : undefined,
         plan
       };
     } catch (error) {
@@ -236,7 +236,7 @@ export class FeatureGuard {
       return {
         allowed: true,
         user,
-        subscription: subscriptionValidation.valid ? subscriptionValidation.subscription : undefined,
+        subscription: subscriptionValidation.valid ? (subscriptionValidation as any).subscription : undefined,
         plan
       };
     } catch (error) {
@@ -271,7 +271,10 @@ export class FeatureGuard {
     try {
       const subscriptionCheck = await this.requireSubscription(req);
       if (!subscriptionCheck.valid) {
-        return subscriptionCheck;
+        return {
+          allowed: false,
+          reason: subscriptionCheck.reason || 'Invalid subscription'
+        };
       }
 
       const { subscription, plan } = subscriptionCheck;
