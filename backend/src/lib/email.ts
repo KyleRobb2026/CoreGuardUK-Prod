@@ -1,6 +1,6 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 interface EmailVerificationData {
   user: {
@@ -20,6 +20,11 @@ interface ResetPasswordData {
 
 export async function sendResetPasswordEmail({ user, resetUrl }: ResetPasswordData) {
   try {
+    if (!resend) {
+      console.warn('Email service not configured, skipping reset password email');
+      return { id: 'mock-email-id' };
+    }
+
     const { data, error } = await resend.emails.send({
       from: 'CoreGuard Security <noreply@coreguard-uk.co.uk>',
       to: [user.email],
@@ -167,6 +172,11 @@ export async function sendResetPasswordEmail({ user, resetUrl }: ResetPasswordDa
 
 export async function sendVerificationEmail({ user, verificationUrl }: EmailVerificationData) {
   try {
+    if (!resend) {
+      console.warn('Email service not configured, skipping verification email');
+      return { id: 'mock-email-id' };
+    }
+
     const { data, error } = await resend.emails.send({
       from: 'CoreGuard Security <noreply@coreguard-uk.co.uk>',
       to: [user.email],

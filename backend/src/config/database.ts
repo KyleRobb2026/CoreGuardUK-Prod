@@ -10,7 +10,10 @@ export class DatabaseConfig {
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY;
 
     if (!supabaseUrl || !supabaseServiceKey) {
-      throw new Error('Missing Supabase configuration. Please check SUPABASE_URL and SUPABASE_SERVICE_KEY environment variables.');
+      // Don't throw error, just log warning and create a mock client
+      console.warn('Supabase configuration missing. Database features will be limited.');
+      this.supabase = null;
+      return;
     }
 
     this.supabase = createClient(supabaseUrl, supabaseServiceKey, {
@@ -28,12 +31,17 @@ export class DatabaseConfig {
     return DatabaseConfig.instance;
   }
 
-  public getClient(): SupabaseClient {
+  public getClient(): SupabaseClient | null {
     return this.supabase;
   }
 
   public async connect(): Promise<void> {
     try {
+      if (!this.supabase) {
+        console.warn('Database not configured, skipping connection test');
+        return;
+      }
+      
       // Test connection
       const { data, error } = await this.supabase
         .from('organisations')
@@ -64,6 +72,10 @@ export class DatabaseConfig {
   // Health check
   public async healthCheck(): Promise<boolean> {
     try {
+      if (!this.supabase) {
+        return false; // Database not configured
+      }
+      
       // Simple ping to check if Supabase is accessible
       const { error } = await this.supabase.rpc('version');
       

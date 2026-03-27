@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// Required environment variables
+// Required environment variables (with fallbacks for development)
 const requiredEnvVars = [
   'DATABASE_URL',
   'BETTER_AUTH_URL',
@@ -14,21 +14,29 @@ const requiredEnvVars = [
   'RESEND_API_KEY'
 ] as const;
 
-// Validate required environment variables
-for (const envVar of requiredEnvVars) {
-  if (!process.env[envVar]) {
-    throw new Error(`Missing required environment variable: ${envVar}`);
+// Validate required environment variables (only in production)
+if (process.env.NODE_ENV === 'production') {
+  for (const envVar of requiredEnvVars) {
+    if (!process.env[envVar]) {
+      throw new Error(`Missing required environment variable: ${envVar}`);
+    }
+  }
+} else {
+  // In development, warn about missing variables but don't fail
+  const missingVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
+  if (missingVars.length > 0) {
+    console.warn(`Missing environment variables in development: ${missingVars.join(', ')}`);
   }
 }
 
 // Create a simple database adapter (you'll need to implement the actual database operations)
 export const auth = betterAuth({
-  database: {
+  database: process.env.DATABASE_URL ? {
     provider: "postgres",
     url: process.env.DATABASE_URL!,
     // Note: You'll need to implement the actual database adapter
     // For now, using Better Auth's internal adapter
-  },
+  } : undefined,
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,

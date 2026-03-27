@@ -1,7 +1,7 @@
 import { Resend } from 'resend';
 import { Invoice } from '../services/invoiceService';
 
-const resend = new Resend(process.env.RESEND_API_KEY!);
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 interface InvoiceEmailData {
   organisationName: string;
@@ -12,6 +12,11 @@ interface InvoiceEmailData {
 
 export async function sendInvoiceEmail(data: InvoiceEmailData): Promise<void> {
   const { organisationName, invoice, adminName, adminEmail } = data;
+  
+  if (!resend) {
+    console.warn('Email service not configured, skipping invoice email');
+    return;
+  }
   
   const dueDate = new Date(invoice.dueDate).toLocaleDateString('en-GB', {
     day: 'numeric',
