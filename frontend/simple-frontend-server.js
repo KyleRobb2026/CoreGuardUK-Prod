@@ -825,27 +825,21 @@ app.get('/', (req, res) => {
         <svg class="hero-glow" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
           <defs>
             <filter id="glow1">
-              <feGaussianBlur stdDeviation="150" />
+              <feGaussianBlur stdDeviation="100" />
             </filter>
             <filter id="glow2">
-              <feGaussianBlur stdDeviation="150" />
-            </filter>
-            <filter id="glow3">
               <feGaussianBlur stdDeviation="100" />
             </filter>
             <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color:#f7b91c;stop-opacity:0.08" />
-              <stop offset="100%" style="stop-color:#d4a017;stop-opacity:0.04" />
+              <stop offset="0%" style="stop-color:#f7b91c;stop-opacity:0.02" />
+              <stop offset="100%" style="stop-color:#d4a017;stop-opacity:0.01" />
             </linearGradient>
           </defs>
           <g filter="url(#glow1)">
-            <ellipse cx="300" cy="200" rx="300" ry="200" fill="url(#grad1)" />
+            <ellipse cx="300" cy="200" rx="200" ry="150" fill="url(#grad1)" />
           </g>
           <g filter="url(#glow2)">
-            <ellipse cx="1100" cy="500" rx="400" ry="280" fill="url(#grad1)" />
-          </g>
-          <g filter="url(#glow3)">
-            <ellipse cx="720" cy="450" rx="250" ry="150" fill="#f7b91c" fillOpacity="0.03" />
+            <ellipse cx="1100" cy="500" rx="250" ry="200" fill="url(#grad1)" />
           </g>
         </svg>
 
